@@ -13,7 +13,7 @@ SetCompressor /solid lzma
 Name "${PRODUCTNAME}"
 
 BrandingText /TRIMLEFT " "
-!define MUI_ICON "..\TVRename#\App\app.ico"
+!define MUI_ICON "..\TVRename\App\app.ico"
 !define MUI_UNICON "uninstall.ico"
 
 !include "MUI.nsh"
@@ -63,9 +63,9 @@ InstallDir "$PROGRAMFILES\${DEF_INSTALL_DIR}"
 Section "TVRename" SecTVRename
   SectionIn 1
   SetOutPath "$INSTDIR"
-  File "..\TVRename#\bin\Release\TVRename.exe"
-  File "..\TVRename#\bin\Release\Ionic.Utils.Zip.dll"
-  File "..\TVRename#\bin\Release\SourceGrid.dll"
+  File "..\TVRename\bin\Release\TVRename.exe"
+  File "..\TVRename\bin\Release\Ionic.Utils.Zip.dll"
+  File "..\TVRename\bin\Release\SourceGrid.dll"
 
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\TV Rename.lnk" "$INSTDIR\TVRename.exe"
