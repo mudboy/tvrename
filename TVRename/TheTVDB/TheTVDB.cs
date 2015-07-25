@@ -14,7 +14,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 
-using Ionic.Utils.Zip;
+//using Ionic.Utils.Zip;
+using Ionic.Zip;
 
 // Talk to the TheTVDB web API, and get tv series info
 
@@ -320,8 +321,12 @@ namespace TVRename
             MemoryStream theFile = new MemoryStream();
             //try 
             //{
-            ZipFile zf = ZipFile.Read(ms);
-            zf.Extract(extractFile, theFile);
+            using (ZipFile zip = ZipFile.Read(ms))
+            {
+                ZipEntry e = zip[extractFile];
+                e.Extract(theFile);
+            }
+
             System.Diagnostics.Debug.Print("Downloaded " + url + ", " + ms.Length + " bytes became " + theFile.Length);
             //}
             //catch (Exception ^e)
