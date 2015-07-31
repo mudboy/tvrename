@@ -2765,18 +2765,18 @@ namespace TVRename
 #else
     // equivalent of the 4 lines above, if compiling on MonoDevelop on Windows which, for 
     // some reason, doesn't seem to support lambda functions (the => thing)
-							
-							ProcessedEpisode ep = null;
-							
-							foreach (ProcessedEpisode x in eps)
-							{
-								if (((x.EpNum == epNum) && (x.SeasonNumber == seasNum)))
-								{
-									ep = x;
-									break;
-								}
-							}
-							if (ep == null)
+                            
+                            ProcessedEpisode ep = null;
+                            
+                            foreach (ProcessedEpisode x in eps)
+                            {
+                                if (((x.EpNum == epNum) && (x.SeasonNumber == seasNum)))
+                                {
+                                    ep = x;
+                                    break;
+                                }
+                            }
+                            if (ep == null)
                               continue;
                             // season+episode number don't correspond to any episode we know of from thetvdb
 #endif
