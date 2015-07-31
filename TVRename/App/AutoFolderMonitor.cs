@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using TvRename.Core;
+using TVRename.Forms;
 
-namespace TVRename
+namespace TVRename.App
 {
     public class AutoFolderMonitor
     {

@@ -6,8 +6,9 @@
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 //
 
+using TVRename.Custom_Controls;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     partial class CopyMoveProgress
     {
@@ -53,7 +54,7 @@ namespace TVRename
             this.txtFile = new System.Windows.Forms.Label();
             this.copyTimer = new System.Windows.Forms.Timer(this.components);
             this.cbPause = new System.Windows.Forms.CheckBox();
-            this.lvProgress = new TVRename.ListViewFlickerFree();
+            this.lvProgress = new ListViewFlickerFree();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();

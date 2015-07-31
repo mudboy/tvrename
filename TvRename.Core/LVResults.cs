@@ -8,6 +8,7 @@
 
 using System.Windows.Forms;
 using TvRename.Core.Actions;
+using TvRename.Core.Items;
 
 namespace TvRename.Core
 {

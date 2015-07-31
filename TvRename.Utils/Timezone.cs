@@ -5,9 +5,11 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-using System;
 
-using Microsoft.Win32; // for RegistryKey
+using System;
+using Microsoft.Win32;
+
+// for RegistryKey
 
 // Do conversions between timezones, handling daylight savings time (summer time) at both ends.
 // Standard DateTime and DateTimeOffset classes in .NET 2.0 can't do this.
@@ -15,7 +17,7 @@ using Microsoft.Win32; // for RegistryKey
 // If we were targeting .NET 3.5 or later, then we'd use System.Core.TimeZoneInfo and get rid of 
 // all this.
 
-namespace TVRename
+namespace TvRename.Utils
 {
     // TimeZone was initially based on the Win32 structure "TIMEZONEINFO"
     // and, through it's constructor, will take binary data for the Win32 structure

@@ -11,10 +11,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using TvRename.Core.Settings;
+using TvRename.TheTVDB;
+using TvRename.Utils;
+using TVRename.Custom_Controls;
+using TimeZone = TvRename.Utils.TimeZone;
 
 //            this->txtCustomShowName->TextChanged += gcnew System::EventHandler(this, &AddEditShow::txtCustomShowName_TextChanged);
 
-namespace TVRename
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for AddEditShow

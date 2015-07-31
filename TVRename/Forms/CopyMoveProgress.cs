@@ -5,12 +5,16 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-namespace TVRename
-{
-    using System;
-    using System.IO;
-    using System.Windows.Forms;
 
+using System;
+using System.IO;
+using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.Core.Actions;
+using Action = System.Action;
+
+namespace TVRename.Forms
+{
     /// <summary>
     /// Summary for CopyMoveProgress
     ///
@@ -91,7 +95,7 @@ namespace TVRename
                 if (aq.Actions.Count == 0)
                     continue;
 
-                foreach (Action action in aq.Actions)
+                foreach (var action in aq.Actions)
                 {
                     if (!action.Done)
                         allDone = false;

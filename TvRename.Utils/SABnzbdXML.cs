@@ -17,13 +17,13 @@ using System;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace TVRename.SAB
+namespace TvRename.Utils
 {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.1432")]
-    [System.SerializableAttribute()]
+    [Serializable()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    [XmlType(AnonymousType = true)]
+    [XmlRoot(Namespace = "", IsNullable = false)]
     public class queue : object, System.ComponentModel.INotifyPropertyChanged
     {
         public static queue Deserialize(byte[] data)
@@ -151,7 +151,7 @@ namespace TVRename.SAB
 
         private queueCategories[] categoriesField;
 
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string uniconfig
         {
             get { return this.uniconfigField; }
@@ -163,7 +163,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string cache_size
         {
             get { return this.cache_sizeField; }
@@ -175,7 +175,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string active_lang
         {
             get { return this.active_langField; }
@@ -187,7 +187,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string paused
         {
             get { return this.pausedField; }
@@ -199,7 +199,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string session
         {
             get { return this.sessionField; }
@@ -211,7 +211,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string restart_req
         {
             get { return this.restart_reqField; }
@@ -223,7 +223,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string power_options
         {
             get { return this.power_optionsField; }
@@ -235,7 +235,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string speed
         {
             get { return this.speedField; }
@@ -247,7 +247,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string helpuri
         {
             get { return this.helpuriField; }
@@ -259,7 +259,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string size
         {
             get { return this.sizeField; }
@@ -271,7 +271,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string uptime
         {
             get { return this.uptimeField; }
@@ -283,7 +283,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string refresh_rate
         {
             get { return this.refresh_rateField; }
@@ -295,7 +295,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string my_home
         {
             get { return this.my_homeField; }
@@ -307,7 +307,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string limit
         {
             get { return this.limitField; }
@@ -319,7 +319,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string have_quota
         {
             get { return this.have_quotaField; }
@@ -331,7 +331,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string isverbose
         {
             get { return this.isverboseField; }
@@ -343,7 +343,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string start
         {
             get { return this.startField; }
@@ -355,7 +355,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string finish
         {
             get { return this.finishField; }
@@ -367,7 +367,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string version
         {
             get { return this.versionField; }
@@ -379,7 +379,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string new_rel_url
         {
             get { return this.new_rel_urlField; }
@@ -391,7 +391,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string my_lcldata
         {
             get { return this.my_lcldataField; }
@@ -403,7 +403,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string color_scheme
         {
             get { return this.color_schemeField; }
@@ -415,7 +415,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string diskspacetotal1
         {
             get { return this.diskspacetotal1Field; }
@@ -427,7 +427,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string nt
         {
             get { return this.ntField; }
@@ -439,7 +439,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string status
         {
             get { return this.statusField; }
@@ -451,7 +451,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string last_warning
         {
             get { return this.last_warningField; }
@@ -463,7 +463,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string have_warnings
         {
             get { return this.have_warningsField; }
@@ -475,7 +475,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string cache_art
         {
             get { return this.cache_artField; }
@@ -487,7 +487,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string sizeleft
         {
             get { return this.sizeleftField; }
@@ -499,7 +499,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string finishaction
         {
             get { return this.finishactionField; }
@@ -511,7 +511,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string paused_all
         {
             get { return this.paused_allField; }
@@ -523,7 +523,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string quota
         {
             get { return this.quotaField; }
@@ -535,7 +535,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string newzbin_url
         {
             get { return this.newzbin_urlField; }
@@ -547,7 +547,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string new_release
         {
             get { return this.new_releaseField; }
@@ -559,7 +559,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string pause_int
         {
             get { return this.pause_intField; }
@@ -571,7 +571,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string mbleft
         {
             get { return this.mbleftField; }
@@ -583,7 +583,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string diskspace1
         {
             get { return this.diskspace1Field; }
@@ -595,7 +595,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string scripts
         {
             get { return this.scriptsField; }
@@ -607,7 +607,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string darwin
         {
             get { return this.darwinField; }
@@ -619,7 +619,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string timeleft
         {
             get { return this.timeleftField; }
@@ -631,7 +631,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string mb
         {
             get { return this.mbField; }
@@ -643,7 +643,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string noofslots
         {
             get { return this.noofslotsField; }
@@ -655,7 +655,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string eta
         {
             get { return this.etaField; }
@@ -667,7 +667,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string diskspacetotal2
         {
             get { return this.diskspacetotal2Field; }
@@ -679,7 +679,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string nzb_quota
         {
             get { return this.nzb_quotaField; }
@@ -691,7 +691,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string loadavg
         {
             get { return this.loadavgField; }
@@ -703,7 +703,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string cache_max
         {
             get { return this.cache_maxField; }
@@ -715,7 +715,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string kbpersec
         {
             get { return this.kbpersecField; }
@@ -727,7 +727,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string speedlimit
         {
             get { return this.speedlimitField; }
@@ -739,7 +739,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string webdir
         {
             get { return this.webdirField; }
@@ -751,7 +751,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string queue_details
         {
             get { return this.queue_detailsField; }
@@ -763,7 +763,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string left_quota
         {
             get { return this.left_quotaField; }
@@ -775,7 +775,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string diskspace2
         {
             get { return this.diskspace2Field; }
@@ -787,8 +787,8 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        [System.Xml.Serialization.XmlArrayItemAttribute("slot", typeof (queueSlotsSlot),
+        [XmlArray(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlArrayItem("slot", typeof (queueSlotsSlot),
             Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
         public queueSlotsSlot[] slots
         {
@@ -801,7 +801,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute("categories", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement("categories", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public queueCategories[] categories
         {
             get { return this.categoriesField; }
@@ -826,9 +826,9 @@ namespace TVRename.SAB
 
    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.1432")]
-    [System.SerializableAttribute()]
+    [Serializable()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     public class queueSlotsSlot : object, System.ComponentModel.INotifyPropertyChanged
     {
 
@@ -871,7 +871,7 @@ namespace TVRename.SAB
         private string sizeField;
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string status
         {
             get { return this.statusField; }
@@ -883,7 +883,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string index
         {
             get { return this.indexField; }
@@ -895,7 +895,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string eta
         {
             get { return this.etaField; }
@@ -907,7 +907,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string missing
         {
             get { return this.missingField; }
@@ -919,7 +919,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string avg_age
         {
             get { return this.avg_ageField; }
@@ -931,7 +931,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string script
         {
             get { return this.scriptField; }
@@ -943,7 +943,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string msgid
         {
             get { return this.msgidField; }
@@ -955,7 +955,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string verbosity
         {
             get { return this.verbosityField; }
@@ -967,7 +967,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public double mb
         {
             get { return this.mbField; }
@@ -979,7 +979,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string sizeleft
         {
             get { return this.sizeleftField; }
@@ -991,7 +991,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string filename
         {
             get { return this.filenameField; }
@@ -1003,7 +1003,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string priority
         {
             get { return this.priorityField; }
@@ -1015,7 +1015,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string cat
         {
             get { return this.catField; }
@@ -1027,7 +1027,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public double mbleft
         {
             get { return this.mbleftField; }
@@ -1039,7 +1039,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string timeleft
         {
             get { return this.timeleftField; }
@@ -1051,7 +1051,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string percentage
         {
             get { return this.percentageField; }
@@ -1063,7 +1063,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string nzo_id
         {
             get { return this.nzo_idField; }
@@ -1075,7 +1075,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string unpackopts
         {
             get { return this.unpackoptsField; }
@@ -1087,7 +1087,7 @@ namespace TVRename.SAB
         }
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string size
         {
             get { return this.sizeField; }
@@ -1112,16 +1112,16 @@ namespace TVRename.SAB
 
    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.1432")]
-    [System.SerializableAttribute()]
+    [Serializable()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     public class queueCategories : object, System.ComponentModel.INotifyPropertyChanged
     {
 
         private string categoryField;
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string category
         {
             get { return this.categoryField; }
@@ -1144,9 +1144,9 @@ namespace TVRename.SAB
         }
     }
 
-    [System.SerializableAttribute()]
+    [Serializable()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     public class result : object, System.ComponentModel.INotifyPropertyChanged
     {
         public static result Deserialize(byte[] data)
@@ -1168,7 +1168,7 @@ namespace TVRename.SAB
         private string errorField;
 
        
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string status
         {
             get { return this.statusField; }
@@ -1179,7 +1179,7 @@ namespace TVRename.SAB
             }
         }
 
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlElement(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string error
         {
             get { return this.errorField; }
@@ -1204,17 +1204,17 @@ namespace TVRename.SAB
 
    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.1432")]
-    [System.SerializableAttribute()]
+    [Serializable()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    [XmlType(AnonymousType = true)]
+    [XmlRoot(Namespace = "", IsNullable = false)]
     public class NewDataSet : object, System.ComponentModel.INotifyPropertyChanged
     {
 
         private queue[] itemsField;
 
        
-        [System.Xml.Serialization.XmlElementAttribute("queue")]
+        [XmlElement("queue")]
         public queue[] Items
         {
             get { return this.itemsField; }

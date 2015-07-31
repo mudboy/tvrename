@@ -8,10 +8,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.Core.Actions;
+using TvRename.Core.BT;
+using TvRename.Core.Items;
+using TvRename.Utils;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for uTorrent

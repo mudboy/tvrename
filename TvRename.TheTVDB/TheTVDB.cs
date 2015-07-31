@@ -5,6 +5,7 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,18 +14,17 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-
-//using Ionic.Utils.Zip;
 using Ionic.Zip;
+using TvRename.Utils;
 
 // Talk to the TheTVDB web API, and get tv series info
 
 // Hierarchy is:
 //   TheTVDB -> Series (class SeriesInfo) -> Seasons (class Season) -> Episodes (class Episode)
 
-namespace TVRename
+namespace TvRename.TheTVDB
 {
-    [FlagsAttribute] 
+    [Flags] 
     public enum typeMaskBits // defined by thetvdb for mirror types
     {
         tmMainSite = 0,
@@ -659,7 +659,7 @@ namespace TVRename
                 return true; // that's it for now
             }
 
-            long seconds = TimeZone.Epoch() - theTime;
+            long seconds = Utils.TimeZone.Epoch() - theTime;
             if (seconds < 3540) // 59 minutes
             {
                 this.Say("");
@@ -910,7 +910,7 @@ namespace TVRename
                     }
                     else if (r.Name == "Episode")
                     {
-                        Episode e = new Episode(null, null, r.ReadSubtree(), Args);
+                        Episode e = new Episode(null, null, r.ReadSubtree(), Args.Unattended);
                         if (e.OK())
                         {
                             if (!this.Series.ContainsKey(e.SeriesID))

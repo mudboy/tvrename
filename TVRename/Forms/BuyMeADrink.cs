@@ -5,11 +5,13 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Globalization;
 
-namespace TVRename
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using TvRename.Core;
+
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for BuyMeADrink

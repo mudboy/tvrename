@@ -9,6 +9,8 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.Utils;
+using Version = TvRename.Utils.Version;
 
 namespace TvRename.Core.Actions
 {
@@ -207,7 +209,7 @@ namespace TvRename.Core.Actions
             return f.FullName + ".tvrenametemp";
         }
 
-        private void NicelyStopAndCleanUp_Win32(Win32FileIO.WinFileIO copier)
+        private void NicelyStopAndCleanUp_Win32(WinFileIO copier)
         {
             copier.Close();
             string tempName = TempFor(this.To);
@@ -286,7 +288,7 @@ namespace TvRename.Core.Actions
 
             bool useWin32 = Version.OnWindows() && !Version.OnMono();
 
-            Win32FileIO.WinFileIO copier = null;
+            WinFileIO copier = null;
 
             BinaryReader msr = null;
             BinaryWriter msw = null;
@@ -302,7 +304,7 @@ namespace TvRename.Core.Actions
 
                 if (useWin32)
                 {
-                    copier = new Win32FileIO.WinFileIO(dataArray);
+                    copier = new WinFileIO(dataArray);
                     copier.OpenForReading(this.From.FullName);
                     copier.OpenForWriting(tempName);
                 }

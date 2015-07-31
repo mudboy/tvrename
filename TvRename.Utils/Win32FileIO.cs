@@ -15,7 +15,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace Win32FileIO
+namespace TvRename.Utils
 {
     unsafe public class WinFileIO : IDisposable
     {

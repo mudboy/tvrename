@@ -5,13 +5,17 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.Core.Settings;
+using TvRename.Utils;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for AddEditSeasEpFinders

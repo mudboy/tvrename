@@ -7,7 +7,7 @@
 //
 
 
-namespace TVRename
+namespace TVRename.Custom_Controls
 {
     partial class TheTVDBCodeFinder
     {

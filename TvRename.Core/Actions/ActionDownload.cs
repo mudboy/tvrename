@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.TheTVDB;
+using TvRename.Utils;
 
 namespace TvRename.Core.Actions
 {

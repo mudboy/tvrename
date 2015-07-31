@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using TvRename.Core.RSS;
 using TvRename.Core.Settings;
 
 namespace TvRename.Core.Actions

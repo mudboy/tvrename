@@ -8,8 +8,10 @@
 
 using System.Collections.Generic;
 using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.Core.Settings;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for UpcomingPopup

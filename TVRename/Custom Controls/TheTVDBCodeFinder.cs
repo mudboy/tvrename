@@ -5,15 +5,18 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using TvRename.TheTVDB;
+using TvRename.Utils;
 
 // Control for searching for a tvdb code, checking against local cache and
 // searching on thetvdb
 
-namespace TVRename
+namespace TVRename.Custom_Controls
 {
     /// <summary>
     /// Summary for TheTVDBCodeFinder

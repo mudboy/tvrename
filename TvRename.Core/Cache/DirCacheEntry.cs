@@ -5,11 +5,13 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.IO;
+using TvRename.Core.Settings;
 using TvRename.Utils;
 
-namespace TVRename
+namespace TvRename.Core.Cache
 {
     public class DirCacheEntry
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TvRename.Core
+namespace TvRename.Utils
 {
     public class CommandLineArgs
     {

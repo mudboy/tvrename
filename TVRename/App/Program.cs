@@ -12,7 +12,11 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Windows.Forms;
 using TvRename.Core;
+using TvRename.TheTVDB;
+using TvRename.Utils;
 using TVRename;
+using TVRename.App;
+using TVRename.Forms;
 
 // Check the mutex that we're not already running, start the main UI, pass in commandline arguments
 // If we are running, send arguments via IPC to already running process

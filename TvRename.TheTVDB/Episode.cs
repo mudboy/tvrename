@@ -5,11 +5,16 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
+//todo remove ui related code.
+
 using System;
 using System.Windows.Forms;
 using System.Xml;
+using TvRename.Utils;
+using TimeZone = TvRename.Utils.TimeZone;
 
-namespace TVRename
+namespace TvRename.TheTVDB
 {
     public class Episode
     {
@@ -61,7 +66,7 @@ namespace TVRename
             this.SetDefaults(ser, seas);
         }
 
-        public Episode(SeriesInfo ser, Season seas, XmlReader r, CommandLineArgs args)
+        public Episode(SeriesInfo ser, Season seas, XmlReader r, bool unattended)
         {
             // <Episode>
             //  <id>...</id>
@@ -148,7 +153,7 @@ namespace TVRename
 
                 message += "\r\n" + e.Message;
 
-                if (!args.Unattended) 
+                if (!unattended) 
                     MessageBox.Show(message, "TVRename", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 throw new TVDBException(e.Message);

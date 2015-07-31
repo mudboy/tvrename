@@ -5,13 +5,15 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.Collections;
 using System.Windows.Forms;
+using TvRename.TheTVDB;
 
 // Sorting IComparer classes used by the ListViews in UI.cs
 
-namespace TVRename
+namespace TvRename.Utils
 {
     public class TextSorter : IComparer
     {

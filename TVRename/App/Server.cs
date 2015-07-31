@@ -5,6 +5,7 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.IO;
 using System.Net;
@@ -15,7 +16,7 @@ using TvRename.Core;
 // Start of code for putting an ical or "upcoming shows" server into tvrename itself, rather
 // than exporting to a file somewhere
 
-namespace TVRename
+namespace TVRename.App
 {
     public class TVRenameServer
     {

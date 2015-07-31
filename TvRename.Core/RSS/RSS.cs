@@ -10,10 +10,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
+using TvRename.Core.Settings;
 
 // Download and process a .RSS feed, primarily for getting .torrent files
 
-namespace TVRename
+namespace TvRename.Core.RSS
 {
     public class RSSItem
     {

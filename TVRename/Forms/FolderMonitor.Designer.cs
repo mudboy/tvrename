@@ -6,8 +6,9 @@
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 //
 
+using TVRename.Custom_Controls;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     partial class FolderMonitor
     {
@@ -67,7 +68,7 @@ namespace TVRename
             this.bnEditEntry = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.bnClose = new System.Windows.Forms.Button();
-            this.lvFMNewShows = new TVRename.ListViewFlickerFree();
+            this.lvFMNewShows = new ListViewFlickerFree();
             this.columnHeader42 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader43 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader44 = new System.Windows.Forms.ColumnHeader();

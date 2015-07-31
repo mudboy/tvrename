@@ -7,6 +7,7 @@
 // 
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
@@ -15,9 +16,9 @@ using TvRename.Utils;
 // Recursively reads and caches files and folders, and info about them, as this is way faster
 // than repeatedly hitting the filesystem.
 
-namespace TvRename.Core.DirCache
+namespace TvRename.Core.Cache
 {
-    public class DirCache : System.Collections.Generic.List<DirCacheEntry>
+    public class DirCache : List<DirCacheEntry>
     {
         public DirCache()
         {

@@ -5,15 +5,17 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.TheTVDB;
+using ColumnHeader = SourceGrid.Cells.ColumnHeader;
 
-namespace TVRename
+namespace TVRename.Forms
 {
-    using SourceGrid.Cells;
-
     /// <summary>
     /// Summary for ActorsGrid
     ///

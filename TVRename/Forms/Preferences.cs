@@ -5,15 +5,19 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.Core.Settings;
+using TvRename.TheTVDB;
 using ColumnHeader = SourceGrid.Cells.ColumnHeader;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for Preferences

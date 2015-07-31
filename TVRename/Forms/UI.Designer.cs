@@ -6,8 +6,9 @@
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 //
 
+using TVRename.Custom_Controls;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     partial class UI
     {
@@ -144,7 +145,7 @@ namespace TVRename
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.tmrShowUpcomingPopup = new System.Windows.Forms.Timer(this.components);
             this.quickTimer = new System.Windows.Forms.Timer(this.components);
-            this.lvAction = new TVRename.MyListView();
+            this.lvAction = new MyListView();
             this.columnHeader48 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader49 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader51 = new System.Windows.Forms.ColumnHeader();
@@ -154,7 +155,7 @@ namespace TVRename
             this.columnHeader55 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader56 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader58 = new System.Windows.Forms.ColumnHeader();
-            this.lvWhenToWatch = new TVRename.ListViewFlickerFree();
+            this.lvWhenToWatch = new ListViewFlickerFree();
             this.columnHeader29 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader30 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader31 = new System.Windows.Forms.ColumnHeader();

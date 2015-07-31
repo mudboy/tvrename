@@ -5,9 +5,10 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System.Windows.Forms;
 
-namespace TVRename
+namespace TVRename.Forms
 {
     public partial class FolderMonitorProgress : Form
     {

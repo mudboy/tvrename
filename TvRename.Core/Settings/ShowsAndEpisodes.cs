@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using TvRename.TheTVDB;
 
 // These are what is used when processing folders for missing episodes, renaming, etc. of files.
 
@@ -128,25 +129,25 @@ namespace TvRename.Core.Settings
         public System.Collections.Generic.Dictionary<int, List<ProcessedEpisode>> SeasonEpisodes; // built up by applying rules.
         public System.Collections.Generic.Dictionary<int, System.Collections.Generic.List<ShowRule>> SeasonRules;
         public bool ShowNextAirdate;
-        public TheTVDB TVDB;
+        public TheTVDB.TheTVDB TVDB;
         public int TVDBCode;
         public bool UseCustomShowName;
         public bool UseSequentialMatch;
         public List<string> AliasNames = new List<string>();
         public String CustomSearchURL;
 
-        public ShowItem(TheTVDB db)
+        public ShowItem(TheTVDB.TheTVDB db)
         {
             this.SetDefaults(db);
         }
 
-        public ShowItem(TheTVDB db, int tvDBCode)
+        public ShowItem(TheTVDB.TheTVDB db, int tvDBCode)
         {
             this.SetDefaults(db);
             this.TVDBCode = tvDBCode;
         }
 
-        public ShowItem(TheTVDB db, XmlReader reader, TVSettings settings)
+        public ShowItem(TheTVDB.TheTVDB db, XmlReader reader, TVSettings settings)
         {
             this.SetDefaults(db);
 
@@ -437,7 +438,7 @@ namespace TvRename.Core.Settings
             }
         }
 
-        public void SetDefaults(TheTVDB db)
+        public void SetDefaults(TheTVDB.TheTVDB db)
         {
             this.TVDB = db;
             this.ManualFolderLocations = new Dictionary<int, List<string>>();

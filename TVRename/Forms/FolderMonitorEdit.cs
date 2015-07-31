@@ -5,11 +5,15 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-namespace TVRename
-{
-    using System;
-    using System.Windows.Forms;
 
+using System;
+using System.Windows.Forms;
+using TvRename.Core;
+using TvRename.TheTVDB;
+using TVRename.Custom_Controls;
+
+namespace TVRename.Forms
+{
     public partial class FolderMonitorEdit : Form
     {
         public int Code;

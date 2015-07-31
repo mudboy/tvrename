@@ -5,6 +5,7 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
+
 using System.Windows.Forms;
 
 // Starting from:
@@ -15,7 +16,7 @@ using System.Windows.Forms;
 
 // This is the list view used on the "Scan" tab
 
-namespace TVRename
+namespace TVRename.Custom_Controls
 {
     /// <summary>
     /// Summary for MyListView

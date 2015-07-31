@@ -16,7 +16,7 @@ using System.Xml;
 
 // Helpful functions and classes
 
-namespace TVRename
+namespace TvRename.Utils
 {
     public delegate void SetProgressDelegate(int percent);
 

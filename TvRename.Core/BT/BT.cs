@@ -11,11 +11,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using TVRename;
+using TvRename.Core.Actions;
+using TvRename.Core.Cache;
+using TvRename.Core.Items;
+using TvRename.Core.Settings;
+using TvRename.Utils;
 
 // Opens, understands, manipulates, and writes out BEncoded .torrent files, and uTorrent's resume.dat
 
-namespace TvRename.Utils
+namespace TvRename.Core.BT
 {
     public enum BTChunk
     {
@@ -936,7 +940,7 @@ namespace TvRename.Utils
         }
 
         public bool RenameFilesOnDiskToMatchTorrent(string torrentFile, string folder, TreeView tvTree,
-            ItemList renameListOut,
+            IList<Item> renameListOut,
             bool copyNotMove, string copyDest, CommandLineArgs args)
         {
             if ((string.IsNullOrEmpty(folder) || !Directory.Exists(folder)))
@@ -977,7 +981,7 @@ namespace TvRename.Utils
         public bool Altered;
         public bool DoMatchMissing;
         public bool HashSearch;
-        public ItemList MissingList;
+        public IList<Item> MissingList;
 
         public string NewLocation;
         public bool PrioWasSet;
@@ -1380,7 +1384,7 @@ namespace TvRename.Utils
         }
 
         public bool DoWork(List<string> Torrents, string searchFolder, ListView results, bool hashSearch, bool matchMissing, bool setPrios, bool testMode, 
-                           bool searchSubFolders, ItemList missingList, List<FilenameProcessorRE> rexps, CommandLineArgs args)
+                           bool searchSubFolders, IList<Item> missingList, List<FilenameProcessorRE> rexps, CommandLineArgs args)
         {
             this.Rexps = rexps;
 

@@ -9,6 +9,8 @@
 // All the processing and work should be done in here, nothing in UI.cs
 // Means we can run TVRename and do useful stuff, without showing any UI. (i.e. text mode / console app)
 
+//todo remove all ui related code
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,11 +21,16 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using TvRename.Core.Actions;
+using TvRename.Core.BT;
+using TvRename.Core.Cache;
 using TvRename.Core.Items;
 using TvRename.Core.Settings;
-using TVRename;
+using TvRename.TheTVDB;
+using TvRename.Utils;
 using Action = TvRename.Core.Actions.Action;
-using TimeZone = TVRename.TimeZone;
+using RSSItem = TvRename.Core.RSS.RSSItem;
+using RSSItemList = TvRename.Core.RSS.RSSItemList;
+using TimeZone = TvRename.Utils.TimeZone;
 
 namespace TvRename.Core
 {
@@ -53,16 +60,16 @@ namespace TvRename.Core
         public string LoadErr;
         public bool LoadOK;
         public RSSItemList RSSList;
-        public ScanProgress ScanProgDlg;
+        //public ScanProgress ScanProgDlg;
         public IList<Item> TheActionList;
         public Semaphore WorkerSemaphore;
         public List<Thread> Workers;
         private bool mDirty;
         private Thread mDownloaderThread;
         private TVRenameStats mStats;
-        private TheTVDB mTVDB;
+        private TheTVDB.TheTVDB mTVDB;
 
-        public TVDoc(FileInfo settingsFile, TheTVDB tvdb, CommandLineArgs args)
+        public TVDoc(FileInfo settingsFile, TheTVDB.TheTVDB tvdb, CommandLineArgs args)
         {
             this.mTVDB = tvdb;
             this.Args = args;
@@ -89,7 +96,7 @@ namespace TvRename.Core
             this.DownloadOK = true;
 
             this.ActionCancel = false;
-            this.ScanProgDlg = null;
+            //todo this.ScanProgDlg = null;
 
             this.LoadOK = ((settingsFile == null) || this.LoadXMLSettings(settingsFile)) && this.mTVDB.LoadOK;
 
@@ -103,7 +110,7 @@ namespace TvRename.Core
             mTVDB.RequestLanguage = Settings.PreferredLanguage;
         }
 
-        public TheTVDB GetTVDB(bool lockDB, string whoFor)
+        public TheTVDB.TheTVDB GetTVDB(bool lockDB, string whoFor)
         {
             if (lockDB)
             {
@@ -380,7 +387,7 @@ namespace TvRename.Core
             if (string.IsNullOrEmpty(showName))
                 return;
 
-            TheTVDB db = this.GetTVDB(true, "MonitorGuessShowItem");
+            TheTVDB.TheTVDB db = this.GetTVDB(true, "MonitorGuessShowItem");
 
             SeriesInfo ser = db.FindSeriesForName(showName);
             if (ser != null)
@@ -435,7 +442,7 @@ namespace TvRename.Core
             this.Stats().TorrentsMatched++;
 
             BTFileRenamer btp = new BTFileRenamer(prog);
-            ItemList newList = new ItemList();
+            IList<Item> newList = new List<Item>();
             bool r = btp.RenameFilesOnDiskToMatchTorrent(torrent, folder, tvTree, newList, copyNotMove, copyDest, args);
 
             foreach (Item i in newList)
@@ -446,7 +453,7 @@ namespace TvRename.Core
 
         // consider each of the files, see if it is suitable for series "ser" and episode "epi"
         // if so, add a rcitem for copy to "fi"
-        public bool FindMissingEp(DirCache dirCache, ItemMissing me, ItemList addTo, ActionCopyMoveRename.Op whichOp)
+        public bool FindMissingEp(Cache.DirCache dirCache, ItemMissing me, IList<Item> addTo, ActionCopyMoveRename.Op whichOp)
         {
             string showname = me.Episode.SI.ShowName;
             int season = me.Episode.SeasonNumber;
@@ -527,12 +534,12 @@ namespace TvRename.Core
             return false;
         }
 
-        public void KeepTogether(ItemList Actionlist)
+        public void KeepTogether(IList<Item> Actionlist)
         {
             // for each of the items in rcl, do the same copy/move if for other items with the same
             // base name, but different extensions
 
-            ItemList extras = new ItemList();
+            IList<Item> extras = new List<Item>();
 
             foreach (Item Action1 in Actionlist)
             {
@@ -619,8 +626,8 @@ namespace TvRename.Core
 
             prog.Invoke(0);
 
-            ItemList newList = new ItemList();
-            ItemList toRemove = new ItemList();
+            var newList = new List<Item>();
+            IList<Item> toRemove = new List<Item>();
 
             int fileCount = 0;
             foreach (string s in this.SearchFolders)
@@ -883,9 +890,11 @@ namespace TvRename.Core
 
             if (!this.DownloadDone && !this.Args.Hide) // downloading still going on, so time to show the dialog if we're not in /hide mode
             {
+/* todo
                 DownloadProgress dp = new DownloadProgress(this);
                 dp.ShowDialog();
                 dp.Update();
+*/
             }
 
             this.WaitForBGDownloadDone();
@@ -925,7 +934,7 @@ namespace TvRename.Core
         public void TidyTVDB()
         {
             // remove any shows from thetvdb that aren't in My Shows
-            TheTVDB db = this.GetTVDB(true, "TidyTVDB");
+            TheTVDB.TheTVDB db = this.GetTVDB(true, "TidyTVDB");
             List<int> removeList = new List<int>();
 
             foreach (KeyValuePair<int, SeriesInfo> kvp in this.mTVDB.GetSeriesDict())
@@ -1027,7 +1036,7 @@ namespace TvRename.Core
         public bool HasAnyAirdates(ShowItem si, int snum)
         {
             bool r = false;
-            TheTVDB db = this.GetTVDB(false, "");
+            TheTVDB.TheTVDB db = this.GetTVDB(false, "");
             SeriesInfo ser = db.GetSeries(si.TVDBCode);
             if ((ser != null) && (ser.Seasons.ContainsKey(snum)))
             {
@@ -1069,7 +1078,7 @@ namespace TvRename.Core
             // process as per rules
             // done!
 
-            TheTVDB db = this.GetTVDB(true, "GenerateEpisodeDict");
+            TheTVDB.TheTVDB db = this.GetTVDB(true, "GenerateEpisodeDict");
 
             SeriesInfo ser = db.GetSeries(si.TVDBCode);
 
@@ -2017,7 +2026,7 @@ namespace TvRename.Core
 
             try
             {
-                TVRename.SAB.result res = TVRename.SAB.result.Deserialize(r);
+                result res = result.Deserialize(r);
                 if (res.status == "False")
                 {
                     MessageBox.Show(res.error, "SABnzbd Queue Check", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2030,10 +2039,10 @@ namespace TvRename.Core
                 // wasn't a result/error combo.  this is good!
             }
 
-            TVRename.SAB.queue sq = null;
+            queue sq = null;
             try
             {
-                sq = TVRename.SAB.queue.Deserialize(r);
+                sq = queue.Deserialize(r);
             }
             catch (Exception)
             {
@@ -2046,8 +2055,8 @@ namespace TvRename.Core
             if (sq == null || sq.slots==null || sq.slots.Length == 0) // empty queue
                 return;
 
-            ItemList newList = new ItemList();
-            ItemList toRemove = new ItemList();
+            var newList = new List<Item>();
+            var toRemove = new List<Item>();
             int c = this.TheActionList.Count + 2;
             int n = 1;
 
@@ -2066,7 +2075,7 @@ namespace TvRename.Core
 
                 string showname = Helpers.SimplifyName(Action.Episode.SI.ShowName);
 
-                foreach (TVRename.SAB.queueSlotsSlot te  in sq.slots)
+                foreach (queueSlotsSlot te  in sq.slots)
                 {
                     //foreach (queueSlotsSlot te in qs)
                     {
@@ -2114,8 +2123,8 @@ namespace TvRename.Core
 
             List<TorrentEntry> downloading = btr.AllFilesBeingDownloaded(this.Settings, Args);
 
-            ItemList newList = new ItemList();
-            ItemList toRemove = new ItemList();
+            var newList = new List<Item>();
+            var toRemove = new List<Item>();
             int c = this.TheActionList.Count + 2;
             int n = 1;
             prog.Invoke(startpct + totPct * n / c);
@@ -2172,8 +2181,8 @@ namespace TvRename.Core
             foreach (string s in this.Settings.RSSURLs)
                 this.RSSList.DownloadRSS(s, this.Settings.FNPRegexs);
 
-            ItemList newItems = new ItemList();
-            ItemList toRemove = new ItemList();
+            var newItems = new List<Item>();
+            var toRemove = new List<Item>();
 
             foreach (Item Action1 in this.TheActionList)
             {
@@ -2372,6 +2381,7 @@ namespace TvRename.Core
 
             // If not /hide, show CopyMoveProgress dialog
 
+/* todo
             CopyMoveProgress cmp = null;
             if (!this.Args.Hide)
                 cmp = new CopyMoveProgress(this, queues);
@@ -2388,9 +2398,10 @@ namespace TvRename.Core
             this.ActionProcessorThread.Join();
 
             theList.RemoveAll(x => (x is Action) && (x as Action).Done && !(x as Action).Error);
+*/
         }
 
-        public bool ListHasMissingItems(ItemList l)
+        public bool ListHasMissingItems(IList<Item> l)
         {
             foreach (Item i in l)
             {
@@ -2413,6 +2424,7 @@ namespace TvRename.Core
 
             this.ActionCancel = false;
 
+/* todo
             if (!this.Args.Hide)
             {
                 this.ScanProgDlg = new ScanProgress(this.Settings.RenameCheck || this.Settings.MissingCheck,
@@ -2434,6 +2446,7 @@ namespace TvRename.Core
                 ActionWork.Join();
 
             this.ScanProgDlg = null;
+*/
         }
 
         public bool CheckAllFoldersExist(List<ShowItem> showlist)
@@ -2507,6 +2520,7 @@ namespace TvRename.Core
                                 string theFolder = folder;
                                 string otherFolder = null;
 
+/* todo
                                 FAResult whatToDo = FAResult.kfaNotSet;
 
                                 if (this.Args.MissingFolder == CommandLineArgs.MissingFolderBehaviour.Create)
@@ -2564,6 +2578,7 @@ namespace TvRename.Core
                                         this.SetDirty();
                                     }
                                 }
+*/
                             }
                         }
                         while (goAgain);
@@ -2579,7 +2594,7 @@ namespace TvRename.Core
 
         public void RemoveIgnored()
         {
-            ItemList toRemove = new ItemList();
+            var toRemove = new List<Item>();
             foreach (Item item in this.TheActionList)
             {
                 ScanListItem act = item as ScanListItem;
@@ -2598,7 +2613,7 @@ namespace TvRename.Core
 
         public void RenameAndMissingCheck(SetProgressDelegate prog, List<ShowItem> showList)
         {
-            this.TheActionList = new ItemList();
+            this.TheActionList = new List<Item>();
 
             //int totalEps = 0;
 
@@ -2815,7 +2830,7 @@ namespace TvRename.Core
                             // look at the offical list of episodes, and look to see if we have any gaps
 
                             DateTime today = DateTime.Now;
-                            TheTVDB db = this.GetTVDB(true, "UpToDateCheck");
+                            TheTVDB.TheTVDB db = this.GetTVDB(true, "UpToDateCheck");
                             foreach (ProcessedEpisode dbep in eps)
                             {
                                 if ((dbep.EpNum > maxEpNumFound) || (localEps[dbep.EpNum] == null)) // not here locally
@@ -2871,7 +2886,7 @@ namespace TvRename.Core
             this.RemoveIgnored();
         }
 
-        private void ThumbnailAndNFOCheck(ProcessedEpisode dbep, FileInfo filo, ItemList addTo)
+        private void ThumbnailAndNFOCheck(ProcessedEpisode dbep, FileInfo filo, IList<Item> addTo)
         {
             if (this.Settings.EpImgs)
             {
@@ -2916,12 +2931,13 @@ namespace TvRename.Core
 
         public void ScanWorker(Object o)
         {
+/* todo
             List<ShowItem> specific = (List<ShowItem>)(o);
 
             while (!this.Args.Hide && ((this.ScanProgDlg == null) || (!this.ScanProgDlg.Ready)))
                 Thread.Sleep(10); // wait for thread to create the dialog
 
-            this.TheActionList = new ItemList();
+            this.TheActionList = new List<Item>();
             SetProgressDelegate noProgress = this.NoProgress;
 
             if (this.Settings.RenameCheck || this.Settings.MissingCheck)
@@ -2975,6 +2991,7 @@ namespace TvRename.Core
 
             if (this.ScanProgDlg != null)
                 this.ScanProgDlg.Done();
+*/
         }
 
         public bool MatchesSequentialNumber(string filename, ref int seas, ref int ep, ProcessedEpisode pe)

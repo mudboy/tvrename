@@ -8,7 +8,7 @@
 
 using System;
 
-namespace TVRename
+namespace TvRename.Utils
 {
     // What version are we?
     // Are we running under Mono, rather than MS.NET ?

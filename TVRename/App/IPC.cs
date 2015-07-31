@@ -1,9 +1,10 @@
-﻿using TvRename.Core;
+﻿using System;
+using TvRename.Core;
+using TvRename.Utils;
+using TVRename.Forms;
 
-namespace TVRename
+namespace TVRename.App
 {
-    using System;
-
     internal class IPCMethods : MarshalByRefObject
     {
         private static UI TheUI;

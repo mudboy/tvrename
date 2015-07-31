@@ -5,10 +5,12 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-using System.Windows.Forms;
-using System.Drawing;
 
-namespace TVRename
+using System.Drawing;
+using System.Windows.Forms;
+using TvRename.Core.Settings;
+
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for AddEditSearchEngine

@@ -5,10 +5,12 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-using System.Windows.Forms;
-using System.IO;
 
-namespace TVRename
+using System.IO;
+using System.Windows.Forms;
+using TvRename.Core;
+
+namespace TVRename.Forms
 {
     /// <summary>
     /// Summary for RecoverXML

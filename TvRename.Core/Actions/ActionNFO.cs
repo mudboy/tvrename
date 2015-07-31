@@ -206,7 +206,7 @@ namespace TvRename.Core.Actions
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("episodeguideurl");
-                writer.WriteValue(TheTVDB.BuildURL(true, true, this.SI.TVDBCode, this.SI.TVDB.RequestLanguage));
+                writer.WriteValue(TheTVDB.TheTVDB.BuildURL(true, true, this.SI.TVDBCode, this.SI.TVDB.RequestLanguage));
                 writer.WriteEndElement();
 
                 WriteInfo(writer, this.SI, "Overview", "plot");

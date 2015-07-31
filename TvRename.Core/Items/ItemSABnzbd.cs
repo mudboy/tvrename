@@ -11,15 +11,16 @@ using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Actions;
 using TvRename.Core.Settings;
+using TvRename.Utils;
 
 namespace TvRename.Core.Items
 {
     public class ItemSABnzbd : Item, ScanListItem
     {
         public string DesiredLocationNoExt;
-        public SAB.queueSlotsSlot Entry;
+        public queueSlotsSlot Entry;
 
-        public ItemSABnzbd(SAB.queueSlotsSlot qss, ProcessedEpisode pe, string desiredLocationNoExt)
+        public ItemSABnzbd(queueSlotsSlot qss, ProcessedEpisode pe, string desiredLocationNoExt)
         {
             this.Episode = pe;
             this.DesiredLocationNoExt = desiredLocationNoExt;

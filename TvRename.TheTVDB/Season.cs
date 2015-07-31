@@ -5,7 +5,10 @@
 // 
 // This code is released under GPLv3 http://www.gnu.org/licenses/gpl.html
 // 
-namespace TVRename
+
+//using TVRename;
+
+namespace TvRename.TheTVDB
 {
     public class Season
     {

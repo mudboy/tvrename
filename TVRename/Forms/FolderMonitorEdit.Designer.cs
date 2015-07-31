@@ -1,4 +1,4 @@
-﻿namespace TVRename
+﻿namespace TVRename.Forms
 {
     partial class FolderMonitorEdit
     {
