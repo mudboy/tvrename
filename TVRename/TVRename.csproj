@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App\CommandLineArgs.cs" />
     <Compile Include="App\AutoFolderMonitor.cs" />
     <Compile Include="App\IPC.cs" />
     <Compile Include="Custom Controls\ListViewFlickerFree.cs">
@@ -159,28 +158,9 @@
     <Compile Include="Forms\uTorrent.Designer.cs">
       <DependentUpon>uTorrent.cs</DependentUpon>
     </Compile>
-    <Compile Include="ItemsAndActions\ActionPyTivoMeta.cs" />
-    <Compile Include="ItemsAndActions\ItemSABnzbd.cs" />
-    <Compile Include="TheTVDB\Episode.cs" />
-    <Compile Include="TheTVDB\ExtraEp.cs" />
-    <Compile Include="TheTVDB\Season.cs" />
-    <Compile Include="TheTVDB\SeriesInfo.cs" />
-    <Compile Include="ItemsAndActions\ActionCopyMoveRename.cs" />
-    <Compile Include="ItemsAndActions\ActionDownload.cs" />
-    <Compile Include="ItemsAndActions\ActionItem.cs" />
-    <Compile Include="ItemsAndActions\ItemMissing.cs" />
-    <Compile Include="ItemsAndActions\ActionNFO.cs" />
-    <Compile Include="ItemsAndActions\ActionRSS.cs" />
-    <Compile Include="ItemsAndActions\ActionItemSorter.cs" />
-    <Compile Include="ItemsAndActions\ItemuTorrenting.cs" />
-    <Compile Include="TVRename\FolderMonitorEntry.cs" />
     <Compile Include="Forms\AddModifyRule.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TVRename\IgnoreItem.cs" />
-    <Compile Include="TVRename\LVResults.cs" />
-    <Compile Include="TVRename\PathManager.cs" />
-    <Compile Include="Utility\BT.cs" />
     <Compile Include="Forms\BugReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,14 +170,12 @@
     <Compile Include="Forms\CopyMoveProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\CustomName.cs" />
     <Compile Include="Forms\CustomNameDesigner.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\CustomNameTagsFloatingWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utility\DirCache.cs" />
     <Compile Include="Forms\DownloadProgress.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,12 +188,9 @@
     <Compile Include="Forms\FolderMonitorProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utility\DirCacheEntry.cs" />
-    <Compile Include="Utility\Helpers.cs" />
     <Compile Include="Forms\IgnoreEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\Layout.cs" />
     <Compile Include="Forms\MissingFolderAction.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -362,33 +337,22 @@
     <Compile Include="Forms\RecoverXML.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utility\RSS.cs" />
     <Compile Include="Forms\ScanProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\Searchers.cs" />
     <Compile Include="App\Server.cs" />
-    <Compile Include="Settings\Settings.cs" />
     <Compile Include="Forms\ShowException.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\ShowsAndEpisodes.cs" />
-    <Compile Include="Settings\ShowRule.cs" />
-    <Compile Include="Utility\SABnzbdXML.cs" />
-    <Compile Include="Utility\Sorters.cs" />
-    <Compile Include="Settings\Statistics.cs" />
     <Compile Include="Forms\StatsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TheTVDB\TheTVDB.cs" />
     <Compile Include="Custom Controls\TheTVDBCodeFinder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Utility\Timezone.cs" />
     <Compile Include="Forms\TorrentMatch.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TVRename\TVDoc.cs" />
     <Compile Include="App\Program.cs" />
     <Compile Include="Forms\UI.cs">
       <SubType>Form</SubType>
@@ -400,7 +364,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="App\Version.cs" />
-    <Compile Include="Utility\Win32FileIO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.ico" />
@@ -417,6 +380,16 @@
     <None Include="Resources\graphhs.png" />
     <None Include="Resources\GetLatestVersion.png" />
     <None Include="Resources\saveHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TvRename.Core\TvRename.Core.csproj">
+      <Project>{3BF4C292-7DC2-4209-8FD8-2C722F405450}</Project>
+      <Name>TvRename.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TvRename.Utils\TvRename.Utils.csproj">
+      <Project>{991DB31A-7899-47C6-9CCA-300BE545F8E1}</Project>
+      <Name>TvRename.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

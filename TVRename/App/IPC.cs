@@ -1,4 +1,6 @@
-﻿namespace TVRename
+﻿using TvRename.Core;
+
+namespace TVRename
 {
     using System;
 

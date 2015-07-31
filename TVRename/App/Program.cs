@@ -11,6 +11,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Windows.Forms;
+using TvRename.Core;
 using TVRename;
 
 // Check the mutex that we're not already running, start the main UI, pass in commandline arguments
@@ -90,8 +91,8 @@ public static class GlobalMembersTVRename
         }
 
 #if !DEBUG
-		try
-		{
+        try
+        {
 #endif
 
         // Starting TVRename...
@@ -162,12 +163,12 @@ public static class GlobalMembersTVRename
         GC.KeepAlive(mutex);
 
 #if !DEBUG
-		}
-		catch (Exception e)
-		{
-		  ShowException se = new ShowException(e);
-		  se.ShowDialog();
-		}
+        }
+        catch (Exception e)
+        {
+          ShowException se = new ShowException(e);
+          se.ShowDialog();
+        }
 #endif
 
         return 0;

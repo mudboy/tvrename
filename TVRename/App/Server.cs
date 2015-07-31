@@ -10,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using TvRename.Core;
 
 // Start of code for putting an ical or "upcoming shows" server into tvrename itself, rather
 // than exporting to a file somewhere
