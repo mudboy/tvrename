@@ -157,7 +157,7 @@ namespace TVRename.Forms
             tabControl1_SelectedIndexChanged(null, null);
 
             mAutoFolderMonitor = new AutoFolderMonitor(mDoc,this);
-            if (mDoc.Settings.MonitorFolders)
+            if (mDoc.Settings.ShouldMonitorFolders)
                 mAutoFolderMonitor.StartMonitor();
 
 
@@ -1899,7 +1899,7 @@ namespace TVRename.Forms
                 FillWhenToWatchList();
                 ShowInTaskbar = mDoc.Settings.ShowInTaskbar;
                 FillEpGuideHTML();
-                mAutoFolderMonitor.SettingsChanged(mDoc.Settings.MonitorFolders);
+                mAutoFolderMonitor.SettingsChanged(mDoc.Settings.ShouldMonitorFolders);
                 ForceRefresh(null);
             }
             LessBusy();

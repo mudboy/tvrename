@@ -66,6 +66,7 @@
     <Compile Include="Settings\Layout.cs" />
     <Compile Include="Settings\Searchers.cs" />
     <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\SettingsWrapper.cs" />
     <Compile Include="Settings\ShowRule.cs" />
     <Compile Include="Settings\ShowsAndEpisodes.cs" />
     <Compile Include="Settings\Statistics.cs" />

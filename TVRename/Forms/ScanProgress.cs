@@ -24,72 +24,72 @@ namespace TVRename.Forms
         public bool Finished;
         public bool Ready;
 
-        public int pctLocalSearch;
-        public int pctMediaLib;
-        public int pctRSS;
-        public int pctuTorrent;
+        private int _pctLocalSearch;
+        private int _pctMediaLib;
+        private int _pctRss;
+        private int _pctuTorrent;
 
         public ScanProgress(bool mediaLib, bool searchLocal, bool downloading, bool rss)
         {
-            this.Ready = false;
-            this.Finished = false;
-            this.InitializeComponent();
+            Ready = false;
+            Finished = false;
+            InitializeComponent();
 
-            this.lbMediaLibrary.Enabled = mediaLib;
-            this.lbSearchLocally.Enabled = searchLocal;
-            this.lbCheckDownloading.Enabled = downloading;
-            this.lbSearchRSS.Enabled = rss;
+            lbMediaLibrary.Enabled = mediaLib;
+            lbSearchLocally.Enabled = searchLocal;
+            lbCheckDownloading.Enabled = downloading;
+            lbSearchRSS.Enabled = rss;
         }
 
-        public void UpdateProg()
+        private void UpdateProg()
         {
-            this.pbMediaLib.Value = ((this.pctMediaLib < 0) ? 0 : ((this.pctMediaLib > 100) ? 100 : this.pctMediaLib));
-            this.pbMediaLib.Update();
-            this.pbLocalSearch.Value = ((this.pctLocalSearch < 0) ? 0 : ((this.pctLocalSearch > 100) ? 100 : this.pctLocalSearch));
-            this.pbLocalSearch.Update();
-            this.pbRSS.Value = ((this.pctRSS < 0) ? 0 : ((this.pctRSS > 100) ? 100 : this.pctRSS));
-            this.pbRSS.Update();
-            this.pbDownloading.Value = ((this.pctuTorrent < 0) ? 0 : ((this.pctuTorrent > 100) ? 100 : this.pctuTorrent));
-            this.pbDownloading.Update();
+            pbMediaLib.Value = ((_pctMediaLib < 0) ? 0 : ((_pctMediaLib > 100) ? 100 : _pctMediaLib));
+            pbMediaLib.Update();
+            pbLocalSearch.Value = ((_pctLocalSearch < 0) ? 0 : ((_pctLocalSearch > 100) ? 100 : _pctLocalSearch));
+            pbLocalSearch.Update();
+            pbRSS.Value = ((_pctRss < 0) ? 0 : ((_pctRss > 100) ? 100 : _pctRss));
+            pbRSS.Update();
+            pbDownloading.Value = ((_pctuTorrent < 0) ? 0 : ((_pctuTorrent > 100) ? 100 : _pctuTorrent));
+            pbDownloading.Update();
         }
 
         public void MediaLibProg(int p)
         {
-            this.pctMediaLib = p;
+            _pctMediaLib = p;
         }
 
         public void LocalSearchProg(int p)
         {
-            this.pctLocalSearch = p;
+            _pctLocalSearch = p;
         }
 
         public void RSSProg(int p)
         {
-            this.pctRSS = p;
+            _pctRss = p;
         }
 
         public void DownloadingProg(int p)
         {
-            this.pctuTorrent = p;
+            _pctuTorrent = p;
         }
 
         private void ScanProgress_Load(object sender, System.EventArgs e)
         {
-            this.Ready = true;
-            this.timer1.Start();
+            Ready = true;
+            timer1.Start();
         }
 
         private void timer1_Tick(object sender, System.EventArgs e)
         {
-            this.UpdateProg();
-            this.timer1.Start();
-            if (this.Finished)
-                this.Close();
+            UpdateProg();
+            timer1.Start();
+            if (Finished)
+                Close();
         }
 
         public void Done()
         {
-            this.Finished = true;
+            Finished = true;
         }
     }
 }

@@ -78,18 +78,21 @@ namespace TvRename.Core.Settings
         public void WriteXML(XmlWriter writer)
         {
             writer.WriteStartElement("Rule");
-            writer.WriteStartElement("DoWhatNow");
-            writer.WriteValue((int) this.DoWhatNow);
-            writer.WriteEndElement();
-            writer.WriteStartElement("First");
-            writer.WriteValue(this.First);
-            writer.WriteEndElement();
-            writer.WriteStartElement("Second");
-            writer.WriteValue(this.Second);
-            writer.WriteEndElement();
-            writer.WriteStartElement("Text");
-            writer.WriteValue(this.UserSuppliedText);
-            writer.WriteEndElement();
+                writer.WriteStartElement("DoWhatNow");
+                    writer.WriteValue((int) this.DoWhatNow);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("First");
+                    writer.WriteValue(this.First);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Second");
+                    writer.WriteValue(this.Second);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Text");
+                    writer.WriteValue(this.UserSuppliedText);
+                writer.WriteEndElement();
             writer.WriteEndElement(); // ShowRule
         }
 
