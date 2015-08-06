@@ -27,9 +27,9 @@ namespace TvRename.Core.Settings {
             if (b == null) {
                 b = "";
             }
-            this.This = a;
-            this.That = b;
-            this.CaseInsensitive = insens;
+            This = a;
+            That = b;
+            CaseInsensitive = insens;
         }
     }
 
@@ -41,16 +41,16 @@ namespace TvRename.Core.Settings {
         public bool UseFullPath;
 
         public FilenameProcessorRE(bool enabled, string re, bool useFullPath, string notes) {
-            this.Enabled = enabled;
-            this.RE = re;
-            this.UseFullPath = useFullPath;
-            this.Notes = notes;
+            Enabled = enabled;
+            RE = re;
+            UseFullPath = useFullPath;
+            Notes = notes;
         }
     }
 
     public class ShowStatusColoringTypeList : Dictionary<ShowStatusColoringType, System.Drawing.Color> {
         public bool IsShowStatusDefined(string showStatus) {
-            foreach (KeyValuePair<ShowStatusColoringType, System.Drawing.Color> e in this) {
+            foreach (var e in this) {
                 if (!e.Key.IsMetaType && e.Key.IsShowLevel && e.Key.Status.Equals(showStatus, StringComparison.CurrentCultureIgnoreCase)) {
                     return true;
                 }
@@ -59,7 +59,7 @@ namespace TvRename.Core.Settings {
         }
 
         public System.Drawing.Color GetEntry(bool meta, bool showLevel, string status) {
-            foreach (KeyValuePair<ShowStatusColoringType, System.Drawing.Color> e in this) {
+            foreach (var e in this) {
                 if (e.Key.IsMetaType == meta && e.Key.IsShowLevel == showLevel && e.Key.Status.Equals(status, StringComparison.CurrentCultureIgnoreCase)) {
                     return e.Value;
                 }
@@ -70,9 +70,9 @@ namespace TvRename.Core.Settings {
 
     public class ShowStatusColoringType {
         public ShowStatusColoringType(bool isMetaType, bool isShowLevel, string status) {
-            this.IsMetaType = isMetaType;
-            this.IsShowLevel = isShowLevel;
-            this.Status = status;
+            IsMetaType = isMetaType;
+            IsShowLevel = isShowLevel;
+            Status = status;
         }
 
         public bool IsMetaType;
@@ -151,40 +151,40 @@ namespace TvRename.Core.Settings {
         #endregion
 
         public bool AutoSelectShowInMyShows = true;
-        public bool BGDownload = false;
-        public bool CheckuTorrent = false;
-        public bool EpImgs = false;
-        public bool ExportFOXML = false;
+        public bool BGDownload;
+        public bool CheckuTorrent;
+        public bool EpImgs;
+        public bool ExportFOXML;
         public string ExportFOXMLTo = "";
-        public bool ExportMissingCSV = false;
+        public bool ExportMissingCSV;
         public string ExportMissingCSVTo = "";
-        public bool ExportMissingXML = false;
+        public bool ExportMissingXML;
         public string ExportMissingXMLTo = "";
         public int ExportRSSMaxDays = 7;
         public int ExportRSSMaxShows = 10;
         public int ExportRSSDaysPast = 0;
-        public bool ExportRenamingXML = false;
+        public bool ExportRenamingXML;
         public string ExportRenamingXMLTo = "";
-        public bool ExportWTWRSS = false;
+        public bool ExportWTWRSS;
         public string ExportWTWRSSTo = "";
-        public bool ExportWTWXML = false;
+        public bool ExportWTWXML;
         public string ExportWTWXMLTo = "";
         public List<FilenameProcessorRE> FNPRegexs = DefaultFNPList();
-        public bool FolderJpg = false;
+        public bool FolderJpg;
         public FolderJpgIsType FolderJpgIs = FolderJpgIsType.Poster;
-        public bool ForceLowercaseFilenames = false;
+        public bool ForceLowercaseFilenames;
         public bool IgnoreSamples = true;
         public bool KeepTogether = true;
-        public bool LeadingZeroOnSeason = false;
-        public bool LeaveOriginals = false;
-        public bool LookForDateInFilename = false;
+        public bool LeadingZeroOnSeason;
+        public bool LeaveOriginals;
+        public bool LookForDateInFilename;
         public bool MissingCheck = true;
-        public bool NFOs = false;
-        public bool pyTivoMeta = false;
-        public bool pyTivoMetaSubFolder = false;
+        public bool NFOs;
+        public bool pyTivoMeta;
+        public bool pyTivoMetaSubFolder;
         public CustomName NamingStyle = new CustomName();
-        public bool NotificationAreaIcon = false;
-        public bool OfflineMode = false;
+        public bool NotificationAreaIcon;
+        public bool OfflineMode;
         public string OtherExtensionsString = "";
 
         public string[] OtherExtensionsArray {
@@ -194,16 +194,16 @@ namespace TvRename.Core.Settings {
         public int ParallelDownloads = 4;
         public List<string> RSSURLs = DefaultRSSURLList();
         public bool RenameCheck = true;
-        public bool RenameTxtToSub = false;
+        public bool RenameTxtToSub;
         public List<Replacement> Replacements = DefaultListRE();
         public string ResumeDatPath = "";
         public int SampleFileMaxSizeMB = 50; // sample file must be smaller than this to be ignored
         public bool SearchLocally = true;
-        public bool SearchRSS = false;
+        public bool SearchRSS;
         public bool ShowEpisodePictures = true;
         public bool ShowInTaskbar = true;
         public string SpecialsFolderName = "Specials";
-        public int StartupTab = 0;
+        public int StartupTab;
         public Searchers TheSearchers = new Searchers();
 
         public string[] VideoExtensionsArray {
@@ -213,20 +213,20 @@ namespace TvRename.Core.Settings {
         public string VideoExtensionsString = "";
         public int WTWRecentDays = 7;
         public string uTorrentPath = "";
-        public bool ShouldMonitorFolders = false;
+        public bool ShouldMonitorFolders;
         public ShowStatusColoringTypeList ShowStatusColors = new ShowStatusColoringTypeList();
         public String SABHostPort = "";
         public String SABAPIKey = "";
-        public bool CheckSABnzbd = false;
+        public bool CheckSABnzbd;
         public String PreferredLanguage = "en";
         public WTWDoubleClickAction WTWDoubleClick;
 
         public TVSettings() {
-            this.SetToDefaults();
+            SetToDefaults();
         }
 
         public TVSettings(XmlReader reader) {
-            this.SetToDefaults();
+            SetToDefaults();
             reader.Read();
             if (reader.Name != "Settings") {
                 return; // bail out
@@ -238,27 +238,27 @@ namespace TvRename.Core.Settings {
                 }
                 if (reader.Name == "Searcher") {
                     string srch = reader.ReadElementContentAsString(); // and match it based on name...
-                    this.TheSearchers.CurrentSearch = srch;
+                    TheSearchers.CurrentSearch = srch;
                 } else {
                     if (reader.Name == "TheSearchers") {
-                        this.TheSearchers = new Searchers(reader.ReadSubtree());
+                        TheSearchers = new Searchers(reader.ReadSubtree());
                         reader.Read();
                     } else {
                         if (reader.Name == "BGDownload") {
-                            this.BGDownload = reader.ReadElementContentAsBoolean();
+                            BGDownload = reader.ReadElementContentAsBoolean();
                         } else {
                             if (reader.Name == "OfflineMode") {
-                                this.OfflineMode = reader.ReadElementContentAsBoolean();
+                                OfflineMode = reader.ReadElementContentAsBoolean();
                             } else {
                                 if (reader.Name == "Replacements") {
-                                    this.Replacements.Clear();
+                                    Replacements.Clear();
                                     reader.Read();
                                     while (!reader.EOF) {
                                         if ((reader.Name == "Replacements") && (!reader.IsStartElement())) {
                                             break;
                                         }
                                         if (reader.Name == "Replace") {
-                                            this.Replacements.Add(new Replacement(reader.GetAttribute("This"), reader.GetAttribute("That"), reader.GetAttribute("CaseInsensitive") == "Y"));
+                                            Replacements.Add(new Replacement(reader.GetAttribute("This"), reader.GetAttribute("That"), reader.GetAttribute("CaseInsensitive") == "Y"));
                                             reader.Read();
                                         } else {
                                             reader.ReadOuterXml();
@@ -267,183 +267,183 @@ namespace TvRename.Core.Settings {
                                     reader.Read();
                                 } else {
                                     if (reader.Name == "ExportWTWRSS") {
-                                        this.ExportWTWRSS = reader.ReadElementContentAsBoolean();
+                                        ExportWTWRSS = reader.ReadElementContentAsBoolean();
                                     } else {
                                         if (reader.Name == "ExportWTWRSSTo") {
-                                            this.ExportWTWRSSTo = reader.ReadElementContentAsString();
+                                            ExportWTWRSSTo = reader.ReadElementContentAsString();
                                         } else {
                                             if (reader.Name == "ExportWTWXML") {
-                                                this.ExportWTWXML = reader.ReadElementContentAsBoolean();
+                                                ExportWTWXML = reader.ReadElementContentAsBoolean();
                                             } else {
                                                 if (reader.Name == "ExportWTWXMLTo") {
-                                                    this.ExportWTWXMLTo = reader.ReadElementContentAsString();
+                                                    ExportWTWXMLTo = reader.ReadElementContentAsString();
                                                 } else {
                                                     if (reader.Name == "WTWRecentDays") {
-                                                        this.WTWRecentDays = reader.ReadElementContentAsInt();
+                                                        WTWRecentDays = reader.ReadElementContentAsInt();
                                                     } else {
                                                         if (reader.Name == "StartupTab") {
                                                             int n = reader.ReadElementContentAsInt();
                                                             if (n == 6) {
-                                                                this.StartupTab = 2; // WTW is moved
+                                                                StartupTab = 2; // WTW is moved
                                                             } else {
                                                                 if ((n >= 1) && (n <= 3)) // any of the three scans
                                                                 {
-                                                                    this.StartupTab = 1;
+                                                                    StartupTab = 1;
                                                                 } else {
-                                                                    this.StartupTab = 0; // otherwise, My Shows
+                                                                    StartupTab = 0; // otherwise, My Shows
                                                                 }
                                                             }
                                                         } else {
                                                             if (reader.Name == "StartupTab2") {
-                                                                this.StartupTab = TabNumberFromName(reader.ReadElementContentAsString());
+                                                                StartupTab = TabNumberFromName(reader.ReadElementContentAsString());
                                                             } else {
                                                                 if (reader.Name == "DefaultNamingStyle") // old naming style
                                                                 {
-                                                                    this.NamingStyle.StyleString = CustomName.OldNStyle(reader.ReadElementContentAsInt());
+                                                                    NamingStyle.StyleString = CustomName.OldNStyle(reader.ReadElementContentAsInt());
                                                                 } else {
                                                                     if (reader.Name == "NamingStyle") {
-                                                                        this.NamingStyle.StyleString = reader.ReadElementContentAsString();
+                                                                        NamingStyle.StyleString = reader.ReadElementContentAsString();
                                                                     } else {
                                                                         if (reader.Name == "NotificationAreaIcon") {
-                                                                            this.NotificationAreaIcon = reader.ReadElementContentAsBoolean();
+                                                                            NotificationAreaIcon = reader.ReadElementContentAsBoolean();
                                                                         } else {
                                                                             if ((reader.Name == "GoodExtensions") || (reader.Name == "VideoExtensions")) {
-                                                                                this.VideoExtensionsString = reader.ReadElementContentAsString();
+                                                                                VideoExtensionsString = reader.ReadElementContentAsString();
                                                                             } else {
                                                                                 if (reader.Name == "OtherExtensions") {
-                                                                                    this.OtherExtensionsString = reader.ReadElementContentAsString();
+                                                                                    OtherExtensionsString = reader.ReadElementContentAsString();
                                                                                 } else {
                                                                                     if (reader.Name == "ExportRSSMaxDays") {
-                                                                                        this.ExportRSSMaxDays = reader.ReadElementContentAsInt();
+                                                                                        ExportRSSMaxDays = reader.ReadElementContentAsInt();
                                                                                     } else {
                                                                                         if (reader.Name == "ExportRSSMaxShows") {
-                                                                                            this.ExportRSSMaxShows = reader.ReadElementContentAsInt();
+                                                                                            ExportRSSMaxShows = reader.ReadElementContentAsInt();
                                                                                         } else {
                                                                                             if (reader.Name == "ExportRSSDaysPast") {
-                                                                                                this.ExportRSSDaysPast = reader.ReadElementContentAsInt();
+                                                                                                ExportRSSDaysPast = reader.ReadElementContentAsInt();
                                                                                             } else {
                                                                                                 if (reader.Name == "KeepTogether") {
-                                                                                                    this.KeepTogether = reader.ReadElementContentAsBoolean();
+                                                                                                    KeepTogether = reader.ReadElementContentAsBoolean();
                                                                                                 } else {
                                                                                                     if (reader.Name == "LeadingZeroOnSeason") {
-                                                                                                        this.LeadingZeroOnSeason = reader.ReadElementContentAsBoolean();
+                                                                                                        LeadingZeroOnSeason = reader.ReadElementContentAsBoolean();
                                                                                                     } else {
                                                                                                         if (reader.Name == "ShowInTaskbar") {
-                                                                                                            this.ShowInTaskbar = reader.ReadElementContentAsBoolean();
+                                                                                                            ShowInTaskbar = reader.ReadElementContentAsBoolean();
                                                                                                         } else {
                                                                                                             if (reader.Name == "RenameTxtToSub") {
-                                                                                                                this.RenameTxtToSub = reader.ReadElementContentAsBoolean();
+                                                                                                                RenameTxtToSub = reader.ReadElementContentAsBoolean();
                                                                                                             } else {
                                                                                                                 if (reader.Name == "ShowEpisodePictures") {
-                                                                                                                    this.ShowEpisodePictures = reader.ReadElementContentAsBoolean();
+                                                                                                                    ShowEpisodePictures = reader.ReadElementContentAsBoolean();
                                                                                                                 } else {
                                                                                                                     if (reader.Name == "AutoSelectShowInMyShows") {
-                                                                                                                        this.AutoSelectShowInMyShows = reader.ReadElementContentAsBoolean();
+                                                                                                                        AutoSelectShowInMyShows = reader.ReadElementContentAsBoolean();
                                                                                                                     } else {
                                                                                                                         if (reader.Name == "SpecialsFolderName") {
-                                                                                                                            this.SpecialsFolderName = reader.ReadElementContentAsString();
+                                                                                                                            SpecialsFolderName = reader.ReadElementContentAsString();
                                                                                                                         } else {
                                                                                                                             if (reader.Name == "SABAPIKey") {
-                                                                                                                                this.SABAPIKey = reader.ReadElementContentAsString();
+                                                                                                                                SABAPIKey = reader.ReadElementContentAsString();
                                                                                                                             } else {
                                                                                                                                 if (reader.Name == "CheckSABnzbd") {
-                                                                                                                                    this.CheckSABnzbd = reader.ReadElementContentAsBoolean();
+                                                                                                                                    CheckSABnzbd = reader.ReadElementContentAsBoolean();
                                                                                                                                 } else {
                                                                                                                                     if (reader.Name == "SABHostPort") {
-                                                                                                                                        this.SABHostPort = reader.ReadElementContentAsString();
+                                                                                                                                        SABHostPort = reader.ReadElementContentAsString();
                                                                                                                                     } else {
                                                                                                                                         if (reader.Name == "PreferredLanguage") {
-                                                                                                                                            this.PreferredLanguage = reader.ReadElementContentAsString();
+                                                                                                                                            PreferredLanguage = reader.ReadElementContentAsString();
                                                                                                                                         } else {
                                                                                                                                             if (reader.Name == "WTWDoubleClick") {
-                                                                                                                                                this.WTWDoubleClick = (WTWDoubleClickAction) reader.ReadElementContentAsInt();
+                                                                                                                                                WTWDoubleClick = (WTWDoubleClickAction) reader.ReadElementContentAsInt();
                                                                                                                                             } else {
                                                                                                                                                 if (reader.Name == "ExportMissingXML") {
-                                                                                                                                                    this.ExportMissingXML = reader.ReadElementContentAsBoolean();
+                                                                                                                                                    ExportMissingXML = reader.ReadElementContentAsBoolean();
                                                                                                                                                 } else {
                                                                                                                                                     if (reader.Name == "ExportMissingXMLTo") {
-                                                                                                                                                        this.ExportMissingXMLTo = reader.ReadElementContentAsString();
+                                                                                                                                                        ExportMissingXMLTo = reader.ReadElementContentAsString();
                                                                                                                                                     } else {
                                                                                                                                                         if (reader.Name == "ExportMissingCSV") {
-                                                                                                                                                            this.ExportMissingCSV = reader.ReadElementContentAsBoolean();
+                                                                                                                                                            ExportMissingCSV = reader.ReadElementContentAsBoolean();
                                                                                                                                                         } else {
                                                                                                                                                             if (reader.Name == "ExportMissingCSVTo") {
-                                                                                                                                                                this.ExportMissingCSVTo = reader.ReadElementContentAsString();
+                                                                                                                                                                ExportMissingCSVTo = reader.ReadElementContentAsString();
                                                                                                                                                             } else {
                                                                                                                                                                 if (reader.Name == "ExportRenamingXML") {
-                                                                                                                                                                    this.ExportRenamingXML = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                    ExportRenamingXML = reader.ReadElementContentAsBoolean();
                                                                                                                                                                 } else {
                                                                                                                                                                     if (reader.Name == "ExportRenamingXMLTo") {
-                                                                                                                                                                        this.ExportRenamingXMLTo = reader.ReadElementContentAsString();
+                                                                                                                                                                        ExportRenamingXMLTo = reader.ReadElementContentAsString();
                                                                                                                                                                     } else {
                                                                                                                                                                         if (reader.Name == "ExportFOXML") {
-                                                                                                                                                                            this.ExportFOXML = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                            ExportFOXML = reader.ReadElementContentAsBoolean();
                                                                                                                                                                         } else {
                                                                                                                                                                             if (reader.Name == "ExportFOXMLTo") {
-                                                                                                                                                                                this.ExportFOXMLTo = reader.ReadElementContentAsString();
+                                                                                                                                                                                ExportFOXMLTo = reader.ReadElementContentAsString();
                                                                                                                                                                             } else {
                                                                                                                                                                                 if (reader.Name == "ForceLowercaseFilenames") {
-                                                                                                                                                                                    this.ForceLowercaseFilenames = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                    ForceLowercaseFilenames = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                 } else {
                                                                                                                                                                                     if (reader.Name == "IgnoreSamples") {
-                                                                                                                                                                                        this.IgnoreSamples = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                        IgnoreSamples = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                     } else {
                                                                                                                                                                                         if (reader.Name == "SampleFileMaxSizeMB") {
-                                                                                                                                                                                            this.SampleFileMaxSizeMB = reader.ReadElementContentAsInt();
+                                                                                                                                                                                            SampleFileMaxSizeMB = reader.ReadElementContentAsInt();
                                                                                                                                                                                         } else {
                                                                                                                                                                                             if (reader.Name == "ParallelDownloads") {
-                                                                                                                                                                                                this.ParallelDownloads = reader.ReadElementContentAsInt();
+                                                                                                                                                                                                ParallelDownloads = reader.ReadElementContentAsInt();
                                                                                                                                                                                             } else {
                                                                                                                                                                                                 if (reader.Name == "uTorrentPath") {
-                                                                                                                                                                                                    this.uTorrentPath = reader.ReadElementContentAsString();
+                                                                                                                                                                                                    uTorrentPath = reader.ReadElementContentAsString();
                                                                                                                                                                                                 } else {
                                                                                                                                                                                                     if (reader.Name == "ResumeDatPath") {
-                                                                                                                                                                                                        this.ResumeDatPath = reader.ReadElementContentAsString();
+                                                                                                                                                                                                        ResumeDatPath = reader.ReadElementContentAsString();
                                                                                                                                                                                                     } else {
                                                                                                                                                                                                         if (reader.Name == "SearchRSS") {
-                                                                                                                                                                                                            this.SearchRSS = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                            SearchRSS = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                         } else {
                                                                                                                                                                                                             if (reader.Name == "EpImgs") {
-                                                                                                                                                                                                                this.EpImgs = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                EpImgs = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                 if (reader.Name == "NFOs") {
-                                                                                                                                                                                                                    this.NFOs = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                    NFOs = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                 } else {
                                                                                                                                                                                                                     if (reader.Name == "pyTivoMeta") {
-                                                                                                                                                                                                                        this.pyTivoMeta = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                        pyTivoMeta = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                     } else {
                                                                                                                                                                                                                         if (reader.Name == "pyTivoMetaSubFolder") {
-                                                                                                                                                                                                                            this.pyTivoMetaSubFolder = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                            pyTivoMetaSubFolder = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                         } else {
                                                                                                                                                                                                                             if (reader.Name == "FolderJpg") {
-                                                                                                                                                                                                                                this.FolderJpg = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                FolderJpg = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                                 if (reader.Name == "FolderJpgIs") {
-                                                                                                                                                                                                                                    this.FolderJpgIs = (FolderJpgIsType) reader.ReadElementContentAsInt();
+                                                                                                                                                                                                                                    FolderJpgIs = (FolderJpgIsType) reader.ReadElementContentAsInt();
                                                                                                                                                                                                                                 } else {
                                                                                                                                                                                                                                     if (reader.Name == "RenameCheck") {
-                                                                                                                                                                                                                                        this.RenameCheck = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                        RenameCheck = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                     } else {
                                                                                                                                                                                                                                         if (reader.Name == "CheckuTorrent") {
-                                                                                                                                                                                                                                            this.CheckuTorrent = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                            CheckuTorrent = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                         } else {
                                                                                                                                                                                                                                             if (reader.Name == "MissingCheck") {
-                                                                                                                                                                                                                                                this.MissingCheck = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                                MissingCheck = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                                                 if (reader.Name == "SearchLocally") {
-                                                                                                                                                                                                                                                    this.SearchLocally = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                                    SearchLocally = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                                 } else {
                                                                                                                                                                                                                                                     if (reader.Name == "LeaveOriginals") {
-                                                                                                                                                                                                                                                        this.LeaveOriginals = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                                        LeaveOriginals = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                                     } else {
                                                                                                                                                                                                                                                         if (reader.Name == "LookForDateInFilename") {
                                                                                                                                                                                                                                                             LookForDateInFilename = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                                         } else {
                                                                                                                                                                                                                                                             if (reader.Name == "MonitorFolders") {
-                                                                                                                                                                                                                                                                this.ShouldMonitorFolders = reader.ReadElementContentAsBoolean();
+                                                                                                                                                                                                                                                                ShouldMonitorFolders = reader.ReadElementContentAsBoolean();
                                                                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                                                                 if (reader.Name == "FNPRegexs") {
-                                                                                                                                                                                                                                                                    this.FNPRegexs.Clear();
+                                                                                                                                                                                                                                                                    FNPRegexs.Clear();
                                                                                                                                                                                                                                                                     reader.Read();
                                                                                                                                                                                                                                                                     while (!reader.EOF) {
                                                                                                                                                                                                                                                                         if ((reader.Name == "FNPRegexs") && (!reader.IsStartElement())) {
@@ -452,7 +452,7 @@ namespace TvRename.Core.Settings {
                                                                                                                                                                                                                                                                         if (reader.Name == "Regex") {
                                                                                                                                                                                                                                                                             string s = reader.GetAttribute("Enabled");
                                                                                                                                                                                                                                                                             bool en = s == null || bool.Parse(s);
-                                                                                                                                                                                                                                                                            this.FNPRegexs.Add(new FilenameProcessorRE(en, reader.GetAttribute("RE"), bool.Parse(reader.GetAttribute("UseFullPath")), reader.GetAttribute("Notes")));
+                                                                                                                                                                                                                                                                            FNPRegexs.Add(new FilenameProcessorRE(en, reader.GetAttribute("RE"), bool.Parse(reader.GetAttribute("UseFullPath")), reader.GetAttribute("Notes")));
                                                                                                                                                                                                                                                                             reader.Read();
                                                                                                                                                                                                                                                                         } else {
                                                                                                                                                                                                                                                                             reader.ReadOuterXml();
@@ -461,14 +461,14 @@ namespace TvRename.Core.Settings {
                                                                                                                                                                                                                                                                     reader.Read();
                                                                                                                                                                                                                                                                 } else {
                                                                                                                                                                                                                                                                     if (reader.Name == "RSSURLs") {
-                                                                                                                                                                                                                                                                        this.RSSURLs.Clear();
+                                                                                                                                                                                                                                                                        RSSURLs.Clear();
                                                                                                                                                                                                                                                                         reader.Read();
                                                                                                                                                                                                                                                                         while (!reader.EOF) {
                                                                                                                                                                                                                                                                             if ((reader.Name == "RSSURLs") && (!reader.IsStartElement())) {
                                                                                                                                                                                                                                                                                 break;
                                                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                                                             if (reader.Name == "URL") {
-                                                                                                                                                                                                                                                                                this.RSSURLs.Add(reader.ReadElementContentAsString());
+                                                                                                                                                                                                                                                                                RSSURLs.Add(reader.ReadElementContentAsString());
                                                                                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                                                                                 reader.ReadOuterXml();
                                                                                                                                                                                                                                                                             }
@@ -476,7 +476,7 @@ namespace TvRename.Core.Settings {
                                                                                                                                                                                                                                                                         reader.Read();
                                                                                                                                                                                                                                                                     } else {
                                                                                                                                                                                                                                                                         if (reader.Name == "ShowStatusTVWColors") {
-                                                                                                                                                                                                                                                                            this.ShowStatusColors = new ShowStatusColoringTypeList();
+                                                                                                                                                                                                                                                                            ShowStatusColors = new ShowStatusColoringTypeList();
                                                                                                                                                                                                                                                                             reader.Read();
                                                                                                                                                                                                                                                                             while (!reader.EOF) {
                                                                                                                                                                                                                                                                                 if ((reader.Name == "ShowStatusTVWColors") && (!reader.IsStartElement())) {
@@ -494,7 +494,7 @@ namespace TvRename.Core.Settings {
                                                                                                                                                                                                                                                                                     if (type != null && !string.IsNullOrEmpty(color)) {
                                                                                                                                                                                                                                                                                         try {
                                                                                                                                                                                                                                                                                             System.Drawing.Color c = System.Drawing.ColorTranslator.FromHtml(color);
-                                                                                                                                                                                                                                                                                            this.ShowStatusColors.Add(type, c);
+                                                                                                                                                                                                                                                                                            ShowStatusColors.Add(type, c);
                                                                                                                                                                                                                                                                                         } catch {}
                                                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                                                     reader.Read();
@@ -573,19 +573,19 @@ namespace TvRename.Core.Settings {
 
         public void SetToDefaults() {
             // defaults that aren't handled with default initialisers
-            this.VideoExtensionsString = ".avi;.mpg;.mpeg;.mkv;.mp4;.wmv;.divx;.ogm;.qt;.rm";
-            this.OtherExtensionsString = ".srt;.nfo;.txt;.tbn";
+            VideoExtensionsString = ".avi;.mpg;.mpeg;.mkv;.mp4;.wmv;.divx;.ogm;.qt;.rm";
+            OtherExtensionsString = ".srt;.nfo;.txt;.tbn";
 
             // have a guess at utorrent's path
             string[] guesses = new string[3];
             guesses[0] = System.Windows.Forms.Application.StartupPath + "\\..\\uTorrent\\uTorrent.exe";
             guesses[1] = "c:\\Program Files\\uTorrent\\uTorrent.exe";
             guesses[2] = "c:\\Program Files (x86)\\uTorrent\\uTorrent.exe";
-            this.uTorrentPath = "";
+            uTorrentPath = "";
             foreach (string g in guesses) {
                 FileInfo f = new FileInfo(g);
                 if (f.Exists) {
-                    this.uTorrentPath = f.FullName;
+                    uTorrentPath = f.FullName;
                     break;
                 }
             }
@@ -593,20 +593,20 @@ namespace TvRename.Core.Settings {
             // ResumeDatPath
             FileInfo f2 =
                 new FileInfo(System.Windows.Forms.Application.UserAppDataPath + "\\..\\..\\..\\uTorrent\\resume.dat");
-            this.ResumeDatPath = f2.Exists ? f2.FullName : "";
+            ResumeDatPath = f2.Exists ? f2.FullName : "";
         }
 
         public void WriteXML(XmlWriter writer) {
             writer.WriteStartElement("Settings");
-            this.TheSearchers.WriteXML(writer);
+            TheSearchers.WriteXML(writer);
             writer.WriteStartElement("BGDownload");
-            writer.WriteValue(this.BGDownload);
+            writer.WriteValue(BGDownload);
             writer.WriteEndElement();
             writer.WriteStartElement("OfflineMode");
-            writer.WriteValue(this.OfflineMode);
+            writer.WriteValue(OfflineMode);
             writer.WriteEndElement();
             writer.WriteStartElement("Replacements");
-            foreach (Replacement R in this.Replacements) {
+            foreach (Replacement R in Replacements) {
                 writer.WriteStartElement("Replace");
                 writer.WriteStartAttribute("This");
                 writer.WriteValue(R.This);
@@ -621,163 +621,163 @@ namespace TvRename.Core.Settings {
             }
             writer.WriteEndElement();
             writer.WriteStartElement("ExportWTWRSS");
-            writer.WriteValue(this.ExportWTWRSS);
+            writer.WriteValue(ExportWTWRSS);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportWTWRSSTo");
-            writer.WriteValue(this.ExportWTWRSSTo);
+            writer.WriteValue(ExportWTWRSSTo);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportWTWXML");
-            writer.WriteValue(this.ExportWTWXML);
+            writer.WriteValue(ExportWTWXML);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportWTWXMLTo");
-            writer.WriteValue(this.ExportWTWXMLTo);
+            writer.WriteValue(ExportWTWXMLTo);
             writer.WriteEndElement();
             writer.WriteStartElement("WTWRecentDays");
-            writer.WriteValue(this.WTWRecentDays);
+            writer.WriteValue(WTWRecentDays);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportMissingXML");
-            writer.WriteValue(this.ExportMissingXML);
+            writer.WriteValue(ExportMissingXML);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportMissingXMLTo");
-            writer.WriteValue(this.ExportMissingXMLTo);
+            writer.WriteValue(ExportMissingXMLTo);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportMissingCSV");
-            writer.WriteValue(this.ExportMissingCSV);
+            writer.WriteValue(ExportMissingCSV);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportMissingCSVTo");
-            writer.WriteValue(this.ExportMissingCSVTo);
+            writer.WriteValue(ExportMissingCSVTo);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportRenamingXML");
-            writer.WriteValue(this.ExportRenamingXML);
+            writer.WriteValue(ExportRenamingXML);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportRenamingXMLTo");
-            writer.WriteValue(this.ExportRenamingXMLTo);
+            writer.WriteValue(ExportRenamingXMLTo);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportFOXML");
-            writer.WriteValue(this.ExportFOXML);
+            writer.WriteValue(ExportFOXML);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportFOXMLTo");
-            writer.WriteValue(this.ExportFOXMLTo);
+            writer.WriteValue(ExportFOXMLTo);
             writer.WriteEndElement();
             writer.WriteStartElement("StartupTab2");
-            writer.WriteValue(TabNameForNumber(this.StartupTab));
+            writer.WriteValue(TabNameForNumber(StartupTab));
             writer.WriteEndElement();
             writer.WriteStartElement("NamingStyle");
-            writer.WriteValue(this.NamingStyle.StyleString);
+            writer.WriteValue(NamingStyle.StyleString);
             writer.WriteEndElement();
             writer.WriteStartElement("NotificationAreaIcon");
-            writer.WriteValue(this.NotificationAreaIcon);
+            writer.WriteValue(NotificationAreaIcon);
             writer.WriteEndElement();
             writer.WriteStartElement("VideoExtensions");
-            writer.WriteValue(this.VideoExtensionsString);
+            writer.WriteValue(VideoExtensionsString);
             writer.WriteEndElement();
             writer.WriteStartElement("OtherExtensions");
-            writer.WriteValue(this.OtherExtensionsString);
+            writer.WriteValue(OtherExtensionsString);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportRSSMaxDays");
-            writer.WriteValue(this.ExportRSSMaxDays);
+            writer.WriteValue(ExportRSSMaxDays);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportRSSMaxShows");
-            writer.WriteValue(this.ExportRSSMaxShows);
+            writer.WriteValue(ExportRSSMaxShows);
             writer.WriteEndElement();
             writer.WriteStartElement("ExportRSSDaysPast");
-            writer.WriteValue(this.ExportRSSDaysPast);
+            writer.WriteValue(ExportRSSDaysPast);
             writer.WriteEndElement();
             writer.WriteStartElement("KeepTogether");
-            writer.WriteValue(this.KeepTogether);
+            writer.WriteValue(KeepTogether);
             writer.WriteEndElement();
             writer.WriteStartElement("LeadingZeroOnSeason");
-            writer.WriteValue(this.LeadingZeroOnSeason);
+            writer.WriteValue(LeadingZeroOnSeason);
             writer.WriteEndElement();
             writer.WriteStartElement("ShowInTaskbar");
-            writer.WriteValue(this.ShowInTaskbar);
+            writer.WriteValue(ShowInTaskbar);
             writer.WriteEndElement();
             writer.WriteStartElement("IgnoreSamples");
-            writer.WriteValue(this.IgnoreSamples);
+            writer.WriteValue(IgnoreSamples);
             writer.WriteEndElement();
             writer.WriteStartElement("ForceLowercaseFilenames");
-            writer.WriteValue(this.ForceLowercaseFilenames);
+            writer.WriteValue(ForceLowercaseFilenames);
             writer.WriteEndElement();
             writer.WriteStartElement("RenameTxtToSub");
-            writer.WriteValue(this.RenameTxtToSub);
+            writer.WriteValue(RenameTxtToSub);
             writer.WriteEndElement();
             writer.WriteStartElement("ParallelDownloads");
-            writer.WriteValue(this.ParallelDownloads);
+            writer.WriteValue(ParallelDownloads);
             writer.WriteEndElement();
             writer.WriteStartElement("AutoSelectShowInMyShows");
-            writer.WriteValue(this.AutoSelectShowInMyShows);
+            writer.WriteValue(AutoSelectShowInMyShows);
             writer.WriteEndElement();
             writer.WriteStartElement("ShowEpisodePictures");
-            writer.WriteValue(this.ShowEpisodePictures);
+            writer.WriteValue(ShowEpisodePictures);
             writer.WriteEndElement();
             writer.WriteStartElement("SpecialsFolderName");
-            writer.WriteValue(this.SpecialsFolderName);
+            writer.WriteValue(SpecialsFolderName);
             writer.WriteEndElement();
             writer.WriteStartElement("uTorrentPath");
-            writer.WriteValue(this.uTorrentPath);
+            writer.WriteValue(uTorrentPath);
             writer.WriteEndElement();
             writer.WriteStartElement("ResumeDatPath");
-            writer.WriteValue(this.ResumeDatPath);
+            writer.WriteValue(ResumeDatPath);
             writer.WriteEndElement();
             writer.WriteStartElement("SearchRSS");
-            writer.WriteValue(this.SearchRSS);
+            writer.WriteValue(SearchRSS);
             writer.WriteEndElement();
             writer.WriteStartElement("EpImgs");
-            writer.WriteValue(this.EpImgs);
+            writer.WriteValue(EpImgs);
             writer.WriteEndElement();
             writer.WriteStartElement("NFOs");
-            writer.WriteValue(this.NFOs);
+            writer.WriteValue(NFOs);
             writer.WriteEndElement();
             writer.WriteStartElement("pyTivoMeta");
-            writer.WriteValue(this.pyTivoMeta);
+            writer.WriteValue(pyTivoMeta);
             writer.WriteEndElement();
             writer.WriteStartElement("pyTivoMetaSubFolder");
-            writer.WriteValue(this.pyTivoMetaSubFolder);
+            writer.WriteValue(pyTivoMetaSubFolder);
             writer.WriteEndElement();
             writer.WriteStartElement("FolderJpg");
-            writer.WriteValue(this.FolderJpg);
+            writer.WriteValue(FolderJpg);
             writer.WriteEndElement();
             writer.WriteStartElement("FolderJpgIs");
-            writer.WriteValue((int) this.FolderJpgIs);
+            writer.WriteValue((int) FolderJpgIs);
             writer.WriteEndElement();
             writer.WriteStartElement("CheckuTorrent");
-            writer.WriteValue(this.CheckuTorrent);
+            writer.WriteValue(CheckuTorrent);
             writer.WriteEndElement();
             writer.WriteStartElement("RenameCheck");
-            writer.WriteValue(this.RenameCheck);
+            writer.WriteValue(RenameCheck);
             writer.WriteEndElement();
             writer.WriteStartElement("MissingCheck");
-            writer.WriteValue(this.MissingCheck);
+            writer.WriteValue(MissingCheck);
             writer.WriteEndElement();
             writer.WriteStartElement("SearchLocally");
-            writer.WriteValue(this.SearchLocally);
+            writer.WriteValue(SearchLocally);
             writer.WriteEndElement();
             writer.WriteStartElement("LeaveOriginals");
-            writer.WriteValue(this.LeaveOriginals);
+            writer.WriteValue(LeaveOriginals);
             writer.WriteEndElement();
             writer.WriteStartElement("LookForDateInFilename");
-            writer.WriteValue(this.LookForDateInFilename);
+            writer.WriteValue(LookForDateInFilename);
             writer.WriteEndElement();
             writer.WriteStartElement("MonitorFolders");
-            writer.WriteValue(this.ShouldMonitorFolders);
+            writer.WriteValue(ShouldMonitorFolders);
             writer.WriteEndElement();
             writer.WriteStartElement("SABAPIKey");
-            writer.WriteValue(this.SABAPIKey);
+            writer.WriteValue(SABAPIKey);
             writer.WriteEndElement();
             writer.WriteStartElement("CheckSABnzbd");
-            writer.WriteValue(this.CheckSABnzbd);
+            writer.WriteValue(CheckSABnzbd);
             writer.WriteEndElement();
             writer.WriteStartElement("SABHostPort");
-            writer.WriteValue(this.SABHostPort);
+            writer.WriteValue(SABHostPort);
             writer.WriteEndElement();
             writer.WriteStartElement("PreferredLanguage");
-            writer.WriteValue(this.PreferredLanguage);
+            writer.WriteValue(PreferredLanguage);
             writer.WriteEndElement();
             writer.WriteStartElement("WTWDoubleClick");
-            writer.WriteValue((int) this.WTWDoubleClick);
+            writer.WriteValue((int) WTWDoubleClick);
             writer.WriteEndElement();
             writer.WriteStartElement("FNPRegexs");
-            foreach (FilenameProcessorRE re in this.FNPRegexs) {
+            foreach (FilenameProcessorRE re in FNPRegexs) {
                 writer.WriteStartElement("Regex");
                 writer.WriteStartAttribute("Enabled");
                 writer.WriteValue(re.Enabled);
@@ -795,7 +795,7 @@ namespace TvRename.Core.Settings {
             }
             writer.WriteEndElement(); // FNPRegexs
             writer.WriteStartElement("RSSURLs");
-            foreach (string s in this.RSSURLs) {
+            foreach (string s in RSSURLs) {
                 writer.WriteStartElement("URL");
                 writer.WriteValue(s);
                 writer.WriteEndElement();
@@ -803,7 +803,7 @@ namespace TvRename.Core.Settings {
             writer.WriteEndElement(); // RSSURL
             if (ShowStatusColors != null) {
                 writer.WriteStartElement("ShowStatusTVWColors");
-                foreach (KeyValuePair<ShowStatusColoringType, System.Drawing.Color> e in this.ShowStatusColors) {
+                foreach (KeyValuePair<ShowStatusColoringType, System.Drawing.Color> e in ShowStatusColors) {
                     writer.WriteStartElement("ShowStatusTVWColor");
                     // TODO ... Write Meta Flags
                     writer.WriteStartAttribute("IsMeta");
@@ -826,7 +826,7 @@ namespace TvRename.Core.Settings {
         }
 
         public string ItemForFolderJpg() {
-            switch (this.FolderJpgIs) {
+            switch (FolderJpgIs) {
                 case FolderJpgIsType.Banner:
                     return "banner";
                 case FolderJpgIsType.FanArt:
@@ -837,11 +837,11 @@ namespace TvRename.Core.Settings {
         }
 
         public string GetVideoExtensionsString() {
-            return this.VideoExtensionsString;
+            return VideoExtensionsString;
         }
 
         public string GetOtherExtensionsString() {
-            return this.OtherExtensionsString;
+            return OtherExtensionsString;
         }
 
         public static bool OKExtensionsString(string s) {
@@ -925,13 +925,13 @@ namespace TvRename.Core.Settings {
         }
 
         public bool UsefulExtension(string sn, bool otherExtensionsToo) {
-            foreach (string s in this.VideoExtensionsArray) {
+            foreach (string s in VideoExtensionsArray) {
                 if (sn.ToLower() == s) {
                     return true;
                 }
             }
             if (otherExtensionsToo) {
-                foreach (string s in this.OtherExtensionsArray) {
+                foreach (string s in OtherExtensionsArray) {
                     if (sn.ToLower() == s) {
                         return true;
                     }
@@ -948,19 +948,19 @@ namespace TvRename.Core.Settings {
             if (s == null) {
                 return "";
             }
-            String url = String.IsNullOrEmpty(epi.SI.CustomSearchURL) ? this.TheSearchers.CurrentSearchURL() : epi.SI.CustomSearchURL;
+            String url = String.IsNullOrEmpty(epi.SI.CustomSearchURL) ? TheSearchers.CurrentSearchURL() : epi.SI.CustomSearchURL;
             return CustomName.NameForNoExt(epi, url, true);
         }
 
         public string FilenameFriendly(string fn) {
-            foreach (Replacement R in this.Replacements) {
+            foreach (Replacement R in Replacements) {
                 if (R.CaseInsensitive) {
                     fn = Regex.Replace(fn, Regex.Escape(R.This), Regex.Escape(R.That), RegexOptions.IgnoreCase);
                 } else {
                     fn = fn.Replace(R.This, R.That);
                 }
             }
-            if (this.ForceLowercaseFilenames) {
+            if (ForceLowercaseFilenames) {
                 fn = fn.ToLower();
             }
             return fn;

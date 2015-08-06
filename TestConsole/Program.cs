@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -38,8 +36,14 @@ namespace TestConsole {
                                 new TheSearchers.Choice {Name = "bob", URL2 = "http://www.newzleech.com/usenet/?group=&amp;minage=&amp;age=&amp;min=min&amp;max=max&amp;q={ShowName}+{Season}+{Episode}&amp;mode=usenet&amp;adv="},
                             }
                         },
-                    Replacements = new List<MyReplacement> {new MyReplacement {This = "-", That = " ", CaseInsensitive = false}}
-                }
+                    Replacements = new List<MyReplacement> {new MyReplacement {This = "-", That = " ", CaseInsensitive = false}},
+                    RssUrls = new List<string> {"test"}
+
+                },
+                MyShows = new List<MyShowItem> {new MyShowItem {SeasonFolders = new List<FolderWrapper> {
+                    new FolderWrapper {SeasonNumber = "1", Folder = new List<Folder>{new Folder {Location = "test"},new Folder {Location = "test22"}}},
+                    new FolderWrapper {SeasonNumber = "2", Folder = new List<Folder>{new Folder {Location = "test2"}}},
+                }}}
             };
             XmlTextWriter w = new MyXmlWriter(new FileStream("c:\\temp\\test.xml", FileMode.Truncate, FileAccess.Write), Encoding.UTF8);
             using (w) {
