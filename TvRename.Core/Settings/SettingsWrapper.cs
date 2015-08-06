@@ -14,6 +14,19 @@ namespace TvRename.Core.Settings {
 
         [XmlArrayItem("ShowItem")]
         public List<MyShowItem> MyShows { get; set; }
+
+        [XmlArrayItem("Folder")]
+        public List<string> MonitorFolders { get; set; }
+
+        [XmlArrayItem("Folder")]
+        public List<string> IgnoreFolders { get; set; }
+
+        [XmlArrayItem("Folder")]
+        public List<string> FinderSearchFolders { get; set; }
+
+        [XmlArrayItem("Ignore")]
+        public List<string> IgnoreItems { get; set; }
+
     }
 
     public class Settings {
