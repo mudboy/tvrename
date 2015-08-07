@@ -13,6 +13,7 @@ using System.IO;
 using System.Windows.Forms;
 using TvRename.Core;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.Utils;
 
 namespace TVRename.Forms
@@ -28,12 +29,12 @@ namespace TVRename.Forms
     /// </summary>
     public partial class AddEditSeasEpFinders : Form
     {
-        private List<FilenameProcessorRE> Rex;
+        private List<FilenameProcessorRegEx> Rex;
         private List<ShowItem> SIL;
 
-        private TVSettings TheSettings;
+        private TvSettings TheSettings;
 
-        public AddEditSeasEpFinders(List<FilenameProcessorRE> rex, List<ShowItem> sil, ShowItem initialShow, string initialFolder, TVSettings s)
+        public AddEditSeasEpFinders(List<FilenameProcessorRegEx> rex, List<ShowItem> sil, ShowItem initialShow, string initialFolder, TvSettings s)
         {
             this.Rex = rex;
             this.SIL = sil;
@@ -136,7 +137,7 @@ namespace TVRename.Forms
                 this.Grid1[r, c].AddController(changed);
         }
 
-        public void FillGrid(List<FilenameProcessorRE> list)
+        public void FillGrid(List<FilenameProcessorRegEx> list)
         {
             while (this.Grid1.Rows.Count > 1) // leave header row
                 this.Grid1.Rows.Remove(1);
@@ -144,7 +145,7 @@ namespace TVRename.Forms
             this.Grid1.RowsCount = list.Count + 1;
 
             int i = 1;
-            foreach (FilenameProcessorRE re in list)
+            foreach (FilenameProcessorRegEx re in list)
             {
                 this.Grid1[i, 0] = new SourceGrid.Cells.CheckBox(null, re.Enabled);
                 this.Grid1[i, 1] = new SourceGrid.Cells.Cell(re.RE, typeof(string));
@@ -161,7 +162,7 @@ namespace TVRename.Forms
             this.StartTimer();
         }
 
-        private FilenameProcessorRE REForRow(int i)
+        private FilenameProcessorRegEx REForRow(int i)
         {
             if ((i < 1) || (i >= this.Grid1.RowsCount)) // row 0 is header
                 return null;
@@ -172,7 +173,7 @@ namespace TVRename.Forms
 
             if (string.IsNullOrEmpty(regex))
                 return null;
-            return new FilenameProcessorRE(en, regex, fullPath, notes);
+            return FilenameProcessorRegEx.Create(en, regex, fullPath, notes);
         }
 
         private void bnOK_Click(object sender, System.EventArgs e)
@@ -180,7 +181,7 @@ namespace TVRename.Forms
             this.Rex.Clear();
             for (int i = 1; i < this.Grid1.RowsCount; i++) // skip header row
             {
-                FilenameProcessorRE re = this.REForRow(i);
+                FilenameProcessorRegEx re = this.REForRow(i);
                 if (re != null)
                     this.Rex.Add(re);
             }
@@ -257,13 +258,13 @@ namespace TVRename.Forms
 
             this.lvPreview.Enabled = true;
 
-            List<FilenameProcessorRE> rel = new List<FilenameProcessorRE>();
+            List<FilenameProcessorRegEx> rel = new List<FilenameProcessorRegEx>();
 
             if (this.chkTestAll.Checked)
             {
                 for (int i = 1; i < this.Grid1.RowsCount; i++)
                 {
-                    FilenameProcessorRE re = this.REForRow(i);
+                    FilenameProcessorRegEx re = this.REForRow(i);
                     if (re != null)
                         rel.Add(re);
                 }
@@ -274,7 +275,7 @@ namespace TVRename.Forms
                 if (rowsIndex.Length == 0)
                     return;
 
-                FilenameProcessorRE re2 = this.REForRow(rowsIndex[0]);
+                FilenameProcessorRegEx re2 = this.REForRow(rowsIndex[0]);
                 if (re2 != null)
                     rel.Add(re2);
                 else
@@ -308,7 +309,7 @@ namespace TVRename.Forms
         {
             DialogResult dr = MessageBox.Show("Restore to default matching expressions?", "Filename Processors", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr == DialogResult.Yes)
-                this.FillGrid(TVSettings.DefaultFNPList());
+                this.FillGrid(TvSettings.DefaultFNPList());
         }
 
         #region Nested type: ChangedCont

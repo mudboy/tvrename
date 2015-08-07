@@ -11,6 +11,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 
 namespace TvRename.Core.Actions
 {
@@ -59,7 +60,7 @@ namespace TvRename.Core.Actions
             get { return 10000; }
         }
 
-        public bool Go(TVSettings tvsettings, ref bool pause, TVRenameStats stats)
+        public bool Go(TvSettings tvsettings, ref bool pause, TVRenameStats stats)
         {
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -84,6 +85,7 @@ namespace TvRename.Core.Actions
             if (this.Episode != null) // specific episode
             {
                 // See: http://xbmc.org/wiki/?title=Import_-_Export_Library#TV_Episodes
+                // See: http://kodi.wiki/view/NFO_files/tvepisodes todo serialize this
                 writer.WriteStartElement("episodedetails");
                 writer.WriteStartElement("title");
                 writer.WriteValue(this.Episode.Name);

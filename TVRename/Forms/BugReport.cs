@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using TvRename.Core;
 using TvRename.Core.Cache;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.Utils;
 
 namespace TVRename.Forms
@@ -63,7 +64,7 @@ namespace TVRename.Forms
 
             if (this.cbSettings.Checked)
             {
-                txt += "==== Settings Files ====" + "\r\n";
+                txt += "==== TvSettings Files ====" + "\r\n";
                 txt += "\r\n";
                 txt += "---- TVRenameSettings.xml" + "\r\n";
                 txt += "\r\n";
@@ -84,7 +85,7 @@ namespace TVRename.Forms
             if (this.cbFOScan.Checked || this.cbFolderScan.Checked)
             {
                 txt += "==== Filename processors ====\r\n";
-                foreach (FilenameProcessorRE s in this.mDoc.Settings.FNPRegexs)
+                foreach (FilenameProcessorRegEx s in this.mDoc.Settings.FNPRegexs)
                     txt += (s.Enabled ? "Enabled" : "Disabled") + " \"" + s.RE + "\" " + (s.UseFullPath ? "(FullPath)" : "") + "\r\n";
                 txt += "\r\n";
             }

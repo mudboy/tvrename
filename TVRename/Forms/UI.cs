@@ -21,6 +21,7 @@ using TvRename.Core;
 using TvRename.Core.Actions;
 using TvRename.Core.Items;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.TheTVDB;
 using TvRename.Utils;
 using TVRename.App;
@@ -538,12 +539,13 @@ namespace TVRename.Forms
                 {
                     System.Windows.Forms.DialogResult res = MessageBox.Show("Your changes have not been saved.  Do you wish to save before quitting?", "Unsaved data", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                     if (res == System.Windows.Forms.DialogResult.Yes)
-                        mDoc.WriteXMLSettings();
-                    else if (res == System.Windows.Forms.DialogResult.Cancel)
-                        e.Cancel = true;
-                    else if (res == System.Windows.Forms.DialogResult.No)
-                    {
-                    }
+                        //mDoc.WriteXMLSettings(); todo fix saving settings
+                        return;
+                    else
+                        if (res == System.Windows.Forms.DialogResult.Cancel)
+                            e.Cancel = true;
+                        else
+                            if (res == System.Windows.Forms.DialogResult.No) {}
                 }
                 if (!e.Cancel)
                 {
@@ -1137,10 +1139,10 @@ namespace TVRename.Forms
             switch (mDoc.Settings.WTWDoubleClick)
             {
                 default:
-                case TVSettings.WTWDoubleClickAction.Search:
+                case TvSettings.WTWDoubleClickAction.Search:
                     bnWTWBTSearch_Click(null, null);
                     break;
-                case TVSettings.WTWDoubleClickAction.Scan:
+                case TvSettings.WTWDoubleClickAction.Scan:
                     Scan(new List<ShowItem> {ei.SI});
                     tabControl1.SelectTab(tbAllInOne);
                     break;
@@ -1732,7 +1734,7 @@ namespace TVRename.Forms
                             {
                                 // browse for mLastActionClicked
                                 openFile.Filter = "Video Files|" +
-                                                       mDoc.Settings.GetVideoExtensionsString().Replace(".", "*.") +
+                                                       mDoc.Settings.VideoExtensions.Replace(".", "*.") +
                                                        "|All Files (*.*)|*.*";
 
                                 if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -1909,7 +1911,7 @@ namespace TVRename.Forms
         {
             try
             {
-                mDoc.WriteXMLSettings();
+                //mDoc.WriteXMLSettings(); todo fix saving settings
                 mDoc.GetTVDB(false, "").SaveCache();
                 SaveLayoutXML();
             }
@@ -2115,6 +2117,7 @@ namespace TVRename.Forms
 
             if (ser != null)
             {
+/* todo when fixing color
                 if (mDoc.Settings.ShowStatusColors != null)
                 {
                     if (mDoc.Settings.ShowStatusColors.IsShowStatusDefined(si.ShowStatus))
@@ -2128,6 +2131,7 @@ namespace TVRename.Forms
                             n.ForeColor = nodeColor;
                     }
                 }
+*/
                 List<int> theKeys = new List<int>(ser.Seasons.Keys);
                 // now, go through and number them all sequentially
                 //foreach (int snum in ser.Seasons.Keys)
@@ -2144,12 +2148,14 @@ namespace TVRename.Forms
                         n2.ForeColor = Color.Gray;
                     else
                     {
+/* todo when fixing color
                         if (mDoc.Settings.ShowStatusColors != null)
                         {
                             Color nodeColor = mDoc.Settings.ShowStatusColors.GetEntry(true, false, ser.Seasons[snum].Status.ToString());
                             if (!nodeColor.IsEmpty)
                                 n2.ForeColor = nodeColor;
                         }
+*/
                     }
                     n2.Tag = ser.Seasons[snum];
                     n.Nodes.Add(n2);

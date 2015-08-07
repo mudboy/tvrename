@@ -180,7 +180,7 @@ namespace TVRename.Forms
             this.cbSettings.Name = "cbSettings";
             this.cbSettings.Size = new System.Drawing.Size(88, 17);
             this.cbSettings.TabIndex = 13;
-            this.cbSettings.Text = "Settings Files";
+            this.cbSettings.Text = "TvSettings Files";
             this.cbSettings.UseVisualStyleBackColor = true;
             // 
             // cbFOScan

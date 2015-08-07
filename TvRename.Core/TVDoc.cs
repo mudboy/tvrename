@@ -32,12 +32,13 @@ using Action = TvRename.Core.Actions.Action;
 using RSSItem = TvRename.Core.RSS.RSSItem;
 using RSSItemList = TvRename.Core.RSS.RSSItemList;
 using TimeZone = TvRename.Utils.TimeZone;
+using TvRename.Core.Settings.Serialized;
 
 namespace TvRename.Core
 {
     public class TVDoc
     {
-        public TVSettings Settings;
+        public TvSettings Settings;
         public List<ShowItem> ShowItems;
         public List<string> MonitorFolders;
         public List<string> IgnoreFolders;
@@ -59,7 +60,7 @@ namespace TvRename.Core
         public bool DownloadStopOnError;
         public int DownloadsRemaining;
         public string LoadErr;
-        public bool LoadOK;
+        //public bool LoadOK;
         public RSSItemList RSSList;
         //todo public ScanProgress ScanProgDlg;
         public IList<Item> TheActionList;
@@ -70,7 +71,7 @@ namespace TvRename.Core
         private TVRenameStats mStats;
         private TheTVDB.TheTVDB mTVDB;
 
-        public TVDoc(FileInfo settingsFile, TheTVDB.TheTVDB tvdb, CommandLineArgs args)
+        public TVDoc(TvSettings z, TheTVDB.TheTVDB tvdb, CommandLineArgs args)
         {
             mTVDB = tvdb;
             Args = args;
@@ -84,7 +85,7 @@ namespace TvRename.Core
             mDirty = false;
             TheActionList = new List<Item>();
 
-            Settings = new TVSettings();
+            Settings = z;// = new TVSettings();
 
             MonitorFolders = new List<String>();
             IgnoreFolders = new List<String>();
@@ -99,7 +100,7 @@ namespace TvRename.Core
             ActionCancel = false;
             //todo ScanProgDlg = null;
 
-            LoadOK = ((settingsFile == null) || LoadXMLSettings(settingsFile)) && mTVDB.LoadOK;
+            //LoadOK = ((settingsFile == null) || LoadXMLSettings(settingsFile)) && mTVDB.LoadOK;
 
             UpdateTVDBLanguage();
 
@@ -893,7 +894,7 @@ namespace TvRename.Core
             return res;
         }
 
-        public Searchers GetSearchers()
+        public TheSearchers GetSearchers()
         {
             return Settings.TheSearchers;
         }
@@ -936,7 +937,7 @@ namespace TvRename.Core
         {
             if (ep == null)
                 return;
-            TVDoc.SysOpen(Settings.BTSearchURL(ep));
+            SysOpen(Settings.BTSearchURL(ep));
         }
 
         public void DoWhenToWatch(bool cachedOnly)
@@ -1470,51 +1471,51 @@ namespace TvRename.Core
             }
         }
 
-        public void WriteXMLSettings()
-        {
-            // backup old settings before writing new ones
-
-            Rotate(PathManager.TVDocSettingsFile.FullName);
-
-            XmlWriterSettings settings = new XmlWriterSettings
-            {
-                Indent = true,
-                NewLineOnAttributes = true
-            };
-            using (XmlWriter writer = XmlWriter.Create(PathManager.TVDocSettingsFile.FullName, settings))
-            {
-
-                writer.WriteStartDocument();
-                writer.WriteStartElement("TVRename");
-                writer.WriteStartAttribute("Version");
-                writer.WriteValue("2.1");
-                writer.WriteEndAttribute(); // version
-
-                Settings.WriteXML(writer); // <Settings>
-
-                writer.WriteStartElement("MyShows");
-                foreach (ShowItem si in ShowItems)
-                    si.WriteXMLSettings(writer);
-                writer.WriteEndElement(); // myshows
-
-                WriteStringsToXml(MonitorFolders, writer, "MonitorFolders", "Folder");
-                WriteStringsToXml(IgnoreFolders, writer, "IgnoreFolders", "Folder");
-                WriteStringsToXml(SearchFolders, writer, "FinderSearchFolders", "Folder");
-
-                writer.WriteStartElement("IgnoreItems");
-                foreach (IgnoreItem ii in Ignore)
-                    ii.Write(writer);
-                writer.WriteEndElement(); // IgnoreItems
-
-                writer.WriteEndElement(); // tvrename
-                writer.WriteEndDocument();
-                writer.Close();
-            }
-
-            mDirty = false;
-
-            Stats().Save();
-        }
+//        public void WriteXMLSettings()
+//        {
+//            // backup old settings before writing new ones
+//
+//            Rotate(PathManager.TVDocSettingsFile.FullName);
+//
+//            XmlWriterSettings settings = new XmlWriterSettings
+//            {
+//                Indent = true,
+//                NewLineOnAttributes = true
+//            };
+//            using (XmlWriter writer = XmlWriter.Create(PathManager.TVDocSettingsFile.FullName, settings))
+//            {
+//
+//                writer.WriteStartDocument();
+//                writer.WriteStartElement("TVRename");
+//                writer.WriteStartAttribute("Version");
+//                writer.WriteValue("2.1");
+//                writer.WriteEndAttribute(); // version
+//
+//                Settings.WriteXML(writer); // <Settings>
+//
+//                writer.WriteStartElement("MyShows");
+//                foreach (ShowItem si in ShowItems)
+//                    si.WriteXMLSettings(writer);
+//                writer.WriteEndElement(); // myshows
+//
+//                WriteStringsToXml(MonitorFolders, writer, "MonitorFolders", "Folder");
+//                WriteStringsToXml(IgnoreFolders, writer, "IgnoreFolders", "Folder");
+//                WriteStringsToXml(SearchFolders, writer, "FinderSearchFolders", "Folder");
+//
+//                writer.WriteStartElement("IgnoreItems");
+//                foreach (IgnoreItem ii in Ignore)
+//                    ii.Write(writer);
+//                writer.WriteEndElement(); // IgnoreItems
+//
+//                writer.WriteEndElement(); // tvrename
+//                writer.WriteEndDocument();
+//                writer.Close();
+//            }
+//
+//            mDirty = false;
+//
+//            Stats().Save();
+//        }
 
         public static List<string> ReadStringsFromXml(XmlReader reader, string elementName, string stringName)
         {
@@ -1540,131 +1541,131 @@ namespace TvRename.Core
             return r;
         }
 
-        public bool LoadXMLSettings(FileInfo from)
-        {
-            if (from == null)
-                return true;
-
-            try
-            {
-                XmlReaderSettings settings = new XmlReaderSettings
-                {
-                    IgnoreComments = true,
-                    IgnoreWhitespace = true
-                };
-
-                if (!from.Exists)
-                {
-                    //LoadErr = from->Name + " : File does not exist";
-                    //return false;
-                    return true; // that's ok
-                }
-
-                XmlReader reader = XmlReader.Create(from.FullName, settings);
-
-                reader.Read();
-                if (reader.Name != "xml")
-                {
-                    LoadErr = from.Name + " : Not a valid XML file";
-                    return false;
-                }
-
-                reader.Read();
-
-                if (reader.Name != "TVRename")
-                {
-                    LoadErr = from.Name + " : Not a TVRename settings file";
-                    return false;
-                }
-
-                if (reader.GetAttribute("Version") != "2.1")
-                {
-                    LoadErr = from.Name + " : Incompatible version";
-                    return false;
-                }
-
-                reader.Read(); // move forward one
-
-                while (!reader.EOF)
-                {
-                    if (reader.Name == "TVRename" && !reader.IsStartElement())
-                        break; // end of it all
-
-                    if (reader.Name == "Settings")
-                    {
-                        Settings = new TVSettings(reader.ReadSubtree());
-                        reader.Read();
-                    }
-                    else if (reader.Name == "MyShows")
-                    {
-                        XmlReader r2 = reader.ReadSubtree();
-                        r2.Read();
-                        r2.Read();
-                        while (!r2.EOF)
-                        {
-                            if ((r2.Name == "MyShows") && (!r2.IsStartElement()))
-                                break;
-                            if (r2.Name == "ShowItem")
-                            {
-                                ShowItem si = new ShowItem(mTVDB, r2.ReadSubtree(), Settings);
-
-                                if (si.UseCustomShowName) // see if custom show name is actually the real show name
-                                {
-                                    SeriesInfo ser = si.TheSeries();
-                                    if ((ser != null) && (si.CustomShowName == ser.Name))
-                                    {
-                                        // then, turn it off
-                                        si.CustomShowName = "";
-                                        si.UseCustomShowName = false;
-                                    }
-                                }
-                                ShowItems.Add(si);
-
-                                r2.Read();
-                            }
-                            else
-                                r2.ReadOuterXml();
-                        }
-                        reader.Read();
-                    }
-                    else if (reader.Name == "MonitorFolders")
-                        MonitorFolders = ReadStringsFromXml(reader, "MonitorFolders", "Folder");
-                    else if (reader.Name == "IgnoreFolders")
-                        IgnoreFolders = ReadStringsFromXml(reader, "IgnoreFolders", "Folder");
-                    else if (reader.Name == "FinderSearchFolders")
-                        SearchFolders = ReadStringsFromXml(reader, "FinderSearchFolders", "Folder");
-                    else if (reader.Name == "IgnoreItems")
-                    {
-                        XmlReader r2 = reader.ReadSubtree();
-                        r2.Read();
-                        r2.Read();
-                        while (r2.Name == "Ignore")
-                            Ignore.Add(new IgnoreItem(r2));
-                        reader.Read();
-                    }
-                    else
-                        reader.ReadOuterXml();
-                }
-
-                reader.Close();
-                reader = null;
-            }
-            catch (Exception e)
-            {
-                LoadErr = from.Name + " : " + e.Message;
-                return false;
-            }
-
-            try
-            {
-                mStats = TVRenameStats.Load();
-            }
-            catch (Exception)
-            {
-                // not worried if stats loading fails
-            }
-            return true;
-        }
+//        public bool LoadXMLSettings(FileInfo from)
+//        {
+//            if (from == null)
+//                return true;
+//
+//            try
+//            {
+//                XmlReaderSettings settings = new XmlReaderSettings
+//                {
+//                    IgnoreComments = true,
+//                    IgnoreWhitespace = true
+//                };
+//
+//                if (!from.Exists)
+//                {
+//                    //LoadErr = from->Name + " : File does not exist";
+//                    //return false;
+//                    return true; // that's ok
+//                }
+//
+//                XmlReader reader = XmlReader.Create(from.FullName, settings);
+//
+//                reader.Read();
+//                if (reader.Name != "xml")
+//                {
+//                    LoadErr = from.Name + " : Not a valid XML file";
+//                    return false;
+//                }
+//
+//                reader.Read();
+//
+//                if (reader.Name != "TVRename")
+//                {
+//                    LoadErr = from.Name + " : Not a TVRename settings file";
+//                    return false;
+//                }
+//
+//                if (reader.GetAttribute("Version") != "2.1")
+//                {
+//                    LoadErr = from.Name + " : Incompatible version";
+//                    return false;
+//                }
+//
+//                reader.Read(); // move forward one
+//
+//                while (!reader.EOF)
+//                {
+//                    if (reader.Name == "TVRename" && !reader.IsStartElement())
+//                        break; // end of it all
+//
+//                    if (reader.Name == "Settings")
+//                    {
+//                        Settings = new TVSettings(reader.ReadSubtree());
+//                        reader.Read();
+//                    }
+//                    else if (reader.Name == "MyShows")
+//                    {
+//                        XmlReader r2 = reader.ReadSubtree();
+//                        r2.Read();
+//                        r2.Read();
+//                        while (!r2.EOF)
+//                        {
+//                            if ((r2.Name == "MyShows") && (!r2.IsStartElement()))
+//                                break;
+//                            if (r2.Name == "ShowItem")
+//                            {
+//                                ShowItem si = new ShowItem(mTVDB, r2.ReadSubtree(), Settings);
+//
+//                                if (si.UseCustomShowName) // see if custom show name is actually the real show name
+//                                {
+//                                    SeriesInfo ser = si.TheSeries();
+//                                    if ((ser != null) && (si.CustomShowName == ser.Name))
+//                                    {
+//                                        // then, turn it off
+//                                        si.CustomShowName = "";
+//                                        si.UseCustomShowName = false;
+//                                    }
+//                                }
+//                                ShowItems.Add(si);
+//
+//                                r2.Read();
+//                            }
+//                            else
+//                                r2.ReadOuterXml();
+//                        }
+//                        reader.Read();
+//                    }
+//                    else if (reader.Name == "MonitorFolders")
+//                        MonitorFolders = ReadStringsFromXml(reader, "MonitorFolders", "Folder");
+//                    else if (reader.Name == "IgnoreFolders")
+//                        IgnoreFolders = ReadStringsFromXml(reader, "IgnoreFolders", "Folder");
+//                    else if (reader.Name == "FinderSearchFolders")
+//                        SearchFolders = ReadStringsFromXml(reader, "FinderSearchFolders", "Folder");
+//                    else if (reader.Name == "IgnoreItems")
+//                    {
+//                        XmlReader r2 = reader.ReadSubtree();
+//                        r2.Read();
+//                        r2.Read();
+//                        while (r2.Name == "Ignore")
+//                            Ignore.Add(new IgnoreItem(r2));
+//                        reader.Read();
+//                    }
+//                    else
+//                        reader.ReadOuterXml();
+//                }
+//
+//                reader.Close();
+//                reader = null;
+//            }
+//            catch (Exception e)
+//            {
+//                LoadErr = from.Name + " : " + e.Message;
+//                return false;
+//            }
+//
+//            try
+//            {
+//                mStats = TVRenameStats.Load();
+//            }
+//            catch (Exception)
+//            {
+//                // not worried if stats loading fails
+//            }
+//            return true;
+//        }
 
         public static bool SysOpen(string what)
         {
@@ -2145,7 +2146,7 @@ namespace TvRename.Core
             int n = 1;
             prog.Invoke(100 * n / c);
             RSSList = new RSSItemList();
-            foreach (string s in Settings.RSSURLs)
+            foreach (string s in Settings.RssUrls)
                 RSSList.DownloadRSS(s, Settings.FNPRegexs);
 
             var newItems = new List<Item>();
@@ -3077,7 +3078,7 @@ namespace TvRename.Core
             return TVDoc.FindSeasEp(fi, out seas, out ep, si, Settings.FNPRegexs, Settings.LookForDateInFilename);
         }
 
-        public static bool FindSeasEp(FileInfo fi, out int seas, out int ep, ShowItem si, List<FilenameProcessorRE> rexps, bool doDateCheck)
+        public static bool FindSeasEp(FileInfo fi, out int seas, out int ep, ShowItem si, List<FilenameProcessorRegEx> rexps, bool doDateCheck)
         {
             if (fi == null)
             {
@@ -3096,7 +3097,7 @@ namespace TvRename.Core
             return FindSeasEp(fi.Directory.FullName, filename, out seas, out ep, si, rexps);
         }
 
-        public static bool FindSeasEp(string directory, string filename, out int seas, out int ep, ShowItem si, List<FilenameProcessorRE> rexps)
+        public static bool FindSeasEp(string directory, string filename, out int seas, out int ep, ShowItem si, List<FilenameProcessorRegEx> rexps)
         {
             string showNameHint = (si != null) ? si.ShowName : "";
                 
@@ -3114,7 +3115,7 @@ namespace TvRename.Core
             filename = filename.ToLower() + " ";
             fullPath = fullPath.ToLower() + " ";
 
-            foreach (FilenameProcessorRE re in rexps)
+            foreach (FilenameProcessorRegEx re in rexps)
             {
                 if (!re.Enabled)
                     continue;

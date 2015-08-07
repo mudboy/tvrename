@@ -11,6 +11,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 
 // Download and process a .RSS feed, primarily for getting .torrent files
 
@@ -26,21 +27,21 @@ namespace TvRename.Core.RSS
 
         public RSSItem(string url, string title, int season, int episode, string showName)
         {
-            this.URL = url;
-            this.Season = season;
-            this.Episode = episode;
-            this.Title = title;
-            this.ShowName = showName;
+           URL = url;
+           Season = season;
+           Episode = episode;
+           Title = title;
+           ShowName = showName;
         }
     }
 
-    public class RSSItemList : System.Collections.Generic.List<RSSItem>
+    public class RSSItemList : List<RSSItem>
     {
-        private List<FilenameProcessorRE> Rexps; // only trustable while in DownloadRSS or its called functions
+        private List<FilenameProcessorRegEx> Rexps; // only trustable while in DownloadRSS or its called functions
 
-        public bool DownloadRSS(string URL, List<FilenameProcessorRE> rexps)
+        public bool DownloadRSS(string URL, List<FilenameProcessorRegEx> rexps)
         {
-            this.Rexps = rexps;
+           Rexps = rexps;
 
             System.Net.WebClient wc = new System.Net.WebClient();
             try
@@ -90,7 +91,7 @@ namespace TvRename.Core.RSS
             }
             finally
             {
-                this.Rexps = null;
+               Rexps = null;
             }
 
             return true;
@@ -149,7 +150,7 @@ namespace TvRename.Core.RSS
             int episode = -1;
             string showName = "";
 
-            TVDoc.FindSeasEp("", title, out season, out episode, null, this.Rexps);
+            TVDoc.FindSeasEp("", title, out season, out episode, null,Rexps);
 
             try
             {
@@ -168,7 +169,7 @@ namespace TvRename.Core.RSS
             }
 
             if ((season != -1) && (episode != -1))
-                this.Add(new RSSItem(link, title, season, episode, showName));
+               Add(new RSSItem(link, title, season, episode, showName));
 
             return true;
         }

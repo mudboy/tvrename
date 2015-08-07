@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 
 namespace TvRename.Core.Actions
 {
@@ -49,7 +50,7 @@ namespace TvRename.Core.Actions
             get { return 10000; }
         }
 
-        public bool Go(TVSettings tvsettings, ref bool pause, TVRenameStats stats)
+        public bool Go(TvSettings tvsettings, ref bool pause, TVRenameStats stats)
         {
             // "try" and silently fail.  eg. when file is use by other...
             StreamWriter writer;

@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 
 //using TvRename.Core.Settings;
 
@@ -27,7 +28,7 @@ namespace TestConsole {
             var x = new XmlSerializer(typeof (SettingsWrapper));
             var settings2 = new SettingsWrapper {
                 Version = "2.1",
-                Settings = new Settings {
+                Settings = new TvSettings {
                     TheSearchers =
                         new TheSearchers {
                             Current = "bob", Choices = new List<TheSearchers.Choice> {

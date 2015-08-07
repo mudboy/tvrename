@@ -14,6 +14,7 @@ using System.Threading;
 using System.Windows.Forms;
 using TvRename.Core;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.TheTVDB;
 using ColumnHeader = SourceGrid.Cells.ColumnHeader;
 
@@ -68,7 +69,7 @@ namespace TVRename.Forms
                 this.txtOtherExtensions.Focus();
                 return;
             }
-            TVSettings S = this.mDoc.Settings;
+            TvSettings S = this.mDoc.Settings;
             S.Replacements.Clear();
             for (int i = 1; i < this.ReplacementsGrid.RowsCount; i++)
             {
@@ -76,7 +77,7 @@ namespace TVRename.Forms
                 string to = (string) (this.ReplacementsGrid[i, 1].Value);
                 bool ins = (bool) (this.ReplacementsGrid[i, 2].Value);
                 if (!string.IsNullOrEmpty(from))
-                    S.Replacements.Add(new Replacement(from, to, ins));
+                    S.Replacements.Add(MyReplacement.Create(from, to, ins));
             }
 
             S.ExportWTWRSS = this.cbWTWRSS.Checked;
@@ -95,8 +96,8 @@ namespace TVRename.Forms
             S.WTWRecentDays = Convert.ToInt32(this.txtWTWDays.Text);
             S.StartupTab = this.cbStartupTab.SelectedIndex;
             S.NotificationAreaIcon = this.cbNotificationIcon.Checked;
-            S.VideoExtensionsString = this.txtVideoExtensions.Text;
-            S.OtherExtensionsString = this.txtOtherExtensions.Text;
+            S.VideoExtensions = this.txtVideoExtensions.Text;
+            S.OtherExtensions = this.txtOtherExtensions.Text;
             S.ExportRSSMaxDays = Convert.ToInt32(this.txtExportRSSMaxDays.Text);
             S.ExportRSSMaxShows = Convert.ToInt32(this.txtExportRSSMaxShows.Text);
             S.ExportRSSDaysPast = Convert.ToInt32(this.txtExportRSSDaysPast.Text); 
@@ -132,11 +133,11 @@ namespace TVRename.Forms
             S.ShouldMonitorFolders = this.cbMonitorFolder.Checked;
 
             if (this.rbFolderFanArt.Checked)
-                S.FolderJpgIs = TVSettings.FolderJpgIsType.FanArt;
+                S.FolderJpgIs = TvSettings.FolderJpgIsType.FanArt;
             else if (this.rbFolderBanner.Checked)
-                S.FolderJpgIs = TVSettings.FolderJpgIsType.Banner;
+                S.FolderJpgIs = TvSettings.FolderJpgIsType.Banner;
             else
-                S.FolderJpgIs = TVSettings.FolderJpgIsType.Poster;
+                S.FolderJpgIs = TvSettings.FolderJpgIsType.Poster;
 
 
             TheTVDB db = this.mDoc.GetTVDB(true, "Preferences-OK");
@@ -149,9 +150,9 @@ namespace TVRename.Forms
                 }
             }
             if (rbWTWScan.Checked)
-                S.WTWDoubleClick = TVSettings.WTWDoubleClickAction.Scan;
+                S.WTWDoubleClick = TvSettings.WTWDoubleClickAction.Scan;
             else
-                S.WTWDoubleClick = TVSettings.WTWDoubleClickAction.Search;
+                S.WTWDoubleClick = TvSettings.WTWDoubleClickAction.Search;
 
             db.SaveCache();
             db.Unlock("Preferences-OK");
@@ -180,22 +181,23 @@ namespace TVRename.Forms
                 S.ParallelDownloads = 8;
 
             // RSS URLs
-            S.RSSURLs.Clear();
+            S.RssUrls.Clear();
             for (int i = 1; i < this.RSSGrid.RowsCount; i++)
             {
                 string url = (string) (this.RSSGrid[i, 0].Value);
                 if (!string.IsNullOrEmpty(url))
-                    S.RSSURLs.Add(url);
+                    S.RssUrls.Add(url);
             }
 
-            S.ShowStatusColors = new ShowStatusColoringTypeList();
-            foreach (ListViewItem item in lvwDefinedColors.Items)
-            {
-                if (item.SubItems.Count > 1 && !string.IsNullOrEmpty(item.SubItems[1].Text) && item.Tag != null && item.Tag is ShowStatusColoringType)
-                {
-                    S.ShowStatusColors.Add(item.Tag as ShowStatusColoringType, System.Drawing.ColorTranslator.FromHtml(item.SubItems[1].Text));
-                }
-            }
+            // todo fix when doing color
+//            S.ShowStatusColors = new ShowStatusColoringTypeList();
+//            foreach (ListViewItem item in lvwDefinedColors.Items)
+//            {
+//                if (item.SubItems.Count > 1 && !string.IsNullOrEmpty(item.SubItems[1].Text) && item.Tag != null && item.Tag is ShowStatusColoringType)
+//                {
+//                    S.ShowStatusColors.Add(item.Tag as ShowStatusColoringType, System.Drawing.ColorTranslator.FromHtml(item.SubItems[1].Text));
+//                }
+//            }
 
             this.mDoc.SetDirty();
             this.DialogResult = DialogResult.OK;
@@ -206,10 +208,10 @@ namespace TVRename.Forms
         {
             this.SetupLanguages();
 
-            TVSettings S = this.mDoc.Settings;
+            TvSettings S = this.mDoc.Settings;
             int r = 1;
 
-            foreach (Replacement R in S.Replacements)
+            foreach (MyReplacement R in S.Replacements)
             {
                 this.AddNewReplacementRow(R.This, R.That, R.CaseInsensitive);
                 r++;
@@ -239,8 +241,8 @@ namespace TVRename.Forms
 
             this.cbStartupTab.SelectedIndex = S.StartupTab;
             this.cbNotificationIcon.Checked = S.NotificationAreaIcon;
-            this.txtVideoExtensions.Text = S.GetVideoExtensionsString();
-            this.txtOtherExtensions.Text = S.GetOtherExtensionsString();
+            this.txtVideoExtensions.Text = S.VideoExtensions;
+            this.txtOtherExtensions.Text = S.OtherExtensions;
 
             this.cbKeepTogether.Checked = S.KeepTogether;
             this.cbKeepTogether_CheckedChanged(null, null);
@@ -278,11 +280,11 @@ namespace TVRename.Forms
 
             switch (S.WTWDoubleClick)
             {
-                case TVSettings.WTWDoubleClickAction.Search:
+                case TvSettings.WTWDoubleClickAction.Search:
                 default:
                     this.rbWTWSearch.Checked = true;
                     break;
-                case TVSettings.WTWDoubleClickAction.Scan:
+                case TvSettings.WTWDoubleClickAction.Scan:
                     this.rbWTWScan.Checked = true;
                     break;
             }
@@ -292,21 +294,22 @@ namespace TVRename.Forms
 
             this.FillSearchFolderList();
 
-            foreach (string s in S.RSSURLs)
+            foreach (string s in S.RssUrls)
                 this.AddNewRSSRow(s);
 
             switch (S.FolderJpgIs)
             {
-                case TVSettings.FolderJpgIsType.FanArt:
+                case TvSettings.FolderJpgIsType.FanArt:
                     this.rbFolderFanArt.Checked = true;
                     break;
-                case TVSettings.FolderJpgIsType.Banner:
+                case TvSettings.FolderJpgIsType.Banner:
                     this.rbFolderBanner.Checked = true;
                     break;
                 default:
                     this.rbFolderPoster.Checked = true;
                     break;
             }
+/* todo fix when doing color
             if (S.ShowStatusColors != null)
             {
                 foreach (System.Collections.Generic.KeyValuePair<ShowStatusColoringType, Color> showStatusColor in S.ShowStatusColors)
@@ -319,6 +322,7 @@ namespace TVRename.Forms
                     this.lvwDefinedColors.Items.Add(item);
                 }
             }
+*/
 
             FillTreeViewColoringShowStatusTypeCombobox();
         }

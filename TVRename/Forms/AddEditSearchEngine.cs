@@ -9,6 +9,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 
 namespace TVRename.Forms
 {
@@ -28,9 +29,9 @@ namespace TVRename.Forms
         //array<SourceGrid::Cells::Editors::EditorBase ^> ^MyEditors;
 
         private ProcessedEpisode SampleEpisode;
-        private Searchers mSearchers;
+        private TheSearchers mSearchers;
 
-        public AddEditSearchEngine(Searchers s, ProcessedEpisode pe)
+        public AddEditSearchEngine(TheSearchers s, ProcessedEpisode pe)
         {
             this.SampleEpisode = pe;
             this.InitializeComponent();

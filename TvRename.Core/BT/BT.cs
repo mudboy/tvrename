@@ -15,6 +15,7 @@ using TvRename.Core.Actions;
 using TvRename.Core.Cache;
 using TvRename.Core.Items;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.Utils;
 
 // Opens, understands, manipulates, and writes out BEncoded .torrent files, and uTorrent's resume.dat
@@ -242,12 +243,12 @@ namespace TvRename.Core.BT
 
     public class BTDictionary : BTItem
     {
-        public System.Collections.Generic.List<BTDictionaryItem> Items;
+        public List<BTDictionaryItem> Items;
 
         public BTDictionary()
             : base(BTChunk.kDictionary)
         {
-            this.Items = new System.Collections.Generic.List<BTDictionaryItem>();
+            this.Items = new List<BTDictionaryItem>();
         }
 
         public override string AsText()
@@ -310,12 +311,12 @@ namespace TvRename.Core.BT
 
     public class BTList : BTItem
     {
-        public System.Collections.Generic.List<BTItem> Items;
+        public List<BTItem> Items;
 
         public BTList()
             : base(BTChunk.kList)
         {
-            this.Items = new System.Collections.Generic.List<BTItem>();
+            this.Items = new List<BTItem>();
         }
 
         public override string AsText()
@@ -386,11 +387,11 @@ namespace TvRename.Core.BT
 
     public class BTFile
     {
-        public System.Collections.Generic.List<BTItem> Items;
+        public List<BTItem> Items;
 
         public BTFile()
         {
-            this.Items = new System.Collections.Generic.List<BTItem>();
+            this.Items = new List<BTItem>();
         }
 
         public List<string> AllFilesInTorrent()
@@ -632,14 +633,14 @@ namespace TvRename.Core.BT
         protected DirCache FileCache;
         protected string FileCacheIsFor;
         protected bool FileCacheWithSubFolders;
-        protected System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<HashCacheItem>> HashCache;
+        protected Dictionary<string, List<HashCacheItem>> HashCache;
         protected SetProgressDelegate SetProg;
 
         protected BTCore(SetProgressDelegate setprog)
         {
             this.SetProg = setprog;
 
-            this.HashCache = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<HashCacheItem>>();
+            this.HashCache = new Dictionary<string, List<HashCacheItem>>();
             this.CacheChecks = this.CacheItems = this.CacheHits = 0;
             this.FileCache = null;
             this.FileCacheIsFor = null;
@@ -719,7 +720,7 @@ namespace TvRename.Core.BT
         {
             this.CacheItems++;
             if (!this.HashCache.ContainsKey(filename))
-                this.HashCache[filename] = new System.Collections.Generic.List<HashCacheItem>();
+                this.HashCache[filename] = new List<HashCacheItem>();
             this.HashCache[filename].Add(new HashCacheItem(whereInFile, piecesize, fileSize, hash));
         }
 
@@ -990,7 +991,7 @@ namespace TvRename.Core.BT
         public BTFile ResumeDat; // resume file, if we're using it
         public string ResumeDatPath;
 
-        public List<FilenameProcessorRE> Rexps; // used by MatchMissing
+        public List<FilenameProcessorRegEx> Rexps; // used by MatchMissing
         public bool SearchSubFolders;
         public bool SetPrios;
         public bool TestMode;
@@ -1033,9 +1034,9 @@ namespace TvRename.Core.BT
             return (100 * bitsOn + totalBits / 2) / totalBits;
         }
 
-        public System.Collections.Generic.List<TorrentEntry> AllFilesBeingDownloaded(TVSettings settings, CommandLineArgs args)
+        public List<TorrentEntry> AllFilesBeingDownloaded(TvSettings settings, CommandLineArgs args)
         {
-            System.Collections.Generic.List<TorrentEntry> r = new System.Collections.Generic.List<TorrentEntry>();
+            var r = new List<TorrentEntry>();
 
             BEncodeLoader bel = new BEncodeLoader();
             foreach (BTDictionaryItem it in this.ResumeDat.GetDict().Items)
@@ -1384,7 +1385,7 @@ namespace TvRename.Core.BT
         }
 
         public bool DoWork(List<string> Torrents, string searchFolder, ListView results, bool hashSearch, bool matchMissing, bool setPrios, bool testMode, 
-                           bool searchSubFolders, IList<Item> missingList, List<FilenameProcessorRE> rexps, CommandLineArgs args)
+                           bool searchSubFolders, IList<Item> missingList, List<FilenameProcessorRegEx> rexps, CommandLineArgs args)
         {
             this.Rexps = rexps;
 

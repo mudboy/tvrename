@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.TheTVDB;
 using TvRename.Utils;
 
@@ -56,9 +57,9 @@ namespace TvRename.Core.Actions
             get { return 1000000; }
         }
 
-        public bool Go(TVSettings settings, ref bool pause, TVRenameStats stats)
+        public bool Go(TvSettings settings, ref bool pause, TVRenameStats stats)
         {
-            byte[] theData = this.SI.TVDB.GetPage(this.BannerPath, false, typeMaskBits.tmBanner, false);
+            var theData = this.SI.TVDB.GetPage(this.BannerPath, false, typeMaskBits.tmBanner, false);
             if ((theData == null) || (theData.Length == 0))
             {
                 this.ErrorText = "Unable to download " + this.BannerPath;

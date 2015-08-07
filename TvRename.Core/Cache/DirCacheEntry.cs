@@ -8,7 +8,7 @@
 
 using System;
 using System.IO;
-using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.Utils;
 
 namespace TvRename.Core.Cache
@@ -22,18 +22,18 @@ namespace TvRename.Core.Cache
         public string SimplifiedFullName;
         public FileInfo TheFile;
 
-        public DirCacheEntry(FileInfo f, TVSettings theSettings)
+        public DirCacheEntry(FileInfo f, TvSettings theSettings)
         {
-            this.TheFile = f;
-            this.SimplifiedFullName = Helpers.SimplifyName(f.FullName);
-            this.LowerName = f.Name.ToLower();
-            this.Length = f.Length;
+            TheFile = f;
+            SimplifiedFullName = Helpers.SimplifyName(f.FullName);
+            LowerName = f.Name.ToLower();
+            Length = f.Length;
 
             if (theSettings == null)
                 return;
 
-            this.HasUsefulExtension_NotOthersToo = theSettings.UsefulExtension(f.Extension, false);
-            this.HasUsefulExtension_OthersToo = this.HasUsefulExtension_NotOthersToo | theSettings.UsefulExtension(f.Extension, true);
+            HasUsefulExtension_NotOthersToo = theSettings.UsefulExtension(f.Extension, false);
+            HasUsefulExtension_OthersToo = HasUsefulExtension_NotOthersToo | theSettings.UsefulExtension(f.Extension, true);
         }
     }
 }

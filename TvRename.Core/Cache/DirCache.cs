@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.Utils;
 
 // Recursively reads and caches files and folders, and info about them, as this is way faster
@@ -24,7 +25,7 @@ namespace TvRename.Core.Cache
         {
         }
 
-        public DirCache(SetProgressDelegate prog, string folder, bool subFolders, TVSettings theSettings)
+        public DirCache(SetProgressDelegate prog, string folder, bool subFolders, TvSettings theSettings)
         {
             this.BuildDirCache(prog, 0, 0, folder, subFolders, theSettings);
         }
@@ -54,12 +55,12 @@ namespace TvRename.Core.Cache
             return n;
         }
 
-        public int AddFolder(SetProgressDelegate prog, int initialCount, int totalFiles, string folder, bool subFolders, TVSettings theSettings)
+        public int AddFolder(SetProgressDelegate prog, int initialCount, int totalFiles, string folder, bool subFolders, TvSettings theSettings)
         {
             return this.BuildDirCache(prog, initialCount, totalFiles, folder, subFolders, theSettings);
         }
 
-        private int BuildDirCache(SetProgressDelegate prog, int count, int totalFiles, string folder, bool subFolders, TVSettings theSettings)
+        private int BuildDirCache(SetProgressDelegate prog, int count, int totalFiles, string folder, bool subFolders, TvSettings theSettings)
         {
             if (!Directory.Exists(folder))
             {

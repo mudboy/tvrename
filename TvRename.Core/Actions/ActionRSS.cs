@@ -11,6 +11,7 @@ using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.RSS;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 
 namespace TvRename.Core.Actions
 {
@@ -53,7 +54,7 @@ namespace TvRename.Core.Actions
             get { return 1000000; }
         }
 
-        public bool Go(TVSettings settings, ref bool pause, TVRenameStats stats)
+        public bool Go(TvSettings settings, ref bool pause, TVRenameStats stats)
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             try

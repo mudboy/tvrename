@@ -65,8 +65,15 @@
     <Compile Include="Settings\CustomName.cs" />
     <Compile Include="Settings\Layout.cs" />
     <Compile Include="Settings\Searchers.cs" />
+    <Compile Include="Settings\Serialized\FilenameProcessorRegEx.cs" />
+    <Compile Include="Settings\Serialized\MyReplacement.cs" />
+    <Compile Include="Settings\Serialized\MyShowItem.cs" />
+    <Compile Include="Settings\Serialized\MyShowStatusTVWColors.cs" />
+    <Compile Include="Settings\Serialized\RssURLsWrapper.cs" />
+    <Compile Include="Settings\Serialized\TvSettings.cs" />
+    <Compile Include="Settings\Serialized\TheSearchers.cs" />
     <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\SettingsWrapper.cs" />
+    <Compile Include="Settings\Serialized\SettingsWrapper.cs" />
     <Compile Include="Settings\ShowRule.cs" />
     <Compile Include="Settings\ShowsAndEpisodes.cs" />
     <Compile Include="Settings\Statistics.cs" />

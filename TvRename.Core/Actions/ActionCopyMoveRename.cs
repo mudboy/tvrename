@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using TvRename.Core.Settings;
+using TvRename.Core.Settings.Serialized;
 using TvRename.Utils;
 using Version = TvRename.Utils.Version;
 
@@ -69,7 +70,7 @@ namespace TvRename.Core.Actions
             get { return this.QuickOperation() ? 10000 : this.SourceFileSize(); }
         }
 
-        public bool Go(TVSettings settings, ref bool pause, TVRenameStats stats)
+        public bool Go(TvSettings settings, ref bool pause, TVRenameStats stats)
         {
             // read NTFS permissions (if any)
             System.Security.AccessControl.FileSecurity security = null;
