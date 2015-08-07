@@ -20,12 +20,14 @@ namespace TvRename.Core.Actions
     {
         public RSSItem RSS;
         public string TheFileNoExt;
+        private readonly TvSettings _settings;
 
-        public ActionRSS(RSSItem rss, string toWhereNoExt, ProcessedEpisode pe)
+        public ActionRSS(RSSItem rss, string toWhereNoExt, ProcessedEpisode pe, TvSettings settings)
         {
             this.Episode = pe;
             this.RSS = rss;
             this.TheFileNoExt = toWhereNoExt;
+            _settings = settings;
         }
 
         #region Action Members
@@ -54,7 +56,7 @@ namespace TvRename.Core.Actions
             get { return 1000000; }
         }
 
-        public bool Go(TvSettings settings, ref bool pause, TVRenameStats stats)
+        public bool Go(ref bool pause)
         {
             System.Net.WebClient wc = new System.Net.WebClient();
             try
@@ -68,12 +70,12 @@ namespace TvRename.Core.Actions
                     return false;
                 }
 
-                string saveTemp = Path.GetTempPath() + System.IO.Path.DirectorySeparatorChar + settings.FilenameFriendly(this.RSS.Title);
+                string saveTemp = Path.GetTempPath() + System.IO.Path.DirectorySeparatorChar + _settings.FilenameFriendly(this.RSS.Title);
                 if (new FileInfo(saveTemp).Extension.ToLower() != "torrent")
                     saveTemp += ".torrent";
                 File.WriteAllBytes(saveTemp, r);
 
-                System.Diagnostics.Process.Start(settings.uTorrentPath, "/directory \"" + (new FileInfo(this.TheFileNoExt).Directory.FullName) + "\" \"" + saveTemp + "\"");
+                System.Diagnostics.Process.Start(_settings.uTorrentPath, "/directory \"" + (new FileInfo(this.TheFileNoExt).Directory.FullName) + "\" \"" + saveTemp + "\"");
 
                 this.Done = true;
                 return true;

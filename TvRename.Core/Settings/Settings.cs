@@ -17,6 +17,7 @@ using TvRename.Utils;
 // Settings for TVRename.  All of this stuff is through Options->Preferences in the app.
 
 namespace TvRename.Core.Settings {
+/*
     public class Replacement {
         // used for invalid (and general) character (and string) replacements in filenames
         public bool CaseInsensitive;
@@ -1053,7 +1054,7 @@ namespace TvRename.Core.Settings {
             return true;
         }
 
-*/
+#1#
         private static void ValidateSettingsFile(FileInfo file, XmlReader reader) {
             reader.Read();
             if (reader.Name != "xml") {
@@ -1091,4 +1092,5 @@ namespace TvRename.Core.Settings {
             return r;
         }
     }
+*/
 }

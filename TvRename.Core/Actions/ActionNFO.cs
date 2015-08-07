@@ -11,7 +11,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using TvRename.Core.Settings;
-using TvRename.Core.Settings.Serialized;
 
 namespace TvRename.Core.Actions
 {
@@ -60,7 +59,7 @@ namespace TvRename.Core.Actions
             get { return 10000; }
         }
 
-        public bool Go(TvSettings tvsettings, ref bool pause, TVRenameStats stats)
+        public bool Go(ref bool pause)
         {
             XmlWriterSettings settings = new XmlWriterSettings
             {
@@ -363,7 +362,7 @@ namespace TvRename.Core.Actions
 
         private static void WriteInfo(XmlWriter writer, ShowItem si, string whichItem, string elemName)
         {
-            ActionNFO.WriteInfo(writer, si, whichItem, elemName, null, null);
+            WriteInfo(writer, si, whichItem, elemName, null, null);
         }
 
         private static void WriteInfo(XmlWriter writer, ShowItem si, string whichItem, string elemName, string attribute, string attributeVal)

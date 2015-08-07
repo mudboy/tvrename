@@ -31,15 +31,17 @@ namespace TvRename.Core.Actions
         public FileInfo From;
         public Op Operation;
         public FileInfo To;
+        private readonly TVRenameStats _stats;
         private double _Percent;
 
-        public ActionCopyMoveRename(Op operation, FileInfo from, FileInfo to, ProcessedEpisode ep)
+        public ActionCopyMoveRename(Op operation, FileInfo from, FileInfo to, ProcessedEpisode ep, TVRenameStats stats)
         {
             this.PercentDone = 0;
             this.Episode = ep;
             this.Operation = operation;
             this.From = from;
             this.To = to;
+            _stats = stats;
         }
 
         #region Action Members
@@ -70,7 +72,7 @@ namespace TvRename.Core.Actions
             get { return this.QuickOperation() ? 10000 : this.SourceFileSize(); }
         }
 
-        public bool Go(TvSettings settings, ref bool pause, TVRenameStats stats)
+        public bool Go(ref bool pause)
         {
             // read NTFS permissions (if any)
             System.Security.AccessControl.FileSecurity security = null;
@@ -83,9 +85,9 @@ namespace TvRename.Core.Actions
             }
 
             if (this.QuickOperation())
-                this.OSMoveRename(stats); // ask the OS to do it for us, since it's easy and quick!
+                this.OSMoveRename(); // ask the OS to do it for us, since it's easy and quick!
             else
-                this.CopyItOurself(ref pause, stats); // do it ourself!
+                this.CopyItOurself(ref pause); // do it ourself!
 
             // set NTFS permissions
             try
@@ -249,7 +251,7 @@ namespace TvRename.Core.Actions
             to.LastWriteTimeUtc = from.LastWriteTimeUtc;
         }
 
-        private void OSMoveRename(TVRenameStats stats)
+        private void OSMoveRename()
         {
             try
             {
@@ -270,9 +272,9 @@ namespace TvRename.Core.Actions
                 System.Diagnostics.Debug.Assert((this.Operation == ActionCopyMoveRename.Op.Move) || (this.Operation == ActionCopyMoveRename.Op.Rename));
 
                 if (this.Operation == ActionCopyMoveRename.Op.Move)
-                    stats.FilesMoved++;
+                    _stats.FilesMoved++;
                 else if (this.Operation == ActionCopyMoveRename.Op.Rename)
-                    stats.FilesRenamed++;
+                    _stats.FilesRenamed++;
             }
             catch (System.Exception e)
             {
@@ -282,7 +284,7 @@ namespace TvRename.Core.Actions
             }
         }
 
-        private void CopyItOurself(ref bool pause, TVRenameStats stats)
+        private void CopyItOurself(ref bool pause)
         {
             const int kArrayLength = 1 * 1024 * 1024;
             Byte[] dataArray = new Byte[kArrayLength];
@@ -362,11 +364,11 @@ namespace TvRename.Core.Actions
                     this.From.Delete();
 
                 if (this.Operation == ActionCopyMoveRename.Op.Move)
-                    stats.FilesMoved++;
+                    _stats.FilesMoved++;
                 else if (this.Operation == ActionCopyMoveRename.Op.Rename)
-                    stats.FilesRenamed++;
+                    _stats.FilesRenamed++;
                 else if (this.Operation == ActionCopyMoveRename.Op.Copy)
-                    stats.FilesCopied++;
+                    _stats.FilesCopied++;
 
                 this.Done = true;
             } // try

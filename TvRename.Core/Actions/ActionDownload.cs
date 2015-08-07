@@ -57,7 +57,7 @@ namespace TvRename.Core.Actions
             get { return 1000000; }
         }
 
-        public bool Go(TvSettings settings, ref bool pause, TVRenameStats stats)
+        public bool Go(ref bool pause)
         {
             var theData = this.SI.TVDB.GetPage(this.BannerPath, false, typeMaskBits.tmBanner, false);
             if ((theData == null) || (theData.Length == 0))

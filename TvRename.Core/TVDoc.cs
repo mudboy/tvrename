@@ -472,7 +472,7 @@ namespace TvRename.Core
                         if ((FindSeasEp(dce.TheFile, out seasF, out epF, me.Episode.SI) && (seasF == season) && (epF == epnum)) || (me.Episode.SI.UseSequentialMatch && MatchesSequentialNumber(dce.TheFile.Name, ref seasF, ref epF, me.Episode) && (seasF == season) && (epF == epnum)))
                         {
                             FileInfo fi = new FileInfo(me.TheFileNoExt + dce.TheFile.Extension);
-                            addTo.Add(new ActionCopyMoveRename(whichOp, dce.TheFile, fi, me.Episode));
+                            addTo.Add(new ActionCopyMoveRename(whichOp, dce.TheFile, fi, me.Episode, mStats));
 
                             // if we're copying/moving a file across, we might also want to make a thumbnail or NFO for it
                             ThumbnailAndNFOCheck(me.Episode, fi, addTo);
@@ -539,7 +539,7 @@ namespace TvRename.Core
                         if ((Settings.RenameTxtToSub) && (newName.EndsWith(".txt")))
                             newName = newName.Substring(0, newName.Length - 4) + ".sub";
 
-                        ActionCopyMoveRename newitem = new ActionCopyMoveRename(Action.Operation, fi, Helpers.FileInFolder(Action.To.Directory, newName), Action.Episode);
+                        ActionCopyMoveRename newitem = new ActionCopyMoveRename(Action.Operation, fi, Helpers.FileInFolder(Action.To.Directory, newName), Action.Episode, mStats);
 
                         // check this item isn't already in our to-do list
                         bool doNotAdd = false;
@@ -2173,7 +2173,7 @@ namespace TvRename.Core
                 {
                     if ((SimplifyAndCheckFilename(rss.ShowName, simpleShowName, true, false) || (string.IsNullOrEmpty(rss.ShowName) && SimplifyAndCheckFilename(rss.Title, simpleSeriesName, true, false))) && (rss.Season == pe.SeasonNumber) && (rss.Episode == pe.EpNum))
                     {
-                        newItems.Add(new ActionRSS(rss, Action.TheFileNoExt, pe));
+                        newItems.Add(new ActionRSS(rss, Action.TheFileNoExt, pe, Settings));
                         toRemove.Add(Action1);
                     }
                 }
@@ -2197,7 +2197,7 @@ namespace TvRename.Core
 
             Action action = info.TheAction;
             if (action != null)
-                action.Go(Settings, ref ActionPause, mStats);
+                action.Go(ref ActionPause);
 
             ActionSemaphores[info.SemaphoreNumber].Release(1);
         }
@@ -2779,7 +2779,7 @@ namespace TvRename.Core
                                 if (newname != actualFile.Name)
                                 {
                                     actualFile = Helpers.FileInFolder(folder, newname); // rename updates the filename
-                                      TheActionList.Add(new ActionCopyMoveRename(ActionCopyMoveRename.Op.Rename, fi, actualFile, ep));
+                                      TheActionList.Add(new ActionCopyMoveRename(ActionCopyMoveRename.Op.Rename, fi, actualFile, ep, mStats));
                                 }
                             }
                             if (missCheck && Settings.UsefulExtension(fi.Extension, false)) // == MISSING CHECK part 1/2 ==
