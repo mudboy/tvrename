@@ -32,17 +32,17 @@ namespace TVRename.Forms
 
         public BugReport(TVDoc doc)
         {
-            this.mDoc = doc;
-            this.InitializeComponent();
+            mDoc = doc;
+            InitializeComponent();
         }
 
         private void bnCreate_Click(object sender, System.EventArgs e)
         {
-            this.txtEmailText.Text = "Working... This may take a while.";
-            this.txtEmailText.Update();
+            txtEmailText.Text = "Working... This may take a while.";
+            txtEmailText.Update();
 
             string txt = "";
-            txt += "From: " + this.txtName.Text + " <" + this.txtEmail.Text + ">" + "\r\n";
+            txt += "From: " + txtName.Text + " <" + txtEmail.Text + ">" + "\r\n";
             txt += "Subject: TVRename bug report" + "\r\n";
             txt += "\r\n";
             txt += "TVRename version: " + Version.DisplayVersionString() + "\r\n";
@@ -50,19 +50,19 @@ namespace TVRename.Forms
             txt += "EpGuidePath is " + UI.EpGuidePath() + "\r\n";
             txt += "\r\n";
             txt += "==== Brief Description ====" + "\r\n";
-            txt += this.txtDesc1.Text + "\r\n";
+            txt += txtDesc1.Text + "\r\n";
             txt += "\r\n";
             txt += "==== Description ====" + "\r\n";
-            txt += this.txtDesc2.Text + "\r\n";
+            txt += txtDesc2.Text + "\r\n";
             txt += "\r\n";
             txt += "==== Frequency ====" + "\r\n";
-            txt += this.txtFreq.Text + "\r\n";
+            txt += txtFreq.Text + "\r\n";
             txt += "\r\n";
             txt += "==== Notes and Comments ====" + "\r\n";
-            txt += this.txtComments.Text + "\r\n";
+            txt += txtComments.Text + "\r\n";
             txt += "\r\n";
 
-            if (this.cbSettings.Checked)
+            if (cbSettings.Checked)
             {
                 txt += "==== TvSettings Files ====" + "\r\n";
                 txt += "\r\n";
@@ -82,59 +82,59 @@ namespace TVRename.Forms
                 txt += "\r\n";
             }
 
-            if (this.cbFOScan.Checked || this.cbFolderScan.Checked)
+            if (cbFOScan.Checked || cbFolderScan.Checked)
             {
                 txt += "==== Filename processors ====\r\n";
-                foreach (FilenameProcessorRegEx s in this.mDoc.Settings.FNPRegexs)
+                foreach (FilenameProcessorRegEx s in mDoc.Settings.FNPRegexs)
                     txt += (s.Enabled ? "Enabled" : "Disabled") + " \"" + s.RE + "\" " + (s.UseFullPath ? "(FullPath)" : "") + "\r\n";
                 txt += "\r\n";
             }
 
-            if (this.cbFOScan.Checked)
+            if (cbFOScan.Checked)
             {
                 txt += "==== Finding & Organising Directory Scan ====" + "\r\n";
                 txt += "\r\n";
 
                 DirCache dirC = new DirCache();
-                foreach (string efi in this.mDoc.SearchFolders)
-                    dirC.AddFolder(null, 0, 0, efi, true, this.mDoc.Settings);
+                foreach (string efi in mDoc.SearchFolders)
+                    dirC.AddFolder(null, 0, 0, efi, true, mDoc.Settings);
 
                 foreach (DirCacheEntry fi in dirC)
                 {
                     int seas;
                     int ep;
-                    bool r = this.mDoc.FindSeasEp(fi.TheFile, out seas, out ep, null);
+                    bool r = mDoc.FindSeasEp(fi.TheFile, out seas, out ep, null);
                     bool useful = fi.HasUsefulExtension_NotOthersToo;
                     txt += fi.TheFile.FullName + " (" + (r ? "OK" : "No") + " " + seas + "," + ep + " " + (useful ? fi.TheFile.Extension : "-") + ")" + "\r\n";
                 }
                 txt += "\r\n";
             }
 
-            if (this.cbFolderScan.Checked)
+            if (cbFolderScan.Checked)
             {
                 txt += "==== Media Folders Directory Scan ====" + "\r\n";
 
-                foreach (ShowItem si in this.mDoc.GetShowItems(true))
+                foreach (MyShowItem si in mDoc.GetShowItems(true))
                 {
-                    foreach (System.Collections.Generic.KeyValuePair<int, List<ProcessedEpisode>> kvp in si.SeasonEpisodes)
+                    foreach (var kvp in si.SeasonEpisodes)
                     {
                         int snum = kvp.Key;
-                        if (((snum == 0) && (si.CountSpecials)) || !si.AllFolderLocations(this.mDoc.Settings).ContainsKey(snum))
+                        if (((snum == 0) && (si.CountSpecials)) || !si.AllFolderLocations(mDoc.Settings).ContainsKey(snum))
                             continue; // skip specials
 
-                        foreach (string folder in si.AllFolderLocations(this.mDoc.Settings)[snum])
+                        foreach (string folder in si.AllFolderLocations(mDoc.Settings)[snum])
                         {
-                            txt += si.TVDBCode + " : " + si.ShowName + " : S" + snum + "\r\n";
+                            txt += si.TVDBID + " : " + si.ShowName + " : S" + snum + "\r\n";
                             txt += "Folder: " + folder;
                             txt += "\r\n";
                             DirCache files = new DirCache();
                             if (Directory.Exists(folder))
-                                files.AddFolder(null, 0, 0, folder, true, this.mDoc.Settings);
+                                files.AddFolder(null, 0, 0, folder, true, mDoc.Settings);
                             foreach (DirCacheEntry fi in files)
                             {
                                 int seas;
                                 int ep;
-                                bool r = this.mDoc.FindSeasEp(fi.TheFile, out seas, out ep, si);
+                                bool r = mDoc.FindSeasEp(fi.TheFile, out seas, out ep, si);
                                 bool useful = fi.HasUsefulExtension_NotOthersToo;
                                 txt += fi.TheFile.FullName + " (" + (r ? "OK" : "No") + " " + seas + "," + ep + " " + (useful ? fi.TheFile.Extension : "-") + ")" + "\r\n";
                             }
@@ -143,17 +143,17 @@ namespace TVRename.Forms
                     }
                     txt += "\r\n";
                 }
-                this.mDoc.UnlockShowItems();
+                mDoc.UnlockShowItems();
 
                 txt += "\r\n";
             }
 
-            this.txtEmailText.Text = txt;
+            txtEmailText.Text = txt;
         }
 
         private void bnCopy_Click(object sender, System.EventArgs e)
         {
-            Clipboard.SetDataObject(this.txtEmailText.Text);
+            Clipboard.SetDataObject(txtEmailText.Text);
         }
     }
 }

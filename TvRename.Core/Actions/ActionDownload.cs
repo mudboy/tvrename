@@ -19,15 +19,17 @@ namespace TvRename.Core.Actions
     public class ActionDownload : Item, Action, ScanListItem
     {
         private readonly string BannerPath;
+        private readonly TheTVDB.TheTVDB _tvdb;
         private readonly FileInfo Destination;
-        private readonly ShowItem SI;
+        private readonly MyShowItem SI;
 
-        public ActionDownload(ShowItem si, ProcessedEpisode pe, FileInfo dest, string bannerPath)
+        public ActionDownload(MyShowItem si, ProcessedEpisode pe, FileInfo dest, string bannerPath, TheTVDB.TheTVDB tvdb)
         {
-            this.Episode = pe;
-            this.SI = si;
-            this.Destination = dest;
-            this.BannerPath = bannerPath;
+            Episode = pe;
+            SI = si;
+            Destination = dest;
+            BannerPath = bannerPath;
+            _tvdb = tvdb;
         }
 
         #region Action Members
@@ -43,12 +45,12 @@ namespace TvRename.Core.Actions
 
         public string ProgressText
         {
-            get { return this.Destination.Name; }
+            get { return Destination.Name; }
         }
 
         public double PercentDone
         {
-            get { return this.Done ? 100 : 0; }
+            get { return Done ? 100 : 0; }
         }
 
         // 0 to 100
@@ -59,31 +61,31 @@ namespace TvRename.Core.Actions
 
         public bool Go(ref bool pause)
         {
-            var theData = this.SI.TVDB.GetPage(this.BannerPath, false, typeMaskBits.tmBanner, false);
+            var theData = _tvdb.GetPage(BannerPath, false, typeMaskBits.tmBanner, false);
             if ((theData == null) || (theData.Length == 0))
             {
-                this.ErrorText = "Unable to download " + this.BannerPath;
-                this.Error = true;
-                this.Done = true;
+                ErrorText = "Unable to download " + BannerPath;
+                Error = true;
+                Done = true;
                 return false;
             }
 
             try
             {
-                FileStream fs = new FileStream(this.Destination.FullName, FileMode.Create);
+                FileStream fs = new FileStream(Destination.FullName, FileMode.Create);
                 fs.Write(theData, 0, theData.Length);
                 fs.Close();
             }
             catch (Exception e)
             {
-                this.ErrorText = e.Message;
-                this.Error = true;
-                this.Done = true;
+                ErrorText = e.Message;
+                Error = true;
+                Done = true;
                 return false;
             }
                 
 
-            this.Done = true;
+            Done = true;
             return true;
         }
 
@@ -93,13 +95,13 @@ namespace TvRename.Core.Actions
 
         public bool SameAs(Item o)
         {
-            return (o is ActionDownload) && ((o as ActionDownload).Destination == this.Destination);
+            return (o is ActionDownload) && ((o as ActionDownload).Destination == Destination);
         }
 
         public int Compare(Item o)
         {
             ActionDownload dl = o as ActionDownload;
-            return dl == null ? 0 : this.Destination.FullName.CompareTo(dl.Destination.FullName);
+            return dl == null ? 0 : Destination.FullName.CompareTo(dl.Destination.FullName);
         }
 
         #endregion
@@ -117,9 +119,9 @@ namespace TvRename.Core.Actions
         {
             get
             {
-                if (this.Destination == null)
+                if (Destination == null)
                     return null;
-                return new IgnoreItem(this.Destination.FullName);
+                return new IgnoreItem(Destination.FullName);
             }
         }
 
@@ -128,15 +130,15 @@ namespace TvRename.Core.Actions
             get
             {
                 ListViewItem lvi = new ListViewItem {
-                                                        Text = (this.Episode != null) ? this.Episode.SI.ShowName : ((this.SI != null) ? this.SI.ShowName : "")
+                                                        Text = (Episode != null) ? Episode.SI.ShowName : ((SI != null) ? SI.ShowName : "")
                                                     };
 
-                lvi.SubItems.Add(this.Episode != null ? this.Episode.SeasonNumber.ToString() : "");
-                lvi.SubItems.Add(this.Episode != null ? this.Episode.NumsAsString() : "");
+                lvi.SubItems.Add(Episode != null ? Episode.SeasonNumber.ToString() : "");
+                lvi.SubItems.Add(Episode != null ? Episode.NumsAsString() : "");
 
-                if (this.Episode != null)
+                if (Episode != null)
                 {
-                    DateTime? dt = this.Episode.GetAirDateDT(true);
+                    DateTime? dt = Episode.GetAirDateDT(true);
                     if ((dt != null) && (dt.Value.CompareTo(DateTime.MaxValue) != 0))
                         lvi.SubItems.Add(dt.Value.ToShortDateString());
                     else
@@ -145,13 +147,13 @@ namespace TvRename.Core.Actions
                 else
                     lvi.SubItems.Add("");
 
-                lvi.SubItems.Add(this.Destination.DirectoryName);
-                lvi.SubItems.Add(this.BannerPath);
+                lvi.SubItems.Add(Destination.DirectoryName);
+                lvi.SubItems.Add(BannerPath);
 
-                if (string.IsNullOrEmpty(this.BannerPath))
+                if (string.IsNullOrEmpty(BannerPath))
                     lvi.BackColor = Helpers.WarningColor();
 
-                lvi.SubItems.Add(this.Destination.Name);
+                lvi.SubItems.Add(Destination.Name);
 
                 lvi.Tag = this;
 
@@ -168,9 +170,9 @@ namespace TvRename.Core.Actions
         {
             get
             {
-                if (this.Destination == null)
+                if (Destination == null)
                     return null;
-                return this.Destination.DirectoryName;
+                return Destination.DirectoryName;
             }
         }
 

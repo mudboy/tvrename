@@ -39,7 +39,7 @@ namespace TvRename.Core
     public class TVDoc
     {
         public TvSettings Settings;
-        public List<ShowItem> ShowItems;
+        public List<MyShowItem> ShowItems;
         public List<string> MonitorFolders;
         public List<string> IgnoreFolders;
         public List<string> SearchFolders;
@@ -71,7 +71,7 @@ namespace TvRename.Core
         private TVRenameStats mStats;
         private TheTVDB.TheTVDB mTVDB;
 
-        public TVDoc(TvSettings z, TheTVDB.TheTVDB tvdb, CommandLineArgs args)
+        public TVDoc(SettingsWrapper settingsWrapper, TheTVDB.TheTVDB tvdb, CommandLineArgs args)
         {
             mTVDB = tvdb;
             Args = args;
@@ -85,13 +85,16 @@ namespace TvRename.Core
             mDirty = false;
             TheActionList = new List<Item>();
 
-            Settings = z;// = new TVSettings();
+            Settings = settingsWrapper.Settings;// = new TVSettings();
 
             MonitorFolders = new List<String>();
             IgnoreFolders = new List<String>();
             SearchFolders = new List<String>();
             
-            ShowItems = new List<ShowItem>();
+
+            settingsWrapper.MyShows.ForEach(s => s.SetSeriesInfo(tvdb.GetSeries(s.TVDBID)));
+
+            ShowItems = settingsWrapper.MyShows;
             AddItems = new FolderMonitorEntryList();
 
             DownloadDone = true;
@@ -166,7 +169,7 @@ namespace TvRename.Core
             mStats.NS_NumberOfEpisodesExpected = 0;
 
             LockShowItems();
-            foreach (ShowItem si in ShowItems)
+            foreach (MyShowItem si in ShowItems)
             {
                 foreach (var episodes in si.SeasonEpisodes.Values)
                     mStats.NS_NumberOfEpisodesExpected += episodes.Count;
@@ -187,21 +190,21 @@ namespace TvRename.Core
             return mDirty;
         }
 
-        public List<ShowItem> GetShowItems(bool lockThem)
+        public List<MyShowItem> GetShowItems(bool lockThem)
         {
             if (lockThem)
                 LockShowItems();
 
-            ShowItems.Sort(ShowItem.CompareShowItemNames);
+            ShowItems.Sort(MyShowItem.CompareShowItemNames);
             return ShowItems;
         }
 
-        public ShowItem GetShowItem(int id)
+        public MyShowItem GetShowItem(int id)
         {
             LockShowItems();
-            foreach (ShowItem si in ShowItems)
+            foreach (MyShowItem si in ShowItems)
             {
-                if (si.TVDBCode == id)
+                if (si.TVDBID == id)
                 {
                     UnlockShowItems();
                     return si;
@@ -259,7 +262,7 @@ namespace TvRename.Core
             // ..and not already a folder for one of our shows
             string theFolder = di2.FullName.ToLower();
             bool alreadyHaveIt = false;
-            foreach (ShowItem si in ShowItems)
+            foreach (MyShowItem si in ShowItems)
             {
                 if (si.AutoAddNewSeasons && !string.IsNullOrEmpty(si.AutoAdd_FolderBase) && FolderIsSubfolderOf(theFolder, si.AutoAdd_FolderBase))
                 {
@@ -330,11 +333,11 @@ namespace TvRename.Core
                     continue; // skip
 
                 // see if there is a matching show item
-                ShowItem found = ShowItemForCode(ai.TVDBCode);
+                MyShowItem found = ShowItemForCode(ai.TVDBCode);
                 if (found == null)
                 {
                     // need to add a new showitem
-                    found = new ShowItem(mTVDB, ai.TVDBCode);
+                    found = new MyShowItem(ai.TVDBCode);
                     ShowItems.Add(found);
                 }
 
@@ -747,8 +750,8 @@ namespace TvRename.Core
                 int n = 0;
                 List<int> codes = new List<int>();
                 LockShowItems();
-                foreach (ShowItem si in ShowItems)
-                    codes.Add(si.TVDBCode);
+                foreach (MyShowItem si in ShowItems)
+                    codes.Add(si.TVDBID);
                 UnlockShowItems();
 
                 int numWorkers = Settings.ParallelDownloads;
@@ -885,7 +888,7 @@ namespace TvRename.Core
         {
             bool res = true;
             LockShowItems();
-            foreach (ShowItem si in ShowItems)
+            foreach (MyShowItem si in ShowItems)
             {
                 if (!GenerateEpisodeDict(si))
                     res = false;
@@ -908,9 +911,9 @@ namespace TvRename.Core
             foreach (KeyValuePair<int, SeriesInfo> kvp in mTVDB.GetSeriesDict())
             {
                 bool found = false;
-                foreach (ShowItem si in ShowItems)
+                foreach (MyShowItem si in ShowItems)
                 {
-                    if (si.TVDBCode == kvp.Key)
+                    if (si.TVDBID == kvp.Key)
                     {
                         found = true;
                         break;
@@ -953,7 +956,7 @@ namespace TvRename.Core
             return FindEpOnDisk(pe.SI, pe);
         }
 
-        public List<FileInfo> FindEpOnDisk(ShowItem si, Episode epi)
+        public List<FileInfo> FindEpOnDisk(MyShowItem si, Episode epi)
         {
             List<FileInfo> ret = new List<FileInfo>();
 
@@ -1001,11 +1004,11 @@ namespace TvRename.Core
             return ret;
         }
 
-        public bool HasAnyAirdates(ShowItem si, int snum)
+        public bool HasAnyAirdates(MyShowItem si, int snum)
         {
             bool r = false;
             TheTVDB.TheTVDB db = GetTVDB(false, "");
-            SeriesInfo ser = db.GetSeries(si.TVDBCode);
+            SeriesInfo ser = db.GetSeries(si.TVDBID);
             if ((ser != null) && (ser.Seasons.ContainsKey(snum)))
             {
                 foreach (Episode e in ser.Seasons[snum].Episodes)
@@ -1020,7 +1023,7 @@ namespace TvRename.Core
             return r;
         }
 
-        public void TVShowNFOCheck(ShowItem si)
+        public void TVShowNFOCheck(MyShowItem si)
         {
             // check there is a TVShow.nfo file in the root folder for the show
             if (string.IsNullOrEmpty(si.AutoAdd_FolderBase)) // no base folder defined
@@ -1035,10 +1038,10 @@ namespace TvRename.Core
             // was it written before we fixed the bug in <episodeguideurl> ?
             needUpdate = needUpdate || (tvshownfo.LastWriteTime.ToUniversalTime().CompareTo(new DateTime(2009, 9, 13, 7, 30, 0, 0, DateTimeKind.Utc)) < 0);
             if (needUpdate)
-                TheActionList.Add(new ActionNFO(tvshownfo, si));
+                TheActionList.Add(new ActionNFO(tvshownfo, si, mTVDB));
         }
 
-        public bool GenerateEpisodeDict(ShowItem si)
+        public bool GenerateEpisodeDict(MyShowItem si)
         {
             si.SeasonEpisodes.Clear();
 
@@ -1048,7 +1051,7 @@ namespace TvRename.Core
 
             TheTVDB.TheTVDB db = GetTVDB(true, "GenerateEpisodeDict");
 
-            SeriesInfo ser = db.GetSeries(si.TVDBCode);
+            SeriesInfo ser = db.GetSeries(si.TVDBID);
 
             if (ser == null)
             {
@@ -1090,7 +1093,7 @@ namespace TvRename.Core
             return r;
         }
 
-        public static List<ProcessedEpisode> GenerateEpisodes(ShowItem si, SeriesInfo ser, int snum, bool applyRules)
+        public static List<ProcessedEpisode> GenerateEpisodes(MyShowItem si, SeriesInfo ser, int snum, bool applyRules)
         {
             List<ProcessedEpisode> eis = new List<ProcessedEpisode>();
 
@@ -1107,11 +1110,11 @@ namespace TvRename.Core
 
             if (si.DVDOrder)
             {
-                eis.Sort(new System.Comparison<ProcessedEpisode>(ProcessedEpisode.DVDOrderSorter));
+                eis.Sort(ProcessedEpisode.DVDOrderSorter);
                 Renumber(eis);
             }
             else
-                eis.Sort(new System.Comparison<ProcessedEpisode>(ProcessedEpisode.EPNumberSorter));
+                eis.Sort(ProcessedEpisode.EPNumberSorter);
 
             if (si.CountSpecials && ser.Seasons.ContainsKey(0))
             {
@@ -1163,7 +1166,7 @@ namespace TvRename.Core
             return eis;
         }
 
-        public static void ApplyRules(List<ProcessedEpisode> eis, List<ShowRule> rules, ShowItem si)
+        public static void ApplyRules(List<ProcessedEpisode> eis, List<ShowRule> rules, MyShowItem si)
         {
             foreach (ShowRule sr in rules)
             {
@@ -1394,7 +1397,7 @@ namespace TvRename.Core
             {
                 ProcessedEpisode nextAfterThat = null;
                 TimeSpan howClose = TimeSpan.MaxValue;
-                foreach (ShowItem si in GetShowItems(false))
+                foreach (MyShowItem si in GetShowItems(false))
                 {
                     if (!si.ShowNextAirdate)
                         continue;
@@ -1704,7 +1707,7 @@ namespace TvRename.Core
                             ItemMissing Missing = (ItemMissing) (Action);
                             writer.WriteStartElement("MissingItem");
                             writer.WriteStartElement("id");
-                            writer.WriteValue(Missing.Episode.SI.TVDBCode);
+                            writer.WriteValue(Missing.Episode.SI.TVDBID);
                             writer.WriteEndElement();
                             writer.WriteStartElement("title");
                             writer.WriteValue(Missing.Episode.TheSeries.Name);
@@ -2379,7 +2382,7 @@ namespace TvRename.Core
             return false;
         }
 
-        public void ActionGo(List<ShowItem> shows)
+        public void ActionGo(List<MyShowItem> shows)
         {
             if (Settings.MissingCheck && !CheckAllFoldersExist(shows)) // only check for folders existing for missing check
                 return;
@@ -2392,7 +2395,7 @@ namespace TvRename.Core
 
             ActionCancel = false;
 
-/* todo 
+/* todo Ui replacement
             if (!Args.Hide)
             {
                 ScanProgDlg = new ScanProgress(Settings.RenameCheck || Settings.MissingCheck,
@@ -2417,7 +2420,7 @@ namespace TvRename.Core
 */
         }
 
-        public bool CheckAllFoldersExist(List<ShowItem> showlist)
+        public bool CheckAllFoldersExist(List<MyShowItem> showlist)
         {
             // show MissingFolderAction for any folders that are missing
             // return false if user cancels
@@ -2427,7 +2430,7 @@ namespace TvRename.Core
             if (showlist == null) // nothing specified?
                 showlist = ShowItems; // everything
 
-            foreach (ShowItem si in showlist)
+            foreach (MyShowItem si in showlist)
             {
                 if (!si.DoMissingCheck && !si.DoRename)
                     continue; // skip
@@ -2579,7 +2582,7 @@ namespace TvRename.Core
                 TheActionList.Remove(Action);
         }
 
-        public void RenameAndMissingCheck(SetProgressDelegate prog, List<ShowItem> showList)
+        public void RenameAndMissingCheck(SetProgressDelegate prog, List<MyShowItem> showList)
         {
             TheActionList = new List<Item>();
 
@@ -2606,7 +2609,7 @@ namespace TvRename.Core
                 mStats.NS_NumberOfEpisodes = 0;
 
             int c = 0;
-            foreach (ShowItem si in showList)
+            foreach (MyShowItem si in showList)
             {
                 if (ActionCancel)
                     return;
@@ -2629,14 +2632,14 @@ namespace TvRename.Core
                     // was it written before we fixed the bug in <episodeguideurl> ?
                     needUpdate = needUpdate || (tvshownfo.LastWriteTime.ToUniversalTime().CompareTo(new DateTime(2009, 9, 13, 7, 30, 0, 0, DateTimeKind.Utc)) < 0);
                     if (needUpdate)
-                        TheActionList.Add(new ActionNFO(tvshownfo, si));
+                        TheActionList.Add(new ActionNFO(tvshownfo, si, mTVDB));
                 }
 
                 // process each folder for each season...
 
                 int[] numbers = new int[si.SeasonEpisodes.Keys.Count];
                 si.SeasonEpisodes.Keys.CopyTo(numbers, 0);
-                Dictionary<int, List<string>> allFolders = si.AllFolderLocations(Settings);
+                var allFolders = si.AllFolderLocations(Settings);
 
                 int lastSeason = 0;
                 foreach (int n in numbers)
@@ -2682,7 +2685,7 @@ namespace TvRename.Core
                             {
                                 string bannerPath = si.TheSeries().GetItem(Settings.ItemForFolderJpg());
                                 if (!string.IsNullOrEmpty(bannerPath))
-                                    TheActionList.Add(new ActionDownload(si, null, fi, bannerPath));
+                                    TheActionList.Add(new ActionDownload(si, null, fi, bannerPath, mTVDB));
                             }
                             doneFolderJPG.Add(si.AutoAdd_FolderBase);
                         }
@@ -2720,7 +2723,7 @@ namespace TvRename.Core
                                 {
                                     string bannerPath = si.TheSeries().GetItem(Settings.ItemForFolderJpg());
                                     if (!string.IsNullOrEmpty(bannerPath))
-                                        TheActionList.Add(new ActionDownload(si, null, fi, bannerPath));
+                                        TheActionList.Add(new ActionDownload(si, null, fi, bannerPath, mTVDB));
                                 }
                             }
                         }
@@ -2866,7 +2869,7 @@ namespace TvRename.Core
                     fn += ".tbn";
                     FileInfo img = Helpers.FileInFolder(filo.Directory, fn);
                     if (!img.Exists)
-                        addTo.Add(new ActionDownload(dbep.SI, dbep, img, ban));
+                        addTo.Add(new ActionDownload(dbep.SI, dbep, img, ban, mTVDB));
                 }
             }
             if (Settings.NFOs)
@@ -2877,7 +2880,7 @@ namespace TvRename.Core
                 FileInfo nfo = Helpers.FileInFolder(filo.Directory, fn);
 
                 if (!nfo.Exists || (dbep.Srv_LastUpdated > TimeZone.Epoch(nfo.LastWriteTime)))
-                    addTo.Add(new ActionNFO(nfo, dbep));
+                    addTo.Add(new ActionNFO(mTVDB, nfo, dbep));
             }
             if (Settings.pyTivoMeta)
             {
@@ -3015,7 +3018,7 @@ namespace TvRename.Core
             return filename;
         }
 
-        private static bool FindSeasEpDateCheck(FileInfo fi, out int seas, out int ep, ShowItem si)
+        private bool FindSeasEpDateCheck(FileInfo fi, out int seas, out int ep, MyShowItem si)
         {
             if (fi == null)
             {
@@ -3027,7 +3030,7 @@ namespace TvRename.Core
             // look for a valid airdate in the filename
             // check for YMD, DMY, and MDY
             // only check against airdates we expect for the given show
-            SeriesInfo ser = si.TVDB.GetSeries(si.TVDBCode);
+            SeriesInfo ser = mTVDB.GetSeries(si.TVDBID);
             string[] dateFormats = new[] { "yyyy-MM-dd", "dd-MM-yyyy", "MM-dd-yyyy", "yy-MM-dd", "dd-MM-yy", "MM-dd-yy" };
             string filename = fi.Name;
             // force possible date separators to a dash
@@ -3073,12 +3076,12 @@ namespace TvRename.Core
             return ((ep != -1) && (seas != -1));
         }
 
-        public bool FindSeasEp(FileInfo fi, out int seas, out int ep, ShowItem si)
+        public bool FindSeasEp(FileInfo fi, out int seas, out int ep, MyShowItem si)
         {
-            return TVDoc.FindSeasEp(fi, out seas, out ep, si, Settings.FNPRegexs, Settings.LookForDateInFilename);
+            return FindSeasEp(fi, out seas, out ep, si, Settings.FNPRegexs, Settings.LookForDateInFilename);
         }
 
-        public static bool FindSeasEp(FileInfo fi, out int seas, out int ep, ShowItem si, List<FilenameProcessorRegEx> rexps, bool doDateCheck)
+        public bool FindSeasEp(FileInfo fi, out int seas, out int ep, MyShowItem si, List<FilenameProcessorRegEx> rexps, bool doDateCheck)
         {
             if (fi == null)
             {
@@ -3097,7 +3100,7 @@ namespace TvRename.Core
             return FindSeasEp(fi.Directory.FullName, filename, out seas, out ep, si, rexps);
         }
 
-        public static bool FindSeasEp(string directory, string filename, out int seas, out int ep, ShowItem si, List<FilenameProcessorRegEx> rexps)
+        public static bool FindSeasEp(string directory, string filename, out int seas, out int ep, MyShowItem si, List<FilenameProcessorRegEx> rexps)
         {
             string showNameHint = (si != null) ? si.ShowName : "";
                 
@@ -3162,14 +3165,8 @@ namespace TvRename.Core
 
         #endregion
 
-        private ShowItem ShowItemForCode(int code)
-        {
-            foreach (ShowItem si in ShowItems)
-            {
-                if (si.TVDBCode == code)
-                    return si;
-            }
-            return null;
+        private MyShowItem ShowItemForCode(int code) {
+            return ShowItems.FirstOrDefault(si => si.TVDBID == code);
         }
     }
 }

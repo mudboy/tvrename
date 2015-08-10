@@ -85,7 +85,7 @@ public static class GlobalMembersTVRename {
                 // todo deserialize here
                 var settings = SettingsWrapper.Load();
 
-                doc = new TVDoc(settings.Settings, tvdb, clargs);
+                doc = new TVDoc(settings, tvdb, clargs);
                 if (!ok) {
                     doc.SetDirty();
                 }

@@ -75,7 +75,7 @@
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\Serialized\SettingsWrapper.cs" />
     <Compile Include="Settings\ShowRule.cs" />
-    <Compile Include="Settings\ShowsAndEpisodes.cs" />
+    <Compile Include="Settings\ProcessedEpisode.cs" />
     <Compile Include="Settings\Statistics.cs" />
     <Compile Include="TVDoc.cs" />
   </ItemGroup>
