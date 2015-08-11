@@ -429,7 +429,7 @@ namespace TvRename.Core
         // if so, add a rcitem for copy to "fi"
         public bool FindMissingEp(DirCache dirCache, ItemMissing me, IList<Item> addTo, ActionCopyMoveRename.Op whichOp)
         {
-            string showname = me.Episode.SI.ShowName;
+            string showname = me.Episode.ShowItem.ShowName;
             int season = me.Episode.SeasonNumber;
 
             int epnum = me.Episode.EpNum;
@@ -457,7 +457,7 @@ namespace TvRename.Core
                     // if we don't match the main name, then test the aliases
                     if (!matched)
                     {
-                        foreach (string alias in me.Episode.SI.AliasNames)
+                        foreach (string alias in me.Episode.ShowItem.AliasNames)
                         {
                             string aliasName = Helpers.SimplifyName(alias);
                             matched = Regex.Match(dce.SimplifiedFullName, "\\b" + aliasName + "\\b", RegexOptions.IgnoreCase).Success;
@@ -472,7 +472,7 @@ namespace TvRename.Core
                         int epF;
                         // String ^fn = file->Name;
 
-                        if ((FindSeasEp(dce.TheFile, out seasF, out epF, me.Episode.SI) && (seasF == season) && (epF == epnum)) || (me.Episode.SI.UseSequentialMatch && MatchesSequentialNumber(dce.TheFile.Name, ref seasF, ref epF, me.Episode) && (seasF == season) && (epF == epnum)))
+                        if ((FindSeasEp(dce.TheFile, out seasF, out epF, me.Episode.ShowItem) && (seasF == season) && (epF == epnum)) || (me.Episode.ShowItem.UseSequentialMatch && MatchesSequentialNumber(dce.TheFile.Name, ref seasF, ref epF, me.Episode) && (seasF == season) && (epF == epnum)))
                         {
                             FileInfo fi = new FileInfo(me.TheFileNoExt + dce.TheFile.Extension);
                             addTo.Add(new ActionCopyMoveRename(whichOp, dce.TheFile, fi, me.Episode, mStats));
@@ -953,7 +953,7 @@ namespace TvRename.Core
 
         public List<FileInfo> FindEpOnDisk(ProcessedEpisode pe)
         {
-            return FindEpOnDisk(pe.SI, pe);
+            return FindEpOnDisk(pe.ShowItem, pe);
         }
 
         public List<FileInfo> FindEpOnDisk(MyShowItem si, Episode epi)
@@ -1114,7 +1114,7 @@ namespace TvRename.Core
                 Renumber(eis);
             }
             else
-                eis.Sort(ProcessedEpisode.EPNumberSorter);
+                eis.Sort((e1, e2) => e1.EpNum - e2.EpNum);
 
             if (si.CountSpecials && ser.Seasons.ContainsKey(0))
             {
@@ -1707,7 +1707,7 @@ namespace TvRename.Core
                             ItemMissing Missing = (ItemMissing) (Action);
                             writer.WriteStartElement("MissingItem");
                             writer.WriteStartElement("id");
-                            writer.WriteValue(Missing.Episode.SI.TVDBID);
+                            writer.WriteValue(Missing.Episode.ShowItem.TVDBID);
                             writer.WriteEndElement();
                             writer.WriteStartElement("title");
                             writer.WriteValue(Missing.Episode.TheSeries.Name);
@@ -1885,7 +1885,7 @@ namespace TvRename.Core
                             List<FileInfo> fl = FindEpOnDisk(ei);
                             if ((fl != null) && (fl.Count > 0))
                                 writer.WriteValue("true");
-                            else if (ei.SI.DoMissingCheck)
+                            else if (ei.ShowItem.DoMissingCheck)
                                 writer.WriteValue("false");
                         }
 
@@ -2044,7 +2044,7 @@ namespace TvRename.Core
 
                 ItemMissing Action = (ItemMissing) (Action1);
 
-                string showname = Helpers.SimplifyName(Action.Episode.SI.ShowName);
+                string showname = Helpers.SimplifyName(Action.Episode.ShowItem.ShowName);
 
                 foreach (queueSlotsSlot te  in sq.slots)
                 {
@@ -2059,7 +2059,7 @@ namespace TvRename.Core
                         {
                             int seasF;
                             int epF;
-                            if (FindSeasEp(file, out seasF, out epF, Action.Episode.SI) &&
+                            if (FindSeasEp(file, out seasF, out epF, Action.Episode.ShowItem) &&
                                 (seasF == Action.Episode.SeasonNumber) && (epF == Action.Episode.EpNum))
                             {
                                 toRemove.Add(Action1);
@@ -2112,7 +2112,7 @@ namespace TvRename.Core
 
                 ItemMissing Action = (ItemMissing) (Action1);
 
-                string showname = Helpers.SimplifyName(Action.Episode.SI.ShowName);
+                string showname = Helpers.SimplifyName(Action.Episode.ShowItem.ShowName);
 
                 foreach (TorrentEntry te in downloading)
                 {
@@ -2124,7 +2124,7 @@ namespace TvRename.Core
                     {
                         int seasF;
                         int epF;
-                        if (FindSeasEp(file, out seasF, out epF, Action.Episode.SI) && (seasF == Action.Episode.SeasonNumber) && (epF == Action.Episode.EpNum))
+                        if (FindSeasEp(file, out seasF, out epF, Action.Episode.ShowItem) && (seasF == Action.Episode.SeasonNumber) && (epF == Action.Episode.EpNum))
                         {
                             toRemove.Add(Action1);
                             newList.Add(new ItemuTorrenting(te, Action.Episode, Action.TheFileNoExt));
@@ -2169,7 +2169,7 @@ namespace TvRename.Core
                 ItemMissing Action = (ItemMissing) (Action1);
 
                 ProcessedEpisode pe = Action.Episode;
-                string simpleShowName = Helpers.SimplifyName(pe.SI.ShowName);
+                string simpleShowName = Helpers.SimplifyName(pe.ShowItem.ShowName);
                 string simpleSeriesName = Helpers.SimplifyName(pe.TheSeries.Name);
 
                 foreach (RSSItem rss in RSSList)
@@ -2869,7 +2869,7 @@ namespace TvRename.Core
                     fn += ".tbn";
                     FileInfo img = Helpers.FileInFolder(filo.Directory, fn);
                     if (!img.Exists)
-                        addTo.Add(new ActionDownload(dbep.SI, dbep, img, ban, mTVDB));
+                        addTo.Add(new ActionDownload(dbep.ShowItem, dbep, img, ban, mTVDB));
                 }
             }
             if (Settings.NFOs)

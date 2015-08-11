@@ -80,7 +80,7 @@ namespace TvRename.Core.Items
             {
                 ListViewItem lvi = new ListViewItem();
 
-                lvi.Text = this.Episode.SI.ShowName;
+                lvi.Text = this.Episode.ShowItem.ShowName;
                 lvi.SubItems.Add(this.Episode.SeasonNumber.ToString());
                 lvi.SubItems.Add(this.Episode.NumsAsString());
                 DateTime? dt = this.Episode.GetAirDateDT(true);

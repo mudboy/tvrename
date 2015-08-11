@@ -110,7 +110,7 @@ namespace TvRename.Core.Settings
         {
             String name = styleString;
 
-            string showname = pe.SI.ShowName;
+            string showname = pe.ShowItem.ShowName;
             string epname = pe.Name;
             if (urlEncode)
             {

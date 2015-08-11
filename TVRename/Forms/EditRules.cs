@@ -7,6 +7,7 @@
 // 
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using TvRename.Core;
 using TvRename.Core.Settings;
@@ -167,16 +168,12 @@ namespace TVRename.Forms
 
         private void FillPreview()
         {
-            List<ProcessedEpisode> pel = new List<ProcessedEpisode>();
+            var pel = new List<ProcessedEpisode>();
 
-            if (mOriginalEps != null)
-            {
-                foreach (ProcessedEpisode pe in mOriginalEps)
-                    pel.Add(new ProcessedEpisode(pe));
-
+            if (mOriginalEps != null) {
+                pel.AddRange(mOriginalEps.Select(pe => new ProcessedEpisode(pe)));
                 TVDoc.ApplyRules(pel, WorkingRuleSet, mSI);
             }
-
             lbEpsPreview.BeginUpdate();
             lbEpsPreview.Items.Clear();
             foreach (ProcessedEpisode pe in pel)

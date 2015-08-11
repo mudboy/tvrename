@@ -67,21 +67,21 @@ namespace TvRename.Core.Actions
             }
 
             // See: http://pytivo.sourceforge.net/wiki/index.php/Metadata
-            writer.WriteLine("title : {0}", Episode.SI.ShowName);
-            writer.WriteLine("seriesTitle : {0}", Episode.SI.ShowName);
+            writer.WriteLine("title : {0}", Episode.ShowItem.ShowName);
+            writer.WriteLine("seriesTitle : {0}", Episode.ShowItem.ShowName);
             writer.WriteLine("episodeTitle : {0}", Episode.Name);
             writer.WriteLine("episodeNumber : {0}{1:0#}", Episode.SeasonNumber, Episode.EpNum);
             writer.WriteLine("isEpisode : true");
             writer.WriteLine("description : {0}", Episode.Overview);
             if (Episode.FirstAired != null)
                 writer.WriteLine("originalAirDate : {0:yyyy-MM-dd}T00:00:00Z", Episode.FirstAired.Value);
-            writer.WriteLine("callsign : {0}", Episode.SI.TheSeries().GetItem("Network"));
+            writer.WriteLine("callsign : {0}", Episode.ShowItem.TheSeries().GetItem("Network"));
 
             WriteEntries(writer, "vDirector", Episode.EpisodeDirector);
             WriteEntries(writer, "vWriter", Episode.Writer);
-            WriteEntries(writer, "vActor", Episode.SI.TheSeries().GetItem("Actors"));
+            WriteEntries(writer, "vActor", Episode.ShowItem.TheSeries().GetItem("Actors"));
             WriteEntries(writer, "vGuestStar", Episode.EpisodeGuestStars); // not worring about actors being repeated
-            WriteEntries(writer, "vProgramGenre", Episode.SI.TheSeries().GetItem("Genre"));
+            WriteEntries(writer, "vProgramGenre", Episode.ShowItem.TheSeries().GetItem("Genre"));
 
             writer.Close();
             Done = true;
@@ -142,7 +142,7 @@ namespace TvRename.Core.Actions
             {
                 ListViewItem lvi = new ListViewItem();
 
-                lvi.Text = Episode.SI.ShowName;
+                lvi.Text = Episode.ShowItem.ShowName;
                 lvi.SubItems.Add(Episode.SeasonNumber.ToString());
                 lvi.SubItems.Add(Episode.NumsAsString());
                 DateTime? dt = Episode.GetAirDateDT(true);

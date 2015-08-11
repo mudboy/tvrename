@@ -38,26 +38,26 @@ namespace TvRename.TheTVDB
         public SeriesInfo TheSeries;
         private string mName;
 
-        public Episode(Episode O)
+        public Episode(Episode other)
         {
-            this.EpisodeID = O.EpisodeID;
-            this.SeriesID = O.SeriesID;
-            this.EpNum = O.EpNum;
-            this.FirstAired = O.FirstAired;
-            this.Srv_LastUpdated = O.Srv_LastUpdated;
-            this.Overview = O.Overview;
-            this.EpisodeRating = O.EpisodeRating;
-            this.EpisodeGuestStars = O.EpisodeGuestStars;
-            this.EpisodeDirector = O.EpisodeDirector;
-            this.Writer = O.Writer;
-            this.Name = O.Name;
-            this.TheSeason = O.TheSeason;
-            this.TheSeries = O.TheSeries;
-            this.SeasonID = O.SeasonID;
-            this.Dirty = O.Dirty;
+            this.EpisodeID = other.EpisodeID;
+            this.SeriesID = other.SeriesID;
+            this.EpNum = other.EpNum;
+            this.FirstAired = other.FirstAired;
+            this.Srv_LastUpdated = other.Srv_LastUpdated;
+            this.Overview = other.Overview;
+            this.EpisodeRating = other.EpisodeRating;
+            this.EpisodeGuestStars = other.EpisodeGuestStars;
+            this.EpisodeDirector = other.EpisodeDirector;
+            this.Writer = other.Writer;
+            this.Name = other.Name;
+            this.TheSeason = other.TheSeason;
+            this.TheSeries = other.TheSeries;
+            this.SeasonID = other.SeasonID;
+            this.Dirty = other.Dirty;
 
             this.Items = new System.Collections.Generic.Dictionary<string, string>();
-            foreach (System.Collections.Generic.KeyValuePair<string, string> i in O.Items)
+            foreach (System.Collections.Generic.KeyValuePair<string, string> i in other.Items)
                 this.Items.Add(i.Key, i.Value);
         }
 

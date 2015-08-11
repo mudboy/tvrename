@@ -7,10 +7,7 @@
 // 
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml;
+using System.Diagnostics.CodeAnalysis;
 using TvRename.Core.Settings.Serialized;
 using TvRename.TheTVDB;
 
@@ -32,36 +29,36 @@ namespace TvRename.Core.Settings
         public bool Ignore;
         public bool NextToAir;
         public int OverallNumber;
-        public MyShowItem SI;
+        public MyShowItem ShowItem;
 
-        public ProcessedEpisode(SeriesInfo ser, Season seas, MyShowItem si)
+        public ProcessedEpisode(SeriesInfo ser, Season seas, MyShowItem showItem)
             : base(ser, seas)
         {
             NextToAir = false;
             OverallNumber = -1;
             Ignore = false;
             EpNum2 = EpNum;
-            SI = si;
+            ShowItem = showItem;
         }
 
-        public ProcessedEpisode(ProcessedEpisode O)
-            : base(O)
+        public ProcessedEpisode(ProcessedEpisode other)
+            : base(other)
         {
-            NextToAir = O.NextToAir;
-            EpNum2 = O.EpNum2;
-            Ignore = O.Ignore;
-            SI = O.SI;
-            OverallNumber = O.OverallNumber;
+            NextToAir = other.NextToAir;
+            EpNum2 = other.EpNum2;
+            Ignore = other.Ignore;
+            ShowItem = other.ShowItem;
+            OverallNumber = other.OverallNumber;
         }
 
-        public ProcessedEpisode(Episode e, MyShowItem si)
+        public ProcessedEpisode(Episode e, MyShowItem showItem)
             : base(e)
         {
             OverallNumber = -1;
             NextToAir = false;
             EpNum2 = EpNum;
             Ignore = false;
-            SI = si;
+            ShowItem = showItem;
         }
 
         public string NumsAsString() {
@@ -70,21 +67,13 @@ namespace TvRename.Core.Settings
             return EpNum + "-" + EpNum2;
         }
 
-        public static int EPNumberSorter(ProcessedEpisode e1, ProcessedEpisode e2)
-        {
-            int ep1 = e1.EpNum;
-            int ep2 = e2.EpNum;
-
-            return ep1 - ep2;
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public static int DVDOrderSorter(ProcessedEpisode e1, ProcessedEpisode e2)
         {
-            int ep1 = e1.EpNum;
-            int ep2 = e2.EpNum;
+            var ep1 = e1.EpNum;
+            var ep2 = e2.EpNum;
 
-            string key = "DVD_episodenumber";
+            const string key = "DVD_episodenumber";
             if (e1.Items.ContainsKey(key) && e2.Items.ContainsKey(key))
             {
                 string n1 = e1.Items[key];

@@ -110,9 +110,9 @@ namespace TvRename.Core.Actions
                     writer.WriteValue(Episode.FirstAired.Value.ToString("yyyy-MM-dd"));
                 writer.WriteEndElement();
 
-                if (Episode.SI != null)
+                if (Episode.ShowItem != null)
                 {
-                    WriteInfo(writer, Episode.SI, "ContentRating", "mpaa");
+                    WriteInfo(writer, Episode.ShowItem, "ContentRating", "mpaa");
                 }
 
                 //Director(s)
@@ -150,9 +150,9 @@ namespace TvRename.Core.Actions
                 {
                     string RecurringActors = "";
 
-                    if (Episode.SI != null)
+                    if (Episode.ShowItem != null)
                     {
-                        RecurringActors = Episode.SI.TheSeries().GetItem("Actors");
+                        RecurringActors = Episode.ShowItem.TheSeries().GetItem("Actors");
                     }
 
                     string GuestActors = Episode.EpisodeGuestStars;
@@ -179,9 +179,9 @@ namespace TvRename.Core.Actions
                 }
 
                 // actors...
-                if (Episode.SI != null)
+                if (Episode.ShowItem != null)
                 {
-                    string actors = Episode.SI.TheSeries().GetItem("Actors");
+                    string actors = Episode.ShowItem.TheSeries().GetItem("Actors");
                     if (!string.IsNullOrEmpty(actors))
                     {
                         foreach (string aa in actors.Split('|'))
@@ -313,7 +313,7 @@ namespace TvRename.Core.Actions
 
                 if (Episode != null)
                 {
-                    lvi.Text = Episode.SI.ShowName;
+                    lvi.Text = Episode.ShowItem.ShowName;
                     lvi.SubItems.Add(Episode.SeasonNumber.ToString());
                     lvi.SubItems.Add(Episode.NumsAsString());
                     DateTime? dt = Episode.GetAirDateDT(true);

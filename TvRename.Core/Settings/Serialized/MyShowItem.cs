@@ -182,7 +182,7 @@ namespace TvRename.Core.Settings.Serialized {
 
         public static string TTS(string s) // trim trailing slash
         {
-            return s.TrimEnd(System.IO.Path.DirectorySeparatorChar);
+            return s.TrimEnd(Path.DirectorySeparatorChar);
         }
 
         public int MaxSeason() {
@@ -195,6 +195,13 @@ namespace TvRename.Core.Settings.Serialized {
             }
             return null;
         }
+    }
+
+    public enum ShowAirStatus {
+        NoEpisodesOrSeasons,
+        Aired,
+        PartiallyAired,
+        NoneAired
     }
 
     public class FolderWrapper {

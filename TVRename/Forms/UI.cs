@@ -226,7 +226,7 @@ namespace TVRename.Forms {
             bool customWTW = false;
             foreach (ListViewItem lvi in lvWhenToWatch.SelectedItems) {
                 ProcessedEpisode pe = lvi.Tag as ProcessedEpisode;
-                if (pe != null && !String.IsNullOrEmpty(pe.SI.CustomSearchURL)) {
+                if (pe != null && !String.IsNullOrEmpty(pe.ShowItem.CustomSearchURL)) {
                     customWTW = true;
                     break;
                 }
@@ -234,7 +234,7 @@ namespace TVRename.Forms {
             bool customAction = false;
             foreach (ListViewItem lvi in lvAction.SelectedItems) {
                 ProcessedEpisode pe = lvi.Tag as ProcessedEpisode;
-                if (pe != null && !String.IsNullOrEmpty(pe.SI.CustomSearchURL)) {
+                if (pe != null && !String.IsNullOrEmpty(pe.ShowItem.CustomSearchURL)) {
                     customAction = true;
                     break;
                 }
@@ -572,7 +572,7 @@ namespace TVRename.Forms {
             }
             ProcessedEpisode pe = n.Tag as ProcessedEpisode;
             if (pe != null) {
-                return pe.SI;
+                return pe.ShowItem;
             }
             Season seas = n.Tag as Season;
             if (seas != null) {
@@ -605,7 +605,7 @@ namespace TVRename.Forms {
             }
             ProcessedEpisode pe = n.Tag as ProcessedEpisode;
             if (pe != null) {
-                FillEpGuideHTML(pe.SI, pe.SeasonNumber);
+                FillEpGuideHTML(pe.ShowItem, pe.SeasonNumber);
                 return;
             }
             Season seas = TreeNodeToSeason(n);
@@ -795,7 +795,7 @@ namespace TVRename.Forms {
             if (e == null) {
                 return;
             }
-            TVDoc.SysOpen(mDoc.GetTVDB(false, "").WebsiteURL(e.SI.TVDBID, e.SeasonID, false));
+            TVDoc.SysOpen(mDoc.GetTVDB(false, "").WebsiteURL(e.ShowItem.TVDBID, e.SeasonID, false));
         }
 
         public void TVDBFor(Season seas) {
@@ -960,7 +960,7 @@ namespace TVRename.Forms {
                     bnWTWBTSearch_Click(null, null);
                     break;
                 case TvSettings.WTWDoubleClickAction.Scan:
-                    Scan(new List<MyShowItem> {ei.SI});
+                    Scan(new List<MyShowItem> {ei.ShowItem});
                     tabControl1.SelectTab(tbAllInOne);
                     break;
             }
@@ -1123,7 +1123,7 @@ namespace TVRename.Forms {
                 return;
             }
             ProcessedEpisode ep = eps[0];
-            var sis = eps.Select(e => e.SI).ToList();
+            var sis = eps.Select(e => e.ShowItem).ToList();
             mLastEpClicked = ep;
             mLastShowsClicked = sis;
             mLastSeasonClicked = ep != null ? ep.TheSeason : null;
@@ -1261,10 +1261,10 @@ namespace TVRename.Forms {
             ToolStripMenuItem tsi;
             List<string> added = new List<String>();
             if (ep != null) {
-                if (ep.SI.AllFolderLocations(mDoc.Settings).ContainsKey(ep.SeasonNumber)) {
+                if (ep.ShowItem.AllFolderLocations(mDoc.Settings).ContainsKey(ep.SeasonNumber)) {
                     int n = mFoldersToOpen.Count;
                     bool first = true;
-                    foreach (string folder in ep.SI.AllFolderLocations(mDoc.Settings)[ep.SeasonNumber]) {
+                    foreach (string folder in ep.ShowItem.AllFolderLocations(mDoc.Settings)[ep.SeasonNumber]) {
                         if ((!string.IsNullOrEmpty(folder)) && Directory.Exists(folder)) {
                             if (first) {
                                 ToolStripSeparator tss = new ToolStripSeparator();
@@ -1496,8 +1496,8 @@ namespace TVRename.Forms {
                                 continue;
                             }
                             int snum = er.Episode.SeasonNumber;
-                            if (!er.Episode.SI.IgnoreSeasons.Contains(snum)) {
-                                er.Episode.SI.IgnoreSeasons.Add(snum);
+                            if (!er.Episode.ShowItem.IgnoreSeasons.Contains(snum)) {
+                                er.Episode.ShowItem.IgnoreSeasons.Add(snum);
                             }
 
                             // remove all other episodes of this season from the Action list
@@ -1867,7 +1867,7 @@ namespace TVRename.Forms {
                 }
             }
             int n = 1;
-            lvi.Text = pe.SI.ShowName;
+            lvi.Text = pe.ShowItem.ShowName;
             lvi.SubItems[n++].Text = (pe.SeasonNumber != 0) ? pe.SeasonNumber.ToString() : "Special";
             string estr = (pe.EpNum > 0) ? pe.EpNum.ToString() : "";
             if ((pe.EpNum > 0) && (pe.EpNum2 != pe.EpNum) && (pe.EpNum2 > 0)) {
@@ -1887,7 +1887,7 @@ namespace TVRename.Forms {
                 if ((fl != null) && (fl.Count > 0)) {
                     lvi.ImageIndex = 0;
                 } else {
-                    if (pe.SI.DoMissingCheck) {
+                    if (pe.ShowItem.DoMissingCheck) {
                         lvi.ImageIndex = 1;
                     }
                 }
@@ -2569,7 +2569,7 @@ namespace TVRename.Forms {
                     mLastEpClicked = action.Episode;
                     if (action.Episode != null) {
                         mLastSeasonClicked = action.Episode.TheSeason;
-                        mLastShowsClicked = new List<MyShowItem> {action.Episode.SI};
+                        mLastShowsClicked = new List<MyShowItem> {action.Episode.ShowItem};
                     } else {
                         mLastSeasonClicked = null;
                         mLastShowsClicked = null;

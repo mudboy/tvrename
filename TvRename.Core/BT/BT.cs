@@ -1293,7 +1293,7 @@ namespace TvRename.Core.BT
                     // see if season and episode match
                     int seasF;
                     int epF;
-                    if (TVDoc.FindSeasEp("", simplifiedfname, out seasF, out epF, m.SI, this.Rexps) && (seasF == m.SeasonNumber) && (epF == m.EpNum))
+                    if (TVDoc.FindSeasEp("", simplifiedfname, out seasF, out epF, m.ShowItem, this.Rexps) && (seasF == m.SeasonNumber) && (epF == m.EpNum))
                     {
                         // match!
                         // get extension from nameInTorrent

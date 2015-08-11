@@ -232,7 +232,7 @@ namespace TvRename.Core.Settings.Serialized {
             if (s == null) {
                 return "";
             }
-            String url = String.IsNullOrEmpty(epi.SI.CustomSearchURL) ? TheSearchers.CurrentSearchURL() : epi.SI.CustomSearchURL;
+            String url = String.IsNullOrEmpty(epi.ShowItem.CustomSearchURL) ? TheSearchers.CurrentSearchURL() : epi.ShowItem.CustomSearchURL;
             return CustomName.NameForNoExt(epi, url, true);
         }
 
